@@ -43,7 +43,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         .header-content {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -85,7 +85,7 @@
             font-size: 1rem;
         }
         .container {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 70px 1rem 100px;
             min-height: 100vh;
@@ -107,6 +107,7 @@
             border-radius: 20px;
             padding: 2.5rem 2rem;
             width: 100%;
+            max-width: 400px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
         .login-header {
@@ -173,16 +174,16 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
         }
-        .btn-primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
         .btn-success {
             background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
             color: white;
         }
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: white;
+        }
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.85rem; width: auto; }
+        .btn-xs { padding: 0.35rem 0.75rem; font-size: 0.75rem; width: auto; }
         .card {
             background: white;
             border-radius: 16px;
@@ -265,6 +266,7 @@
         .menu-item .icon.green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
         .menu-item .icon.orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
         .menu-item .icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        .menu-item .icon.red { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
         .menu-item h3 { font-size: 0.95rem; color: var(--gray-800); margin-bottom: 0.25rem; }
         .menu-item p { font-size: 0.75rem; color: var(--gray-500); }
         .bottom-nav {
@@ -276,7 +278,7 @@
             z-index: 100;
         }
         .bottom-nav-content {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             display: flex;
             justify-content: space-around;
@@ -294,7 +296,9 @@
         .nav-item.active { color: var(--accent); }
         .nav-item i { font-size: 1.25rem; margin-bottom: 0.25rem; }
         .nav-item span { font-size: 0.7rem; font-weight: 500; }
-        .subject-item {
+
+        /* 교재 아이템 */
+        .book-item {
             background: var(--gray-50);
             border: 1px solid var(--gray-200);
             border-radius: 12px;
@@ -304,8 +308,12 @@
             justify-content: space-between;
             align-items: center;
         }
-        .subject-info h4 { font-size: 0.95rem; color: var(--gray-800); }
-        .subject-info p { font-size: 0.8rem; color: var(--gray-500); }
+        .book-info h4 { font-size: 0.95rem; color: var(--gray-800); }
+        .book-info p { font-size: 0.8rem; color: var(--gray-500); }
+        .book-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
         .subject-badge {
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
@@ -317,38 +325,215 @@
         .badge-english { background: #dcfce7; color: #16a34a; }
         .badge-science { background: #f3e8ff; color: #9333ea; }
         .badge-social { background: #fce7f3; color: #db2777; }
-        .plan-item {
-            background: white;
-            border: 2px solid var(--gray-200);
-            border-radius: 12px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            transition: all 0.2s;
-        }
-        .plan-item.completed, .plan-item.O { border-color: var(--success); background: rgba(16, 185, 129, 0.05); }
-        .plan-item.failed, .plan-item.X { border-color: var(--danger); background: rgba(239, 68, 68, 0.05); }
-        .plan-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.75rem;
-        }
-        .plan-title { font-weight: 600; color: var(--gray-800); }
-        .plan-subtitle { font-size: 0.8rem; color: var(--gray-500); }
-        .plan-time { font-size: 0.8rem; color: var(--accent); font-weight: 600; }
-        .plan-actions { display: flex; gap: 0.5rem; }
-        .plan-btn {
-            flex: 1;
-            padding: 0.625rem;
+        .delete-btn {
+            width: 32px;
+            height: 32px;
             border: none;
+            background: var(--gray-200);
+            color: var(--gray-500);
             border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .plan-btn.complete { background: var(--success); color: white; }
-        .plan-btn.fail { background: var(--gray-200); color: var(--gray-600); }
+        .delete-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* 주간 계획표 (표 형식) */
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        .week-nav-btn {
+            width: 36px; height: 36px;
+            border: none;
+            background: var(--gray-100);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-600);
+            transition: all 0.2s;
+        }
+        .week-nav-btn:hover { background: var(--accent); color: white; }
+        .week-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* 이번주 목표 */
+        .goal-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .goal-title {
+            font-weight: 700;
+            color: #92400e;
+            font-size: 0.9rem;
+        }
+        .goal-edit-btn {
+            background: none;
+            border: none;
+            color: #92400e;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .goal-content {
+            font-size: 0.85rem;
+            color: #78350f;
+            line-height: 1.5;
+        }
+        .goal-content p {
+            margin-bottom: 0.25rem;
+        }
+
+        /* 주간 계획 테이블 */
+        .weekly-table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .weekly-table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+        .weekly-table th {
+            background: var(--primary);
+            color: white;
+            padding: 10px 8px;
+            font-weight: 600;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+        .weekly-table th:first-child,
+        .weekly-table th:nth-child(2) {
+            position: sticky;
+            left: 0;
+            z-index: 2;
+        }
+        .weekly-table th:first-child { left: 0; min-width: 60px; }
+        .weekly-table th:nth-child(2) { left: 60px; min-width: 80px; }
+        .weekly-table td {
+            padding: 8px;
+            border: 1px solid var(--gray-200);
+            text-align: center;
+            vertical-align: top;
+            min-width: 75px;
+            height: 60px;
+        }
+        .weekly-table td:first-child,
+        .weekly-table td:nth-child(2) {
+            position: sticky;
+            background: var(--gray-50);
+            font-weight: 600;
+        }
+        .weekly-table td:first-child { left: 0; }
+        .weekly-table td:nth-child(2) { left: 60px; }
+        .weekly-table tr:hover td {
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .weekly-table tr:hover td:first-child,
+        .weekly-table tr:hover td:nth-child(2) {
+            background: var(--gray-100);
+        }
+        .day-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .day-name { font-size: 0.75rem; }
+        .day-date { font-size: 0.85rem; font-weight: 700; }
+        .day-header.today {
+            color: var(--accent);
+        }
+        .day-header.sat { color: #3b82f6; }
+        .day-header.sun { color: #ef4444; }
+
+        /* 셀 내용 */
+        .cell-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-height: 40px;
+        }
+        .cell-plan {
+            background: var(--gray-100);
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .cell-plan:hover {
+            background: var(--gray-200);
+        }
+        .cell-plan.completed {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 3px solid var(--success);
+        }
+        .cell-plan.failed {
+            background: rgba(239, 68, 68, 0.2);
+            border-left: 3px solid var(--danger);
+        }
+        .cell-plan.pending {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 3px solid var(--warning);
+        }
+        .cell-plan .pages {
+            font-size: 0.65rem;
+            color: var(--gray-500);
+        }
+        .cell-plan .status-icon {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 0.6rem;
+        }
+        .cell-add {
+            width: 100%;
+            height: 100%;
+            min-height: 40px;
+            border: 2px dashed var(--gray-300);
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--gray-400);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cell-add:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        /* 실천 기록 */
         .date-nav {
             display: flex;
             align-items: center;
@@ -379,59 +564,187 @@
             min-width: 150px;
             text-align: center;
         }
-        .week-view {
-            display: flex;
-            gap: 0.5rem;
-            padding: 1rem;
+        .plan-item {
             background: white;
+            border: 2px solid var(--gray-200);
             border-radius: 12px;
-            margin-bottom: 1rem;
-            overflow-x: auto;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
         }
-        .day-item {
+        .plan-item.approved { border-color: var(--success); background: rgba(16, 185, 129, 0.05); }
+        .plan-item.failed { border-color: var(--danger); background: rgba(239, 68, 68, 0.05); }
+        .plan-item.requested { border-color: var(--warning); background: rgba(245, 158, 11, 0.05); }
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        .plan-title { font-weight: 600; color: var(--gray-800); }
+        .plan-subtitle { font-size: 0.8rem; color: var(--gray-500); }
+        .plan-actions { display: flex; gap: 0.5rem; }
+        .plan-btn {
             flex: 1;
-            min-width: 45px;
-            text-align: center;
-            padding: 0.5rem;
-            border-radius: 10px;
+            padding: 0.625rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
         }
-        .day-item.active { background: var(--accent); color: white; }
-        .day-item.has-plan::after {
-            content: '';
-            width: 6px; height: 6px;
-            background: var(--success);
-            border-radius: 50%;
-            display: block;
-            margin: 4px auto 0;
+        .plan-btn.timer {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            color: white;
         }
-        .day-item .day-name { font-size: 0.7rem; color: var(--gray-500); }
-        .day-item.active .day-name { color: rgba(255,255,255,0.8); }
-        .day-item .day-num { font-size: 1rem; font-weight: 600; margin-top: 0.25rem; }
+        .plan-btn.complete { background: var(--success); color: white; }
+        .plan-btn.fail { background: var(--gray-200); color: var(--gray-600); }
+
+        /* 랭킹 */
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            background: var(--gray-50);
+        }
+        .ranking-item.top-1 { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+        .ranking-item.top-2 { background: linear-gradient(135deg, #e5e7eb, #d1d5db); }
+        .ranking-item.top-3 { background: linear-gradient(135deg, #fed7aa, #fdba74); }
+        .ranking-num {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 0.75rem;
+        }
+        .top-1 .ranking-num { background: #fbbf24; color: white; }
+        .top-2 .ranking-num { background: #9ca3af; color: white; }
+        .top-3 .ranking-num { background: #f97316; color: white; }
+        .ranking-info { flex: 1; }
+        .ranking-name { font-weight: 600; font-size: 0.9rem; }
+        .ranking-detail { font-size: 0.75rem; color: var(--gray-500); }
+        .ranking-score { font-weight: 700; color: var(--accent); }
+
+        /* 캘린더 */
+        .calendar-container {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .calendar-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .calendar-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        .calendar-day-header {
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            padding: 8px 0;
+        }
+        .calendar-day-header:first-child { color: var(--danger); }
+        .calendar-day-header:last-child { color: var(--accent); }
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .calendar-day:hover {
+            background: var(--gray-100);
+        }
+        .calendar-day.today {
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+        }
+        .calendar-day.other-month {
+            color: var(--gray-300);
+        }
+        .calendar-day .rate-dot {
+            position: absolute;
+            bottom: 4px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .rate-dot.high { background: var(--success); }
+        .rate-dot.mid { background: var(--warning); }
+        .rate-dot.low { background: var(--danger); }
+        .calendar-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* 모달 */
         .modal-overlay {
+            display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.5);
-            display: none;
+            z-index: 200;
             align-items: center;
             justify-content: center;
-            z-index: 200;
             padding: 1rem;
         }
         .modal-overlay.active { display: flex; }
         .modal {
             background: white;
             border-radius: 20px;
-            padding: 1.5rem;
             width: 100%;
             max-width: 400px;
-            max-height: 80vh;
+            max-height: 90vh;
             overflow-y: auto;
+            padding: 1.5rem;
             animation: modalIn 0.3s ease;
         }
         @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9); }
+            from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
         .modal-header {
@@ -440,129 +753,90 @@
             align-items: center;
             margin-bottom: 1.5rem;
         }
-        .modal-title { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+        .modal-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
         .modal-close {
             width: 32px; height: 32px;
             border: none;
             background: var(--gray-100);
             border-radius: 50%;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: var(--gray-500);
         }
-        .record-form .input-row { display: flex; gap: 0.75rem; }
-        .record-form .input-row .form-group { flex: 1; }
-        .ranking-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            background: var(--gray-50);
-            border-radius: 12px;
-            margin-bottom: 0.5rem;
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
-        .ranking-item.top-1 { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); }
-        .ranking-item.top-2 { background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); }
-        .ranking-item.top-3 { background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%); }
-        .ranking-num {
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-right: 1rem;
-        }
-        .top-1 .ranking-num { background: #f59e0b; color: white; }
-        .top-2 .ranking-num { background: #9ca3af; color: white; }
-        .top-3 .ranking-num { background: #f97316; color: white; }
-        .ranking-info { flex: 1; }
-        .ranking-name { font-weight: 600; color: var(--gray-800); }
-        .ranking-detail { font-size: 0.8rem; color: var(--gray-500); }
-        .ranking-score { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
+
+        /* 토스트 */
         .toast {
             position: fixed;
             bottom: 100px;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateY(20px);
             background: var(--gray-800);
             color: white;
-            padding: 1rem 1.5rem;
+            padding: 0.875rem 1.5rem;
             border-radius: 12px;
             font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.3s;
             z-index: 300;
-            display: none;
         }
-        .toast.show { display: block; animation: toastIn 0.3s ease; }
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* 빈 상태 */
         .empty-state {
             text-align: center;
-            padding: 3rem 1rem;
-            color: var(--gray-500);
+            padding: 2rem;
+            color: var(--gray-400);
         }
-        .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
-        
-        /* 스톱워치 스타일 */
+        .empty-state i { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .empty-state p { font-size: 0.9rem; }
+
+        /* 스톱워치 */
         .stopwatch-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            z-index: 200;
             display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            z-index: 500;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            color: white;
         }
-        .stopwatch-container.active {
-            display: flex;
-        }
+        .stopwatch-container.active { display: flex; }
         .stopwatch-subject {
-            color: rgba(255,255,255,0.7);
-            font-size: 14px;
-            margin-bottom: 8px;
+            font-size: 1rem;
+            opacity: 0.7;
+            margin-bottom: 0.25rem;
         }
         .stopwatch-book {
-            color: white;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 40px;
-            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
         }
         .stopwatch-display {
-            font-size: 72px;
+            font-size: 5rem;
             font-weight: 700;
-            color: white;
             font-family: 'Courier New', monospace;
-            margin-bottom: 20px;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: 4px;
         }
         .stopwatch-seconds {
-            font-size: 36px;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 50px;
+            font-size: 2rem;
+            opacity: 0.7;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 1rem;
         }
         .stopwatch-status {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 40px;
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 30px;
+            margin-bottom: 3rem;
         }
         .status-dot {
-            width: 12px;
-            height: 12px;
+            width: 12px; height: 12px;
             border-radius: 50%;
             background: var(--success);
             animation: pulse 1.5s infinite;
@@ -575,72 +849,50 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        .status-text {
-            color: white;
-            font-size: 14px;
-            font-weight: 500;
-        }
         .stopwatch-buttons {
             display: flex;
-            gap: 15px;
+            gap: 1.5rem;
         }
         .sw-btn {
-            width: 70px;
-            height: 70px;
+            width: 70px; height: 70px;
             border-radius: 50%;
             border: none;
-            font-size: 24px;
+            font-size: 1.5rem;
             cursor: pointer;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        .sw-btn:active {
-            transform: scale(0.95);
-        }
-        .sw-btn-pause {
-            background: var(--warning);
-            color: white;
-        }
-        .sw-btn-play {
-            background: var(--success);
-            color: white;
-        }
-        .sw-btn-stop {
-            background: var(--danger);
-            color: white;
-        }
-        .sw-btn-cancel {
-            background: var(--gray-500);
-            color: white;
-        }
+        .sw-btn:active { transform: scale(0.95); }
+        .sw-btn-pause { background: var(--warning); color: white; }
+        .sw-btn-play { background: var(--success); color: white; }
+        .sw-btn-stop { background: var(--danger); color: white; }
+        .sw-btn-cancel { background: var(--gray-500); color: white; }
         .stopwatch-info {
             position: absolute;
-            bottom: 100px;
+            bottom: 50px;
             color: rgba(255,255,255,0.5);
-            font-size: 13px;
-            text-align: center;
+            font-size: 0.85rem;
         }
-        .plan-btn.timer {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
-            color: white;
-        }
-        .plan-btn.timer:hover {
-            opacity: 0.9;
-        }
-        .timer-running-badge {
+
+        /* 상벌점 표시 */
+        .point-badge {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 4px 10px;
-            background: var(--accent);
-            color: white;
+            gap: 4px;
+            padding: 2px 8px;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: 0.7rem;
             font-weight: 600;
-            animation: pulse 1.5s infinite;
+        }
+        .point-badge.plus {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        .point-badge.minus {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
         }
     </style>
 </head>
@@ -657,6 +909,7 @@
     </header>
 
     <div class="container">
+        <!-- 로그인 화면 -->
         <div class="screen active" id="loginScreen">
             <div class="login-wrapper">
                 <div class="login-box">
@@ -667,7 +920,7 @@
                     </div>
                     <div class="form-group">
                         <label>층 선택</label>
-                        <select id="loginFloor">
+                        <select id="loginFloor" onchange="loadStudentsByFloor()">
                             <option value="">선택해주세요</option>
                             <option value="7층">7층</option>
                             <option value="8층">8층</option>
@@ -677,11 +930,12 @@
                         <label>이름</label>
                         <select id="loginName"><option value="">층을 먼저 선택해주세요</option></select>
                     </div>
-                    <button class="btn btn-primary" id="loginBtn" onclick="login()"><i class="fas fa-sign-in-alt"></i> 시작하기</button>
+                    <button class="btn btn-primary" onclick="login()"><i class="fas fa-sign-in-alt"></i> 시작하기</button>
                 </div>
             </div>
         </div>
 
+        <!-- 홈 화면 -->
         <div class="screen" id="homeScreen">
             <div class="card">
                 <div class="card-header">
@@ -704,9 +958,12 @@
                 <div class="menu-item" onclick="showScreen('planScreen')"><div class="icon green"><i class="fas fa-calendar-plus"></i></div><h3>주간 계획</h3><p>STEP 1 계획 수립</p></div>
                 <div class="menu-item" onclick="showScreen('recordScreen')"><div class="icon orange"><i class="fas fa-check-double"></i></div><h3>실천 기록</h3><p>STEP 2 실천 체크</p></div>
                 <div class="menu-item" onclick="showScreen('statsScreen')"><div class="icon purple"><i class="fas fa-trophy"></i></div><h3>통계/랭킹</h3><p>공부시간 랭킹</p></div>
+                <div class="menu-item" onclick="showScreen('calendarScreen')"><div class="icon red"><i class="fas fa-calendar-alt"></i></div><h3>학습 캘린더</h3><p>월간 학습 현황</p></div>
+                <div class="menu-item" onclick="showScreen('goalScreen')"><div class="icon orange"><i class="fas fa-bullseye"></i></div><h3>목표 설정</h3><p>주간/월간 목표</p></div>
             </div>
         </div>
 
+        <!-- 교재 관리 화면 -->
         <div class="screen" id="bookScreen">
             <div class="card">
                 <div class="card-header">
@@ -717,22 +974,56 @@
             </div>
         </div>
 
+        <!-- 주간 계획 화면 (테이블 형식) -->
         <div class="screen" id="planScreen">
-            <div class="date-nav">
-                <button onclick="changeWeek(-1)"><i class="fas fa-chevron-left"></i></button>
-                <span class="date-display" id="weekDisplay">1월 2주차</span>
-                <button onclick="changeWeek(1)"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="week-view" id="weekView"></div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><i class="fas fa-calendar-day"></i> <span id="selectedDateTitle">1월 13일</span></div>
-                    <button class="btn btn-primary btn-sm" onclick="openModal('addPlanModal')"><i class="fas fa-plus"></i> 추가</button>
+            <div class="week-header">
+                <button class="week-nav-btn" onclick="changeWeek(-1)"><i class="fas fa-chevron-left"></i></button>
+                <div>
+                    <div class="week-title" id="weekTitle">1월 2주차</div>
+                    <div style="font-size: 0.8rem; color: var(--gray-500); text-align: center;" id="weekRange">1/6(월) ~ 1/12(일)</div>
                 </div>
-                <div id="planList"></div>
+                <button class="week-nav-btn" onclick="changeWeek(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <!-- 이번주 목표 -->
+            <div class="goal-box" id="weekGoalBox">
+                <div class="goal-header">
+                    <span class="goal-title">🎯 이번주 목표</span>
+                    <button class="goal-edit-btn" onclick="openModal('editGoalModal')"><i class="fas fa-edit"></i> 수정</button>
+                </div>
+                <div class="goal-content" id="weekGoalContent">
+                    <p>목표를 설정해주세요!</p>
+                </div>
+            </div>
+
+            <!-- 주간 계획표 -->
+            <div class="weekly-table-container">
+                <table class="weekly-table" id="weeklyTable">
+                    <thead>
+                        <tr>
+                            <th>과목</th>
+                            <th>교재명</th>
+                            <th id="dayHeader0">월</th>
+                            <th id="dayHeader1">화</th>
+                            <th id="dayHeader2">수</th>
+                            <th id="dayHeader3">목</th>
+                            <th id="dayHeader4">금</th>
+                            <th id="dayHeader5">토</th>
+                            <th id="dayHeader6">일</th>
+                        </tr>
+                    </thead>
+                    <tbody id="weeklyTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 1rem; text-align: center;">
+                <button class="btn btn-primary btn-sm" onclick="openModal('addPlanModal')" style="width: auto; padding: 0.75rem 1.5rem;">
+                    <i class="fas fa-plus"></i> 계획 추가
+                </button>
             </div>
         </div>
 
+        <!-- 실천 기록 화면 -->
         <div class="screen" id="recordScreen">
             <div class="date-nav">
                 <button onclick="changeRecordDate(-1)"><i class="fas fa-chevron-left"></i></button>
@@ -745,6 +1036,7 @@
             </div>
         </div>
 
+        <!-- 통계/랭킹 화면 -->
         <div class="screen" id="statsScreen">
             <div class="card">
                 <div class="card-header"><div class="card-title"><i class="fas fa-chart-bar"></i> 내 학습 통계</div></div>
@@ -764,8 +1056,77 @@
                 <div id="rankingList"></div>
             </div>
         </div>
+
+        <!-- 학습 캘린더 화면 -->
+        <div class="screen" id="calendarScreen">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="week-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <span class="calendar-title" id="calendarTitle">2026년 1월</span>
+                    <button class="week-nav-btn" onclick="changeCalendarMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <div class="calendar-day-header">일</div>
+                    <div class="calendar-day-header">월</div>
+                    <div class="calendar-day-header">화</div>
+                    <div class="calendar-day-header">수</div>
+                    <div class="calendar-day-header">목</div>
+                    <div class="calendar-day-header">금</div>
+                    <div class="calendar-day-header">토</div>
+                </div>
+                <div class="calendar-legend">
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--success);"></div> 80% 이상</div>
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--warning);"></div> 50~79%</div>
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--danger);"></div> 50% 미만</div>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 1rem;">
+                <div class="card-header"><div class="card-title"><i class="fas fa-info-circle"></i> 이달의 요약</div></div>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-value" id="monthPlans">0</div><div class="stat-label">이달 계획</div></div>
+                    <div class="stat-card"><div class="stat-value success" id="monthComplete">0</div><div class="stat-label">이달 완료</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 목표 설정 화면 -->
+        <div class="screen" id="goalScreen">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fas fa-bullseye"></i> 이번 주 목표</div>
+                    <button class="btn btn-primary btn-sm" onclick="openModal('editGoalModal')"><i class="fas fa-edit"></i> 수정</button>
+                </div>
+                <div id="currentWeekGoal" style="padding: 1rem; background: var(--gray-50); border-radius: 10px;">
+                    목표를 설정해주세요!
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fas fa-calendar-check"></i> 이번 달 목표</div>
+                    <button class="btn btn-primary btn-sm" onclick="openModal('editMonthGoalModal')"><i class="fas fa-edit"></i> 수정</button>
+                </div>
+                <div id="currentMonthGoal" style="padding: 1rem; background: var(--gray-50); border-radius: 10px;">
+                    목표를 설정해주세요!
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><div class="card-title"><i class="fas fa-star"></i> 상벌점 현황</div></div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value success" id="totalReward">0</div>
+                        <div class="stat-label">총 상점</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--danger);" id="totalPenalty">0</div>
+                        <div class="stat-label">총 벌점</div>
+                    </div>
+                </div>
+                <div id="pointHistory" style="max-height: 200px; overflow-y: auto;"></div>
+            </div>
+        </div>
     </div>
 
+    <!-- 하단 네비게이션 -->
     <nav class="bottom-nav" id="bottomNav" style="display: none;">
         <div class="bottom-nav-content">
             <div class="nav-item active" onclick="showScreen('homeScreen')"><i class="fas fa-home"></i><span>홈</span></div>
@@ -775,6 +1136,7 @@
         </div>
     </nav>
 
+    <!-- 교재 추가 모달 -->
     <div class="modal-overlay" id="addBookModal">
         <div class="modal">
             <div class="modal-header">
@@ -804,6 +1166,7 @@
         </div>
     </div>
 
+    <!-- 계획 추가 모달 -->
     <div class="modal-overlay" id="addPlanModal">
         <div class="modal">
             <div class="modal-header">
@@ -811,39 +1174,98 @@
                 <button class="modal-close" onclick="closeModal('addPlanModal')"><i class="fas fa-times"></i></button>
             </div>
             <div class="form-group">
+                <label>날짜</label>
+                <select id="planDate"></select>
+            </div>
+            <div class="form-group">
                 <label>교재 선택</label>
                 <select id="planBook"><option value="">선택해주세요</option></select>
             </div>
             <div class="form-group">
-                <label>계획 시간 (분)</label>
-                <select id="planTime">
-                    <option value="30">30분</option>
-                    <option value="60" selected>1시간</option>
-                    <option value="90">1시간 30분</option>
-                    <option value="120">2시간</option>
-                    <option value="150">2시간 30분</option>
-                    <option value="180">3시간</option>
-                </select>
+                <label>계획 페이지 (선택)</label>
+                <div class="input-row">
+                    <input type="text" id="planStartPage" placeholder="시작 페이지">
+                    <input type="text" id="planEndPage" placeholder="끝 페이지">
+                </div>
             </div>
             <button class="btn btn-primary" onclick="addPlan()"><i class="fas fa-plus"></i> 추가하기</button>
         </div>
     </div>
 
+    <!-- 실천 기록 모달 -->
     <div class="modal-overlay" id="recordModal">
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title">실천 기록</h3>
                 <button class="modal-close" onclick="closeModal('recordModal')"><i class="fas fa-times"></i></button>
             </div>
-            <div class="record-form">
-                <div class="form-group"><label id="recordBookLabel">수특 독서</label></div>
-                <div class="input-row">
-                    <div class="form-group"><label>시작 페이지</label><input type="number" id="recordStartPage" placeholder="예: 9"></div>
-                    <div class="form-group"><label>끝 페이지</label><input type="number" id="recordEndPage" placeholder="예: 15"></div>
-                </div>
-                <div class="form-group"><label>실제 공부 시간 (분)</label><input type="number" id="recordTime" placeholder="예: 55"></div>
-                <div class="form-group"><label>비고 (선택)</label><input type="text" id="recordNote" placeholder="메모가 있다면 입력하세요"></div>
-                <button class="btn btn-success" onclick="saveRecord()"><i class="fas fa-hand-paper"></i> 검사 요청</button>
+            <div class="form-group"><label id="recordBookLabel">수특 독서</label></div>
+            <div class="input-row">
+                <div class="form-group"><label>시작 페이지</label><input type="number" id="recordStartPage" placeholder="예: 9"></div>
+                <div class="form-group"><label>끝 페이지</label><input type="number" id="recordEndPage" placeholder="예: 15"></div>
+            </div>
+            <div class="form-group"><label>실제 공부 시간 (분)</label><input type="number" id="recordTime" placeholder="예: 55"></div>
+            <div class="form-group"><label>비고 (선택)</label><input type="text" id="recordNote" placeholder="메모가 있다면 입력하세요"></div>
+            <button class="btn btn-success" onclick="saveRecord()"><i class="fas fa-hand-paper"></i> 검사 요청</button>
+        </div>
+    </div>
+
+    <!-- 주간 목표 수정 모달 -->
+    <div class="modal-overlay" id="editGoalModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">이번 주 목표 설정</h3>
+                <button class="modal-close" onclick="closeModal('editGoalModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="form-group">
+                <label>목표 1</label>
+                <input type="text" id="weekGoal1" placeholder="예: 수특 영어 끝내기">
+            </div>
+            <div class="form-group">
+                <label>목표 2</label>
+                <input type="text" id="weekGoal2" placeholder="예: 국어 백문일답 끝내기">
+            </div>
+            <div class="form-group">
+                <label>목표 3 (선택)</label>
+                <input type="text" id="weekGoal3" placeholder="예: 수학 50문제 풀기">
+            </div>
+            <button class="btn btn-primary" onclick="saveWeekGoal()"><i class="fas fa-save"></i> 저장하기</button>
+        </div>
+    </div>
+
+    <!-- 월간 목표 수정 모달 -->
+    <div class="modal-overlay" id="editMonthGoalModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">이번 달 목표 설정</h3>
+                <button class="modal-close" onclick="closeModal('editMonthGoalModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="form-group">
+                <label>월간 목표</label>
+                <textarea id="monthGoalText" rows="4" placeholder="이번 달 목표를 작성해주세요"></textarea>
+            </div>
+            <div class="form-group">
+                <label>목표 공부시간 (시간)</label>
+                <input type="number" id="monthGoalHours" placeholder="예: 100">
+            </div>
+            <div class="form-group">
+                <label>목표 실천율 (%)</label>
+                <input type="number" id="monthGoalRate" placeholder="예: 85">
+            </div>
+            <button class="btn btn-primary" onclick="saveMonthGoal()"><i class="fas fa-save"></i> 저장하기</button>
+        </div>
+    </div>
+
+    <!-- 계획 상세 모달 -->
+    <div class="modal-overlay" id="planDetailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="planDetailTitle">계획 상세</h3>
+                <button class="modal-close" onclick="closeModal('planDetailModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="planDetailContent"></div>
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-danger btn-sm" onclick="deletePlan()" style="flex: 1;"><i class="fas fa-trash"></i> 삭제</button>
             </div>
         </div>
     </div>
@@ -861,31 +1283,26 @@
             <span class="status-text" id="swStatusText">공부 중...</span>
         </div>
         <div class="stopwatch-buttons">
-            <button class="sw-btn sw-btn-cancel" onclick="cancelStopwatch()" title="취소">
-                <i class="fas fa-times"></i>
-            </button>
-            <button class="sw-btn sw-btn-pause" id="swPauseBtn" onclick="toggleStopwatch()">
-                <i class="fas fa-pause" id="swPauseIcon"></i>
-            </button>
-            <button class="sw-btn sw-btn-stop" onclick="stopStopwatch()" title="종료 & 기록">
-                <i class="fas fa-stop"></i>
-            </button>
+            <button class="sw-btn sw-btn-cancel" onclick="cancelStopwatch()" title="취소"><i class="fas fa-times"></i></button>
+            <button class="sw-btn sw-btn-pause" id="swPauseBtn" onclick="toggleStopwatch()"><i class="fas fa-pause" id="swPauseIcon"></i></button>
+            <button class="sw-btn sw-btn-stop" onclick="stopStopwatch()" title="종료"><i class="fas fa-stop"></i></button>
         </div>
-        <div class="stopwatch-info">
-            종료 버튼을 누르면 공부 시간이 자동으로 기록됩니다
-        </div>
+        <div class="stopwatch-info">종료 버튼을 누르면 공부 시간이 자동으로 기록됩니다</div>
     </div>
 
     <script>
-        // ⭐ Google Sheets API URL
         const API_URL = 'https://script.google.com/macros/s/AKfycbwGFbsj8FgFIuF-iFkJ4ekyS76MWQf9UrUysJ-Fs12vuVByJwenoYRgOJeOZiPOa6gzkg/exec';
 
         let currentUser = null;
-        let selectedPlanDate = new Date();
-        let recordDate = new Date();
-        let currentRecordPlan = null;
         let userBooks = [];
         let userPlans = [];
+        let currentWeekStart = getMonday(new Date());
+        let recordDate = new Date();
+        let currentRecordPlan = null;
+        let calendarMonth = new Date();
+        let weekGoals = {};
+        let monthGoals = {};
+        let currentPlanDetail = null;
 
         // 스톱워치 변수
         let swInterval = null;
@@ -895,292 +1312,584 @@
         let swIsRunning = false;
         let swCurrentPlan = null;
 
-        // 스톱워치 시작
-        function startStopwatch(subject, book) {
-            swCurrentPlan = { subject, book };
-            swElapsedTime = 0;
-            swPausedTime = 0;
-            swStartTime = Date.now();
-            swIsRunning = true;
-            
-            document.getElementById('swSubject').textContent = subject;
-            document.getElementById('swBook').textContent = book;
-            document.getElementById('stopwatchScreen').classList.add('active');
-            document.getElementById('swPauseIcon').className = 'fas fa-pause';
-            document.getElementById('swPauseBtn').className = 'sw-btn sw-btn-pause';
-            document.getElementById('swStatusDot').classList.remove('paused');
-            document.getElementById('swStatusText').textContent = '공부 중...';
-            
-            updateStopwatchDisplay();
-            swInterval = setInterval(updateStopwatchDisplay, 1000);
+        // 유틸리티 함수
+        function getMonday(d) {
+            const date = new Date(d);
+            const day = date.getDay();
+            const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(date.setDate(diff));
         }
 
-        // 스톱워치 일시정지/재개
-        function toggleStopwatch() {
-            if (swIsRunning) {
-                // 일시정지
-                swIsRunning = false;
-                swPausedTime = Date.now();
-                clearInterval(swInterval);
-                document.getElementById('swPauseIcon').className = 'fas fa-play';
-                document.getElementById('swPauseBtn').className = 'sw-btn sw-btn-play';
-                document.getElementById('swStatusDot').classList.add('paused');
-                document.getElementById('swStatusText').textContent = '일시정지';
-            } else {
-                // 재개
-                swIsRunning = true;
-                const pauseDuration = Date.now() - swPausedTime;
-                swStartTime += pauseDuration;
-                document.getElementById('swPauseIcon').className = 'fas fa-pause';
-                document.getElementById('swPauseBtn').className = 'sw-btn sw-btn-pause';
-                document.getElementById('swStatusDot').classList.remove('paused');
-                document.getElementById('swStatusText').textContent = '공부 중...';
-                swInterval = setInterval(updateStopwatchDisplay, 1000);
-            }
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
         }
 
-        // 스톱워치 표시 업데이트
-        function updateStopwatchDisplay() {
-            const now = swIsRunning ? Date.now() : swPausedTime;
-            swElapsedTime = Math.floor((now - swStartTime) / 1000);
-            
-            const hours = Math.floor(swElapsedTime / 3600);
-            const minutes = Math.floor((swElapsedTime % 3600) / 60);
-            const seconds = swElapsedTime % 60;
-            
-            if (hours > 0) {
-                document.getElementById('swDisplay').textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-            } else {
-                document.getElementById('swDisplay').textContent = 
-                    `${minutes.toString().padStart(2, '0')}`;
-            }
-            document.getElementById('swSeconds').textContent = `:${seconds.toString().padStart(2, '0')}`;
+        function formatDateKR(date) {
+            return `${date.getMonth() + 1}/${date.getDate()}`;
         }
 
-        // 스톱워치 종료 & 기록
-        function stopStopwatch() {
-            if (swInterval) clearInterval(swInterval);
-            
-            const totalMinutes = Math.ceil(swElapsedTime / 60);
-            
-            if (totalMinutes < 1) {
-                showToast('1분 이상 공부해야 기록됩니다');
-                return;
-            }
-            
-            // 스톱워치 화면 닫기
-            document.getElementById('stopwatchScreen').classList.remove('active');
-            
-            // 실천 기록 모달 열기 (시간 자동 입력)
-            currentRecordPlan = swCurrentPlan;
-            document.getElementById('recordBookLabel').textContent = `[${swCurrentPlan.subject}] ${swCurrentPlan.book}`;
-            document.getElementById('recordTime').value = totalMinutes;
-            openModal('recordModal');
-            
-            showToast(`⏱️ ${totalMinutes}분 자동 입력됨!`);
-            
-            // 초기화
-            swCurrentPlan = null;
-            swElapsedTime = 0;
-            swIsRunning = false;
+        function getDayName(dayIndex) {
+            return ['월', '화', '수', '목', '금', '토', '일'][dayIndex];
         }
 
-        // 스톱워치 취소
-        function cancelStopwatch() {
-            if (confirm('타이머를 취소하시겠습니까?\n기록되지 않습니다.')) {
-                if (swInterval) clearInterval(swInterval);
-                document.getElementById('stopwatchScreen').classList.remove('active');
-                swCurrentPlan = null;
-                swElapsedTime = 0;
-                swIsRunning = false;
-            }
-        }
-
-        async function apiCall(params) {
-            const url = API_URL + '?' + new URLSearchParams(params).toString();
+        // API 호출
+        async function apiCall(data) {
             try {
-                const response = await fetch(url);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(data)
+                });
                 return await response.json();
             } catch (error) {
                 console.error('API Error:', error);
-                showToast('서버 연결 오류');
                 return { success: false, error: error.message };
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('loginFloor').addEventListener('change', loadStudents);
-            updateTodayDate();
-        });
-
-        async function loadStudents() {
+        // 로그인 관련
+        async function loadStudentsByFloor() {
             const floor = document.getElementById('loginFloor').value;
             const nameSelect = document.getElementById('loginName');
+            if (!floor) {
+                nameSelect.innerHTML = '<option value="">층을 먼저 선택해주세요</option>';
+                return;
+            }
             nameSelect.innerHTML = '<option value="">로딩중...</option>';
-            if (!floor) { nameSelect.innerHTML = '<option value="">층을 먼저 선택해주세요</option>'; return; }
             const result = await apiCall({ action: 'getStudents', floor: floor });
             if (result.success) {
                 nameSelect.innerHTML = '<option value="">선택해주세요</option>';
-                result.students.forEach(name => { nameSelect.innerHTML += `<option value="${name}">${name}</option>`; });
-            } else {
-                nameSelect.innerHTML = '<option value="">학생 목록을 불러올 수 없습니다</option>';
+                result.students.forEach(s => {
+                    nameSelect.innerHTML += `<option value="${s.name}">${s.name}</option>`;
+                });
             }
         }
 
         async function login() {
             const floor = document.getElementById('loginFloor').value;
             const name = document.getElementById('loginName').value;
-            if (!floor || !name) { showToast('층과 이름을 선택해주세요'); return; }
-            document.getElementById('loginBtn').disabled = true;
-            document.getElementById('loginBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> 로딩중...';
+            if (!floor || !name) {
+                showToast('층과 이름을 선택해주세요');
+                return;
+            }
             currentUser = { floor, name };
-            await loadBooks();
             document.getElementById('headerUserName').textContent = name;
-            document.getElementById('headerAvatar').textContent = name[0];
+            document.getElementById('headerAvatar').textContent = name.charAt(0);
+            document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('homeScreen').classList.add('active');
             document.getElementById('mainHeader').style.display = 'block';
             document.getElementById('bottomNav').style.display = 'block';
-            document.getElementById('loginBtn').disabled = false;
-            document.getElementById('loginBtn').innerHTML = '<i class="fas fa-sign-in-alt"></i> 시작하기';
-            showScreen('homeScreen');
+            
+            await loadUserData();
+            updateTodayDate();
             updateHomeStats();
         }
 
         function logout() {
-            currentUser = null; userBooks = []; userPlans = [];
+            currentUser = null;
+            userBooks = [];
+            userPlans = [];
             document.getElementById('mainHeader').style.display = 'none';
             document.getElementById('bottomNav').style.display = 'none';
-            showScreen('loginScreen');
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('loginScreen').classList.add('active');
         }
 
-        async function loadBooks() {
-            const result = await apiCall({ action: 'getBooks', floor: currentUser.floor, name: currentUser.name });
-            if (result.success) userBooks = result.books;
+        async function loadUserData() {
+            // 교재 로드
+            const booksResult = await apiCall({ action: 'getBooks', floor: currentUser.floor, name: currentUser.name });
+            if (booksResult.success) userBooks = booksResult.books || [];
+            
+            // 계획 로드
+            await loadWeekPlans();
+            
+            // 목표 로드
+            await loadGoals();
         }
 
+        // 교재 관리
         function renderBookList() {
             const list = document.getElementById('bookList');
-            if (userBooks.length === 0) { list.innerHTML = '<div class="empty-state"><i class="fas fa-book"></i><p>등록된 교재가 없습니다</p></div>'; return; }
-            list.innerHTML = userBooks.map(book => `<div class="subject-item"><div class="subject-info"><h4>${book.name}</h4><p>${book.subject}</p></div><span class="subject-badge badge-${getBadgeClass(book.subject)}">${book.subject}</span></div>`).join('');
+            if (!userBooks || userBooks.length === 0) {
+                list.innerHTML = '<div class="empty-state"><i class="fas fa-book"></i><p>등록된 교재가 없습니다</p></div>';
+                return;
+            }
+            list.innerHTML = userBooks.map((book, index) => {
+                const badgeClass = getBadgeClass(book.subject);
+                return `<div class="book-item">
+                    <div class="book-info">
+                        <h4>${book.name}</h4>
+                        <p><span class="subject-badge ${badgeClass}">${book.subject}</span></p>
+                    </div>
+                    <div class="book-actions">
+                        <button class="delete-btn" onclick="deleteBook(${index})" title="삭제">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
         }
 
         function getBadgeClass(subject) {
-            const map = { '국어': 'korean', '수학': 'math', '영어': 'english', '물리': 'science', '화학': 'science', '생명': 'science', '지구과학': 'science', '한국사': 'social', '사회탐구': 'social' };
-            return map[subject] || 'korean';
+            const map = {
+                '국어': 'badge-korean',
+                '수학': 'badge-math',
+                '영어': 'badge-english',
+                '물리': 'badge-science',
+                '화학': 'badge-science',
+                '생명': 'badge-science',
+                '지구과학': 'badge-science',
+                '한국사': 'badge-social',
+                '사회탐구': 'badge-social'
+            };
+            return map[subject] || 'badge-korean';
         }
 
         async function addBook() {
             const subject = document.getElementById('bookSubject').value;
-            const bookName = document.getElementById('bookName').value;
-            if (!subject || !bookName) { showToast('과목과 교재명을 입력해주세요'); return; }
-            const result = await apiCall({ action: 'addBook', floor: currentUser.floor, name: currentUser.name, subject: subject, bookName: bookName });
-            if (result.success) {
-                userBooks.push({ subject, name: bookName });
-                closeModal('addBookModal'); renderBookList(); showToast('교재가 추가되었습니다');
-                document.getElementById('bookSubject').value = ''; document.getElementById('bookName').value = '';
-            } else { showToast('저장 실패'); }
-        }
-
-        async function initPlanScreen() { renderWeekView(); await loadPlans(); renderPlanList(); updatePlanBookSelect(); }
-
-        async function loadPlans() {
-            const start = new Date(selectedPlanDate);
-            const day = start.getDay();
-            start.setDate(start.getDate() - day + (day === 0 ? -6 : 1));
-            const end = new Date(start); end.setDate(start.getDate() + 6);
-            const result = await apiCall({ action: 'getPlans', floor: currentUser.floor, name: currentUser.name, startDate: formatDate(start), endDate: formatDate(end) });
-            if (result.success) userPlans = result.plans;
-        }
-
-        function renderWeekView() {
-            const weekView = document.getElementById('weekView');
-            const days = ['일', '월', '화', '수', '목', '금', '토'];
-            const start = new Date(selectedPlanDate);
-            const day = start.getDay();
-            start.setDate(start.getDate() - day + (day === 0 ? -6 : 1));
-            let html = '';
-            for (let i = 0; i < 7; i++) {
-                const date = new Date(start); date.setDate(start.getDate() + i);
-                const isActive = formatDate(date) === formatDate(selectedPlanDate);
-                const hasPlan = userPlans.some(p => p.date === formatDate(date));
-                html += `<div class="day-item ${isActive ? 'active' : ''} ${hasPlan ? 'has-plan' : ''}" onclick="selectPlanDate('${formatDate(date)}')"><div class="day-name">${days[date.getDay()]}</div><div class="day-num">${date.getDate()}</div></div>`;
+            const name = document.getElementById('bookName').value.trim();
+            if (!subject || !name) {
+                showToast('과목과 교재명을 입력해주세요');
+                return;
             }
-            weekView.innerHTML = html;
-            document.getElementById('weekDisplay').textContent = `${selectedPlanDate.getMonth() + 1}월 ${getWeekNumber(selectedPlanDate)}주차`;
+            const result = await apiCall({
+                action: 'addBook',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                subject: subject,
+                bookName: name
+            });
+            if (result.success) {
+                userBooks.push({ subject, name });
+                closeModal('addBookModal');
+                renderBookList();
+                showToast('교재가 추가되었습니다');
+                document.getElementById('bookSubject').value = '';
+                document.getElementById('bookName').value = '';
+            }
         }
 
-        async function selectPlanDate(dateStr) {
-            selectedPlanDate = new Date(dateStr); renderWeekView(); renderPlanList();
-            document.getElementById('selectedDateTitle').textContent = selectedPlanDate.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
+        async function deleteBook(index) {
+            if (!confirm('이 교재를 삭제하시겠습니까?')) return;
+            const book = userBooks[index];
+            const result = await apiCall({
+                action: 'deleteBook',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                subject: book.subject,
+                bookName: book.name
+            });
+            if (result.success) {
+                userBooks.splice(index, 1);
+                renderBookList();
+                showToast('교재가 삭제되었습니다');
+            } else {
+                showToast('삭제 실패');
+            }
         }
 
-        async function changeWeek(delta) { selectedPlanDate.setDate(selectedPlanDate.getDate() + (delta * 7)); await loadPlans(); renderWeekView(); renderPlanList(); }
+        // 주간 계획
+        async function loadWeekPlans() {
+            const weekDates = getWeekDates(currentWeekStart);
+            const startDate = formatDate(weekDates[0]);
+            const endDate = formatDate(weekDates[6]);
+            
+            const result = await apiCall({
+                action: 'getWeekPlans',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                startDate: startDate,
+                endDate: endDate
+            });
+            
+            if (result.success) {
+                userPlans = result.plans || [];
+            }
+        }
 
-        function renderPlanList() {
-            const list = document.getElementById('planList');
-            const dayPlans = userPlans.filter(p => p.date === formatDate(selectedPlanDate));
-            if (dayPlans.length === 0) { list.innerHTML = '<div class="empty-state"><i class="fas fa-calendar-plus"></i><p>이 날의 계획이 없습니다</p></div>'; return; }
-            list.innerHTML = dayPlans.map(plan => `<div class="plan-item"><div class="plan-header"><div><div class="plan-title">${plan.book}</div><div class="plan-subtitle">${plan.subject}</div></div><div class="plan-time">${plan.time}분</div></div></div>`).join('');
+        function getWeekDates(monday) {
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                dates.push(d);
+            }
+            return dates;
+        }
+
+        async function initPlanScreen() {
+            await loadWeekPlans();
+            renderWeeklyTable();
+            updateWeekHeader();
+            updatePlanDateSelect();
+            updatePlanBookSelect();
+            renderWeekGoal();
+        }
+
+        function updateWeekHeader() {
+            const weekDates = getWeekDates(currentWeekStart);
+            const month = weekDates[0].getMonth() + 1;
+            const weekNum = Math.ceil(weekDates[0].getDate() / 7);
+            
+            document.getElementById('weekTitle').textContent = `${month}월 ${weekNum}주차`;
+            document.getElementById('weekRange').textContent = 
+                `${formatDateKR(weekDates[0])}(월) ~ ${formatDateKR(weekDates[6])}(일)`;
+            
+            // 헤더 날짜 업데이트
+            const today = formatDate(new Date());
+            for (let i = 0; i < 7; i++) {
+                const th = document.getElementById(`dayHeader${i}`);
+                const date = weekDates[i];
+                const isToday = formatDate(date) === today;
+                const isSat = i === 5;
+                const isSun = i === 6;
+                
+                let className = 'day-header';
+                if (isToday) className += ' today';
+                if (isSat) className += ' sat';
+                if (isSun) className += ' sun';
+                
+                th.innerHTML = `<div class="${className}">
+                    <span class="day-name">${getDayName(i)}</span>
+                    <span class="day-date">${date.getDate()}</span>
+                </div>`;
+            }
+        }
+
+        function renderWeeklyTable() {
+            const tbody = document.getElementById('weeklyTableBody');
+            const weekDates = getWeekDates(currentWeekStart);
+            
+            // 교재별로 그룹화
+            const bookGroups = {};
+            userBooks.forEach(book => {
+                const key = `${book.subject}|${book.name}`;
+                if (!bookGroups[key]) {
+                    bookGroups[key] = { subject: book.subject, name: book.name };
+                }
+            });
+            
+            // 계획에서 교재 추가
+            userPlans.forEach(plan => {
+                const key = `${plan.subject}|${plan.book}`;
+                if (!bookGroups[key]) {
+                    bookGroups[key] = { subject: plan.subject, name: plan.book };
+                }
+            });
+            
+            if (Object.keys(bookGroups).length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 2rem; color: var(--gray-400);">
+                    <i class="fas fa-book" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
+                    먼저 교재를 등록해주세요
+                </td></tr>`;
+                return;
+            }
+            
+            // 과목별로 정렬
+            const sortedBooks = Object.values(bookGroups).sort((a, b) => {
+                const order = ['국어', '수학', '영어', '물리', '화학', '생명', '지구과학', '한국사', '사회탐구'];
+                return order.indexOf(a.subject) - order.indexOf(b.subject);
+            });
+            
+            tbody.innerHTML = sortedBooks.map(book => {
+                let cells = `<td>${book.subject}</td><td>${book.name}</td>`;
+                
+                for (let i = 0; i < 7; i++) {
+                    const dateStr = formatDate(weekDates[i]);
+                    const dayPlans = userPlans.filter(p => 
+                        p.date === dateStr && p.subject === book.subject && p.book === book.name
+                    );
+                    
+                    if (dayPlans.length > 0) {
+                        cells += `<td><div class="cell-content">`;
+                        dayPlans.forEach(plan => {
+                            let statusClass = '';
+                            let statusIcon = '';
+                            if (plan.status === 'approved' || plan.status === 'O') {
+                                statusClass = 'completed';
+                                statusIcon = '<span class="status-icon" style="color: var(--success);">✓</span>';
+                            } else if (plan.status === 'failed' || plan.status === 'X') {
+                                statusClass = 'failed';
+                                statusIcon = '<span class="status-icon" style="color: var(--danger);">✗</span>';
+                            } else if (plan.status === 'requested') {
+                                statusClass = 'pending';
+                                statusIcon = '<span class="status-icon" style="color: var(--warning);">⏳</span>';
+                            }
+                            
+                            const pages = plan.startPage && plan.endPage ? 
+                                `<div class="pages">p.${plan.startPage}~${plan.endPage}</div>` : 
+                                (plan.planPages ? `<div class="pages">${plan.planPages}</div>` : '');
+                            
+                            cells += `<div class="cell-plan ${statusClass}" onclick="openPlanDetail('${plan.subject}', '${plan.book}', '${dateStr}')">
+                                ${statusIcon}
+                                <div>O</div>
+                                ${pages}
+                            </div>`;
+                        });
+                        cells += `</div></td>`;
+                    } else {
+                        cells += `<td>
+                            <button class="cell-add" onclick="quickAddPlan('${book.subject}', '${book.name}', '${dateStr}')">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </td>`;
+                    }
+                }
+                
+                return `<tr>${cells}</tr>`;
+            }).join('');
+        }
+
+        async function quickAddPlan(subject, bookName, dateStr) {
+            const result = await apiCall({
+                action: 'addPlan',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: dateStr,
+                subject: subject,
+                bookName: bookName,
+                time: 60
+            });
+            
+            if (result.success) {
+                userPlans.push({
+                    date: dateStr,
+                    subject: subject,
+                    book: bookName,
+                    status: 'pending'
+                });
+                renderWeeklyTable();
+                showToast('계획이 추가되었습니다');
+            }
+        }
+
+        function openPlanDetail(subject, book, date) {
+            currentPlanDetail = { subject, book, date };
+            const plan = userPlans.find(p => p.subject === subject && p.book === book && p.date === date);
+            
+            document.getElementById('planDetailTitle').textContent = `${subject} - ${book}`;
+            
+            let statusText = '대기중';
+            if (plan.status === 'approved' || plan.status === 'O') statusText = '✅ 승인 완료';
+            else if (plan.status === 'failed' || plan.status === 'X') statusText = '❌ 미완료';
+            else if (plan.status === 'requested') statusText = '⏳ 검사 대기';
+            
+            document.getElementById('planDetailContent').innerHTML = `
+                <p><strong>날짜:</strong> ${date}</p>
+                <p><strong>상태:</strong> ${statusText}</p>
+                ${plan.startPage ? `<p><strong>페이지:</strong> p.${plan.startPage} ~ p.${plan.endPage}</p>` : ''}
+                ${plan.actualTime ? `<p><strong>공부시간:</strong> ${plan.actualTime}분</p>` : ''}
+            `;
+            
+            openModal('planDetailModal');
+        }
+
+        async function deletePlan() {
+            if (!currentPlanDetail) return;
+            if (!confirm('이 계획을 삭제하시겠습니까?')) return;
+            
+            const result = await apiCall({
+                action: 'deletePlan',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: currentPlanDetail.date,
+                subject: currentPlanDetail.subject,
+                bookName: currentPlanDetail.book
+            });
+            
+            if (result.success) {
+                userPlans = userPlans.filter(p => 
+                    !(p.subject === currentPlanDetail.subject && 
+                      p.book === currentPlanDetail.book && 
+                      p.date === currentPlanDetail.date)
+                );
+                closeModal('planDetailModal');
+                renderWeeklyTable();
+                showToast('계획이 삭제되었습니다');
+            }
+        }
+
+        function changeWeek(delta) {
+            currentWeekStart.setDate(currentWeekStart.getDate() + (delta * 7));
+            initPlanScreen();
+        }
+
+        function updatePlanDateSelect() {
+            const select = document.getElementById('planDate');
+            const weekDates = getWeekDates(currentWeekStart);
+            select.innerHTML = weekDates.map((d, i) => 
+                `<option value="${formatDate(d)}">${formatDateKR(d)} (${getDayName(i)})</option>`
+            ).join('');
         }
 
         function updatePlanBookSelect() {
             const select = document.getElementById('planBook');
             select.innerHTML = '<option value="">선택해주세요</option>';
-            userBooks.forEach(book => { select.innerHTML += `<option value="${book.subject}|${book.name}">[${book.subject}] ${book.name}</option>`; });
+            userBooks.forEach(book => {
+                select.innerHTML += `<option value="${book.subject}|${book.name}">[${book.subject}] ${book.name}</option>`;
+            });
         }
 
         async function addPlan() {
+            const date = document.getElementById('planDate').value;
             const bookValue = document.getElementById('planBook').value;
-            const time = parseInt(document.getElementById('planTime').value);
-            if (!bookValue) { showToast('교재를 선택해주세요'); return; }
+            if (!bookValue) {
+                showToast('교재를 선택해주세요');
+                return;
+            }
             const [subject, bookName] = bookValue.split('|');
-            const result = await apiCall({ action: 'addPlan', floor: currentUser.floor, name: currentUser.name, date: formatDate(selectedPlanDate), subject: subject, bookName: bookName, time: time });
+            const startPage = document.getElementById('planStartPage').value;
+            const endPage = document.getElementById('planEndPage').value;
+            
+            const result = await apiCall({
+                action: 'addPlan',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: date,
+                subject: subject,
+                bookName: bookName,
+                time: 60,
+                startPage: startPage,
+                endPage: endPage
+            });
+            
             if (result.success) {
-                userPlans.push({ date: formatDate(selectedPlanDate), subject, book: bookName, time, status: 'O' });
-                closeModal('addPlanModal'); renderPlanList(); renderWeekView(); showToast('계획이 추가되었습니다');
-            } else { showToast('저장 실패'); }
+                userPlans.push({
+                    date: date,
+                    subject: subject,
+                    book: bookName,
+                    status: 'pending',
+                    planPages: startPage && endPage ? `p.${startPage}~${endPage}` : ''
+                });
+                closeModal('addPlanModal');
+                renderWeeklyTable();
+                showToast('계획이 추가되었습니다');
+                document.getElementById('planStartPage').value = '';
+                document.getElementById('planEndPage').value = '';
+            }
         }
 
+        // 주간 목표
+        async function loadGoals() {
+            const result = await apiCall({
+                action: 'getGoals',
+                floor: currentUser.floor,
+                name: currentUser.name
+            });
+            if (result.success) {
+                weekGoals = result.weekGoals || {};
+                monthGoals = result.monthGoals || {};
+            }
+        }
+
+        function renderWeekGoal() {
+            const weekKey = formatDate(currentWeekStart);
+            const goals = weekGoals[weekKey] || {};
+            const content = document.getElementById('weekGoalContent');
+            
+            if (goals.goal1 || goals.goal2 || goals.goal3) {
+                let html = '';
+                if (goals.goal1) html += `<p>1. ${goals.goal1}</p>`;
+                if (goals.goal2) html += `<p>2. ${goals.goal2}</p>`;
+                if (goals.goal3) html += `<p>3. ${goals.goal3}</p>`;
+                content.innerHTML = html;
+            } else {
+                content.innerHTML = '<p>목표를 설정해주세요!</p>';
+            }
+        }
+
+        async function saveWeekGoal() {
+            const weekKey = formatDate(currentWeekStart);
+            const goal1 = document.getElementById('weekGoal1').value.trim();
+            const goal2 = document.getElementById('weekGoal2').value.trim();
+            const goal3 = document.getElementById('weekGoal3').value.trim();
+            
+            const result = await apiCall({
+                action: 'saveWeekGoal',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                weekKey: weekKey,
+                goal1: goal1,
+                goal2: goal2,
+                goal3: goal3
+            });
+            
+            if (result.success) {
+                weekGoals[weekKey] = { goal1, goal2, goal3 };
+                closeModal('editGoalModal');
+                renderWeekGoal();
+                showToast('목표가 저장되었습니다');
+            }
+        }
+
+        async function saveMonthGoal() {
+            const monthKey = `${calendarMonth.getFullYear()}-${calendarMonth.getMonth() + 1}`;
+            const goalText = document.getElementById('monthGoalText').value.trim();
+            const goalHours = document.getElementById('monthGoalHours').value;
+            const goalRate = document.getElementById('monthGoalRate').value;
+            
+            const result = await apiCall({
+                action: 'saveMonthGoal',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                monthKey: monthKey,
+                goalText: goalText,
+                goalHours: goalHours,
+                goalRate: goalRate
+            });
+            
+            if (result.success) {
+                monthGoals[monthKey] = { goalText, goalHours, goalRate };
+                closeModal('editMonthGoalModal');
+                renderGoalScreen();
+                showToast('목표가 저장되었습니다');
+            }
+        }
+
+        // 실천 기록
         async function initRecordScreen() {
-            document.getElementById('recordDateDisplay').textContent = recordDate.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
+            document.getElementById('recordDateDisplay').textContent = 
+                recordDate.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
             await loadRecords();
         }
 
         async function loadRecords() {
-            const result = await apiCall({ action: 'getRecords', floor: currentUser.floor, name: currentUser.name, date: formatDate(recordDate) });
+            const result = await apiCall({
+                action: 'getRecords',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(recordDate)
+            });
             if (result.success) renderRecordList(result.records);
         }
 
         function renderRecordList(records) {
             const list = document.getElementById('recordList');
-            if (!records || records.length === 0) { list.innerHTML = '<div class="empty-state"><i class="fas fa-clipboard-list"></i><p>이 날의 계획이 없습니다</p></div>'; return; }
+            if (!records || records.length === 0) {
+                list.innerHTML = '<div class="empty-state"><i class="fas fa-clipboard-list"></i><p>이 날의 계획이 없습니다</p></div>';
+                return;
+            }
+            
             list.innerHTML = records.map(plan => {
                 let statusText = '';
-                let statusStyle = '';
                 let showButtons = false;
                 
-                if (plan.status === 'pending') {
+                if (plan.status === 'pending' || !plan.status) {
                     statusText = '<span style="color: var(--gray-400);">대기중</span>';
                     showButtons = true;
                 } else if (plan.status === 'requested') {
                     statusText = '<span style="color: var(--warning);"><i class="fas fa-clock"></i> 검사 대기</span>';
-                    showButtons = false;
-                } else if (plan.status === 'approved') {
+                } else if (plan.status === 'approved' || plan.status === 'O') {
                     statusText = '<span style="color: var(--success);"><i class="fas fa-check-circle"></i> 승인 완료</span>';
-                    showButtons = false;
-                } else if (plan.status === 'failed') {
+                } else if (plan.status === 'failed' || plan.status === 'X') {
                     statusText = '<span style="color: var(--danger);"><i class="fas fa-times"></i> 미완료</span>';
-                    showButtons = false;
-                } else {
-                    statusText = '<span style="color: var(--gray-400);">대기중</span>';
-                    showButtons = true;
                 }
                 
                 return `<div class="plan-item ${plan.status}">
                     <div class="plan-header">
                         <div>
                             <div class="plan-title">${plan.book}</div>
-                            <div class="plan-subtitle">${plan.subject} · ${plan.planTime}분 계획</div>
+                            <div class="plan-subtitle">${plan.subject}</div>
                         </div>
                         ${statusText}
                     </div>
@@ -1195,8 +1904,7 @@
 
         async function changeRecordDate(delta) {
             recordDate.setDate(recordDate.getDate() + delta);
-            document.getElementById('recordDateDisplay').textContent = recordDate.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
-            await loadRecords();
+            await initRecordScreen();
         }
 
         function openRecordModal(subject, book) {
@@ -1207,76 +1915,339 @@
 
         async function saveRecord() {
             const time = parseInt(document.getElementById('recordTime').value) || 0;
-            if (!time) { showToast('공부 시간을 입력해주세요'); return; }
-            const result = await apiCall({ action: 'requestCheck', floor: currentUser.floor, name: currentUser.name, date: formatDate(recordDate), subject: currentRecordPlan.subject, bookName: currentRecordPlan.book, startPage: document.getElementById('recordStartPage').value, endPage: document.getElementById('recordEndPage').value, actualTime: time, note: document.getElementById('recordNote').value });
+            if (!time) {
+                showToast('공부 시간을 입력해주세요');
+                return;
+            }
+            
+            const result = await apiCall({
+                action: 'requestCheck',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(recordDate),
+                subject: currentRecordPlan.subject,
+                bookName: currentRecordPlan.book,
+                startPage: document.getElementById('recordStartPage').value,
+                endPage: document.getElementById('recordEndPage').value,
+                actualTime: time,
+                note: document.getElementById('recordNote').value
+            });
+            
             if (result.success) {
-                closeModal('recordModal'); await loadRecords(); updateHomeStats(); showToast('검사 요청 완료! 선생님의 승인을 기다려주세요 📋');
-                document.getElementById('recordStartPage').value = ''; document.getElementById('recordEndPage').value = '';
-                document.getElementById('recordTime').value = ''; document.getElementById('recordNote').value = '';
-            } else { showToast('요청 실패'); }
+                closeModal('recordModal');
+                await loadRecords();
+                showToast('검사 요청 완료!');
+                document.getElementById('recordStartPage').value = '';
+                document.getElementById('recordEndPage').value = '';
+                document.getElementById('recordTime').value = '';
+                document.getElementById('recordNote').value = '';
+            }
         }
 
         async function markFailed(subject, book) {
-            const result = await apiCall({ action: 'markFailed', floor: currentUser.floor, name: currentUser.name, date: formatDate(recordDate), subject: subject, bookName: book });
-            if (result.success) { await loadRecords(); updateHomeStats(); showToast('미완료로 기록되었습니다'); }
+            if (!confirm('미완료로 기록하시겠습니까?')) return;
+            
+            const result = await apiCall({
+                action: 'markFailed',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(recordDate),
+                subject: subject,
+                bookName: book
+            });
+            
+            if (result.success) {
+                await loadRecords();
+                showToast('미완료로 기록되었습니다');
+            }
         }
 
-        async function initStatsScreen() {
-            const statsResult = await apiCall({ action: 'getStats', floor: currentUser.floor, name: currentUser.name });
-            if (statsResult.success) {
-                const s = statsResult.stats;
-                document.getElementById('myTotalPlan').textContent = s.totalPlans;
-                document.getElementById('myTotalComplete').textContent = s.completed;
-                document.getElementById('myTotalTime').textContent = s.totalTimeHours + 'h';
-                document.getElementById('myTotalPoint').textContent = s.points;
-                document.getElementById('myProgressPercent').textContent = s.rate + '%';
-                document.getElementById('myProgressFill').style.width = s.rate + '%';
+        // 스톱워치
+        function startStopwatch(subject, book) {
+            swCurrentPlan = { subject, book };
+            document.getElementById('swSubject').textContent = subject;
+            document.getElementById('swBook').textContent = book;
+            document.getElementById('swDisplay').textContent = '00:00';
+            document.getElementById('swSeconds').textContent = ':00';
+            document.getElementById('stopwatchScreen').classList.add('active');
+            
+            swStartTime = Date.now();
+            swElapsedTime = 0;
+            swPausedTime = 0;
+            swIsRunning = true;
+            
+            document.getElementById('swStatusDot').classList.remove('paused');
+            document.getElementById('swStatusText').textContent = '공부 중...';
+            document.getElementById('swPauseIcon').className = 'fas fa-pause';
+            document.getElementById('swPauseBtn').className = 'sw-btn sw-btn-pause';
+            
+            swInterval = setInterval(updateStopwatchDisplay, 1000);
+        }
+
+        function updateStopwatchDisplay() {
+            if (!swIsRunning) return;
+            
+            const elapsed = Math.floor((Date.now() - swStartTime - swPausedTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            
+            document.getElementById('swDisplay').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('swSeconds').textContent = `:${String(seconds).padStart(2, '0')}`;
+            
+            swElapsedTime = elapsed;
+        }
+
+        function toggleStopwatch() {
+            if (swIsRunning) {
+                swIsRunning = false;
+                swPausedTime += Date.now() - swStartTime - swPausedTime - (swElapsedTime * 1000);
+                document.getElementById('swStatusDot').classList.add('paused');
+                document.getElementById('swStatusText').textContent = '일시정지';
+                document.getElementById('swPauseIcon').className = 'fas fa-play';
+                document.getElementById('swPauseBtn').className = 'sw-btn sw-btn-play';
+            } else {
+                swIsRunning = true;
+                swStartTime = Date.now() - (swElapsedTime * 1000);
+                document.getElementById('swStatusDot').classList.remove('paused');
+                document.getElementById('swStatusText').textContent = '공부 중...';
+                document.getElementById('swPauseIcon').className = 'fas fa-pause';
+                document.getElementById('swPauseBtn').className = 'sw-btn sw-btn-pause';
             }
-            const rankingResult = await apiCall({ action: 'getRanking' });
-            if (rankingResult.success) renderRanking(rankingResult.rankings);
+        }
+
+        function cancelStopwatch() {
+            if (confirm('타이머를 취소하시겠습니까?')) {
+                clearInterval(swInterval);
+                document.getElementById('stopwatchScreen').classList.remove('active');
+            }
+        }
+
+        function stopStopwatch() {
+            clearInterval(swInterval);
+            document.getElementById('stopwatchScreen').classList.remove('active');
+            
+            const minutes = Math.ceil(swElapsedTime / 60);
+            currentRecordPlan = swCurrentPlan;
+            document.getElementById('recordBookLabel').textContent = `[${swCurrentPlan.subject}] ${swCurrentPlan.book}`;
+            document.getElementById('recordTime').value = minutes;
+            openModal('recordModal');
+        }
+
+        // 통계
+        async function initStatsScreen() {
+            const result = await apiCall({
+                action: 'getStats',
+                floor: currentUser.floor,
+                name: currentUser.name
+            });
+            
+            if (result.success) {
+                const s = result.stats;
+                document.getElementById('myTotalPlan').textContent = s.totalPlans || 0;
+                document.getElementById('myTotalComplete').textContent = s.completed || 0;
+                document.getElementById('myTotalTime').textContent = (s.totalTimeHours || 0) + 'h';
+                document.getElementById('myTotalPoint').textContent = s.points || 0;
+                document.getElementById('myProgressPercent').textContent = (s.rate || 0) + '%';
+                document.getElementById('myProgressFill').style.width = (s.rate || 0) + '%';
+            }
+            
+            const rankResult = await apiCall({ action: 'getRanking' });
+            if (rankResult.success) renderRanking(rankResult.rankings);
         }
 
         function renderRanking(rankings) {
-            if (!rankings || rankings.length === 0) { document.getElementById('rankingList').innerHTML = '<div class="empty-state"><i class="fas fa-trophy"></i><p>랭킹 데이터가 없습니다</p></div>'; return; }
-            document.getElementById('rankingList').innerHTML = rankings.map((r, i) => `<div class="ranking-item ${i < 3 ? 'top-' + (i+1) : ''}"><div class="ranking-num">${i + 1}</div><div class="ranking-info"><div class="ranking-name">${r.name}</div><div class="ranking-detail">${r.floor} · 실천율 ${r.rate}%</div></div><div class="ranking-score">${r.totalTime}h</div></div>`).join('');
+            const list = document.getElementById('rankingList');
+            if (!rankings || rankings.length === 0) {
+                list.innerHTML = '<div class="empty-state"><i class="fas fa-trophy"></i><p>랭킹 데이터가 없습니다</p></div>';
+                return;
+            }
+            
+            list.innerHTML = rankings.map((r, i) => `
+                <div class="ranking-item ${i < 3 ? 'top-' + (i + 1) : ''}">
+                    <div class="ranking-num">${i + 1}</div>
+                    <div class="ranking-info">
+                        <div class="ranking-name">${r.name}</div>
+                        <div class="ranking-detail">${r.floor} · 실천율 ${r.rate}%</div>
+                    </div>
+                    <div class="ranking-score">${r.totalTime}h</div>
+                </div>
+            `).join('');
         }
 
-        async function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            const navMap = { 'homeScreen': 0, 'planScreen': 1, 'recordScreen': 2, 'statsScreen': 3 };
-            if (navMap[screenId] !== undefined) document.querySelectorAll('.nav-item')[navMap[screenId]].classList.add('active');
-            if (screenId === 'bookScreen') renderBookList();
-            if (screenId === 'planScreen') await initPlanScreen();
-            if (screenId === 'recordScreen') await initRecordScreen();
-            if (screenId === 'statsScreen') await initStatsScreen();
+        // 캘린더
+        async function initCalendarScreen() {
+            renderCalendar();
+            await loadMonthStats();
         }
 
-        function updateTodayDate() { document.getElementById('todayDate').textContent = new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' }); }
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const year = calendarMonth.getFullYear();
+            const month = calendarMonth.getMonth();
+            
+            document.getElementById('calendarTitle').textContent = `${year}년 ${month + 1}월`;
+            
+            // 기존 날짜 제거
+            const existingDays = grid.querySelectorAll('.calendar-day');
+            existingDays.forEach(d => d.remove());
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDay = firstDay.getDay();
+            const today = formatDate(new Date());
+            
+            // 이전 달
+            const prevLastDay = new Date(year, month, 0).getDate();
+            for (let i = startDay - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = prevLastDay - i;
+                grid.appendChild(day);
+            }
+            
+            // 이번 달
+            for (let i = 1; i <= lastDay.getDate(); i++) {
+                const day = document.createElement('div');
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                day.className = 'calendar-day';
+                if (dateStr === today) day.classList.add('today');
+                day.textContent = i;
+                day.onclick = () => {
+                    recordDate = new Date(dateStr);
+                    showScreen('recordScreen');
+                };
+                grid.appendChild(day);
+            }
+            
+            // 다음 달
+            const remaining = 42 - (startDay + lastDay.getDate());
+            for (let i = 1; i <= remaining; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = i;
+                grid.appendChild(day);
+            }
+        }
+
+        async function loadMonthStats() {
+            const year = calendarMonth.getFullYear();
+            const month = calendarMonth.getMonth() + 1;
+            
+            const result = await apiCall({
+                action: 'getMonthStats',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                year: year,
+                month: month
+            });
+            
+            if (result.success) {
+                document.getElementById('monthPlans').textContent = result.stats.totalPlans || 0;
+                document.getElementById('monthComplete').textContent = result.stats.completed || 0;
+            }
+        }
+
+        function changeCalendarMonth(delta) {
+            calendarMonth.setMonth(calendarMonth.getMonth() + delta);
+            initCalendarScreen();
+        }
+
+        // 목표 화면
+        function renderGoalScreen() {
+            const weekKey = formatDate(currentWeekStart);
+            const monthKey = `${calendarMonth.getFullYear()}-${calendarMonth.getMonth() + 1}`;
+            
+            const wGoal = weekGoals[weekKey] || {};
+            const mGoal = monthGoals[monthKey] || {};
+            
+            let weekHtml = '';
+            if (wGoal.goal1 || wGoal.goal2 || wGoal.goal3) {
+                if (wGoal.goal1) weekHtml += `<p>1. ${wGoal.goal1}</p>`;
+                if (wGoal.goal2) weekHtml += `<p>2. ${wGoal.goal2}</p>`;
+                if (wGoal.goal3) weekHtml += `<p>3. ${wGoal.goal3}</p>`;
+            } else {
+                weekHtml = '목표를 설정해주세요!';
+            }
+            document.getElementById('currentWeekGoal').innerHTML = weekHtml;
+            
+            let monthHtml = '';
+            if (mGoal.goalText || mGoal.goalHours || mGoal.goalRate) {
+                if (mGoal.goalText) monthHtml += `<p>${mGoal.goalText}</p>`;
+                if (mGoal.goalHours) monthHtml += `<p>📚 목표 공부시간: ${mGoal.goalHours}시간</p>`;
+                if (mGoal.goalRate) monthHtml += `<p>📊 목표 실천율: ${mGoal.goalRate}%</p>`;
+            } else {
+                monthHtml = '목표를 설정해주세요!';
+            }
+            document.getElementById('currentMonthGoal').innerHTML = monthHtml;
+        }
+
+        // 홈 통계
+        function updateTodayDate() {
+            document.getElementById('todayDate').textContent = 
+                new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' });
+        }
 
         async function updateHomeStats() {
-            const result = await apiCall({ action: 'getRecords', floor: currentUser.floor, name: currentUser.name, date: formatDate(new Date()) });
+            const result = await apiCall({
+                action: 'getRecords',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(new Date())
+            });
+            
             if (result.success) {
                 const records = result.records || [];
                 const total = records.length;
-                const completed = records.filter(r => r.status === 'O').length;
-                const totalTime = records.filter(r => r.status === 'O').reduce((sum, r) => sum + (r.record?.actualTime || 0), 0);
+                const completed = records.filter(r => r.status === 'approved' || r.status === 'O').length;
+                const totalTime = records.filter(r => r.status === 'approved' || r.status === 'O')
+                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
+                
                 document.getElementById('statPlan').textContent = total;
                 document.getElementById('statComplete').textContent = completed;
                 document.getElementById('statTime').textContent = (totalTime / 60).toFixed(1) + 'h';
                 document.getElementById('statPoint').textContent = completed;
+                
                 const percent = total > 0 ? Math.round(completed / total * 100) : 0;
                 document.getElementById('progressPercent').textContent = percent + '%';
                 document.getElementById('progressFill').style.width = percent + '%';
             }
         }
 
-        function openModal(modalId) { document.getElementById(modalId).classList.add('active'); }
-        function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
-        function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }
-        function formatDate(date) { return date.toISOString().split('T')[0]; }
-        function getWeekNumber(date) { const firstDay = new Date(date.getFullYear(), date.getMonth(), 1); return Math.ceil((date.getDate() + firstDay.getDay()) / 7); }
+        // 화면 전환
+        async function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const navMap = { 'homeScreen': 0, 'planScreen': 1, 'recordScreen': 2, 'statsScreen': 3 };
+            if (navMap[screenId] !== undefined) {
+                document.querySelectorAll('.nav-item')[navMap[screenId]].classList.add('active');
+            }
+            
+            if (screenId === 'bookScreen') renderBookList();
+            if (screenId === 'planScreen') await initPlanScreen();
+            if (screenId === 'recordScreen') await initRecordScreen();
+            if (screenId === 'statsScreen') await initStatsScreen();
+            if (screenId === 'calendarScreen') await initCalendarScreen();
+            if (screenId === 'goalScreen') renderGoalScreen();
+        }
+
+        // 모달 & 토스트
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
     </script>
 </body>
 </html>

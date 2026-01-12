@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주간 학습 리포트 - 김엄마독서실</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8b 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            font-size: 22px;
+            color: #1e3a5f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header p {
+            color: #6b7280;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .control-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .control-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .form-group {
+            flex: 1;
+            min-width: 140px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            cursor: pointer;
+        }
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e3a5f 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        .btn-copy {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        .report-container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .report-container.show {
+            display: block;
+        }
+        .report-header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8b 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        .report-title {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        .report-student {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .report-period {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        .report-body {
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .stat-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e3a5f;
+        }
+        .stat-value.success { color: #10b981; }
+        .stat-value.warning { color: #f59e0b; }
+        .stat-value.primary { color: #3b82f6; }
+        .stat-label {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+        .subject-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .subject-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .subject-name {
+            width: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .subject-bar-container {
+            flex: 1;
+            height: 20px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .subject-bar {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        .subject-bar.math { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .subject-bar.english { background: linear-gradient(90deg, #10b981, #34d399); }
+        .subject-bar.korean { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .subject-bar.science { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .subject-bar.other { background: linear-gradient(90deg, #6b7280, #9ca3af); }
+        .subject-time {
+            width: 80px;
+            font-size: 12px;
+            color: #6b7280;
+            text-align: right;
+        }
+        .ranking-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .rank-item {
+            padding: 0 15px;
+        }
+        .rank-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #92400e;
+        }
+        .rank-label {
+            font-size: 11px;
+            color: #a16207;
+            margin-top: 2px;
+        }
+        .comparison-box {
+            background: #f0fdf4;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            gap: 20px;
+        }
+        .compare-item {
+            flex: 1;
+            text-align: center;
+        }
+        .compare-value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .compare-value.up { color: #10b981; }
+        .compare-value.down { color: #ef4444; }
+        .compare-value.same { color: #6b7280; }
+        .compare-label {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+        .comment-box {
+            background: #eff6ff;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .comment-section {
+            margin-bottom: 15px;
+        }
+        .comment-section:last-child {
+            margin-bottom: 0;
+        }
+        .comment-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .comment-title.good { color: #059669; }
+        .comment-title.improve { color: #d97706; }
+        .comment-title.goal { color: #2563eb; }
+        .comment-list {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.8;
+        }
+        .comment-list li {
+            margin-left: 20px;
+        }
+        .daily-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 100px;
+            padding: 10px 0;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .day-bar-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .day-bar {
+            width: 30px;
+            background: linear-gradient(180deg, #3b82f6, #1e3a5f);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+        }
+        .day-label {
+            font-size: 11px;
+            color: #6b7280;
+        }
+        .day-time {
+            font-size: 10px;
+            color: #9ca3af;
+        }
+        .report-footer {
+            background: #f9fafb;
+            padding: 15px 20px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer-logo {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e3a5f;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+        .loading-spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #e5e7eb;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+        }
+        .toast.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+        
+        /* 복사용 텍스트 (숨김) */
+        #copyText {
+            position: absolute;
+            left: -9999px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>📊 주간 학습 리포트</h1>
+            <p>학생별 주간 학습 현황을 확인하고 학부모에게 전송하세요</p>
+        </div>
+
+        <!-- 컨트롤 패널 -->
+        <div class="control-panel">
+            <div class="control-row">
+                <div class="form-group">
+                    <label>층 선택</label>
+                    <select id="floorSelect" onchange="loadStudentsByFloor()">
+                        <option value="">전체</option>
+                        <option value="8층">8층</option>
+                        <option value="7층">7층</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>학생 선택</label>
+                    <select id="studentSelect">
+                        <option value="">학생을 선택하세요</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-row">
+                <div class="form-group">
+                    <label>주간 선택</label>
+                    <select id="weekSelect">
+                        <option value="this">이번 주</option>
+                        <option value="last">지난 주</option>
+                        <option value="last2">2주 전</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display: flex; align-items: flex-end;">
+                    <button class="btn btn-primary" onclick="generateReport()">
+                        📄 리포트 생성
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 리포트 컨테이너 -->
+        <div class="report-container" id="reportContainer">
+            <!-- 리포트 헤더 -->
+            <div class="report-header">
+                <div class="report-title">📚 김엄마독서실 주간 학습 리포트</div>
+                <div class="report-student" id="reportStudent">김연서</div>
+                <div class="report-period" id="reportPeriod">2026.1.6 (월) ~ 1.12 (일)</div>
+            </div>
+
+            <!-- 리포트 바디 -->
+            <div class="report-body">
+                <!-- 이번 주 요약 -->
+                <div class="section">
+                    <div class="section-title">📈 이번 주 요약</div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="statPlans">0</div>
+                            <div class="stat-label">총 계획</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value success" id="statCompleted">0</div>
+                            <div class="stat-label">완료</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value primary" id="statRate">0%</div>
+                            <div class="stat-label">실천율</div>
+                        </div>
+                    </div>
+                    <div class="stats-grid" style="margin-top: 10px;">
+                        <div class="stat-card" style="grid-column: span 3;">
+                            <div class="stat-value warning" id="statTime">0시간</div>
+                            <div class="stat-label">총 공부시간</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 과목별 공부시간 -->
+                <div class="section">
+                    <div class="section-title">📚 과목별 공부시간</div>
+                    <div class="subject-list" id="subjectList">
+                        <!-- 동적 생성 -->
+                    </div>
+                </div>
+
+                <!-- 요일별 패턴 -->
+                <div class="section">
+                    <div class="section-title">📅 요일별 공부 패턴</div>
+                    <div class="daily-chart" id="dailyChart">
+                        <!-- 동적 생성 -->
+                    </div>
+                </div>
+
+                <!-- 랭킹 -->
+                <div class="section">
+                    <div class="section-title">🏆 이번 주 랭킹</div>
+                    <div class="ranking-box">
+                        <div class="rank-item">
+                            <div class="rank-value" id="rankOverall">-</div>
+                            <div class="rank-label">전체 순위</div>
+                        </div>
+                        <div class="rank-item">
+                            <div class="rank-value" id="rankFloor">-</div>
+                            <div class="rank-label" id="rankFloorLabel">8층 순위</div>
+                        </div>
+                        <div class="rank-item">
+                            <div class="rank-value" id="rankPercentile">-</div>
+                            <div class="rank-label">상위</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 지난 주 대비 -->
+                <div class="section">
+                    <div class="section-title">📊 지난 주 대비</div>
+                    <div class="comparison-box">
+                        <div class="compare-item">
+                            <div class="compare-value" id="compareTime">-</div>
+                            <div class="compare-label">공부시간</div>
+                        </div>
+                        <div class="compare-item">
+                            <div class="compare-value" id="compareRate">-</div>
+                            <div class="compare-label">실천율</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI 분석 코멘트 -->
+                <div class="section">
+                    <div class="section-title">💬 학습 분석 코멘트</div>
+                    <div class="comment-box">
+                        <div class="comment-section">
+                            <div class="comment-title good">✅ 잘한 점</div>
+                            <ul class="comment-list" id="goodComments">
+                                <!-- 동적 생성 -->
+                            </ul>
+                        </div>
+                        <div class="comment-section">
+                            <div class="comment-title improve">📌 개선 포인트</div>
+                            <ul class="comment-list" id="improveComments">
+                                <!-- 동적 생성 -->
+                            </ul>
+                        </div>
+                        <div class="comment-section">
+                            <div class="comment-title goal">🎯 다음 주 목표</div>
+                            <ul class="comment-list" id="goalComments">
+                                <!-- 동적 생성 -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 복사 버튼 -->
+                <button class="btn btn-copy" onclick="copyReport()">
+                    📋 리포트 복사하기
+                </button>
+            </div>
+
+            <!-- 리포트 푸터 -->
+            <div class="report-footer">
+                <div class="footer-logo">📚 김엄마독서실</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 복사용 텍스트 -->
+    <textarea id="copyText" readonly></textarea>
+
+    <!-- 토스트 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // API URL
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwGFbsj8FgFIuF-iFkJ4ekyS76MWQf9UrUysJ-Fs12vuVByJwenoYRgOJeOZiPOa6gzkg/exec';
+        
+        let allStudents = [];
+        let currentReport = null;
+
+        // 페이지 로드 시
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllStudents();
+        });
+
+        // 모든 학생 로드
+        async function loadAllStudents() {
+            try {
+                const response = await fetch(`${API_URL}?action=getAllStudentsForReport`);
+                const result = await response.json();
+                if (result.success) {
+                    allStudents = result.students;
+                    renderStudentOptions(allStudents);
+                }
+            } catch (error) {
+                console.error('Error loading students:', error);
+            }
+        }
+
+        // 층별 학생 필터링
+        function loadStudentsByFloor() {
+            const floor = document.getElementById('floorSelect').value;
+            const filtered = floor ? allStudents.filter(s => s.floor === floor) : allStudents;
+            renderStudentOptions(filtered);
+        }
+
+        // 학생 옵션 렌더링
+        function renderStudentOptions(students) {
+            const select = document.getElementById('studentSelect');
+            select.innerHTML = '<option value="">학생을 선택하세요</option>';
+            students.forEach(s => {
+                select.innerHTML += `<option value="${s.floor}|${s.name}">[${s.floor}] ${s.name}</option>`;
+            });
+        }
+
+        // 주간 시작일 계산
+        function getWeekStart(weekType) {
+            const now = new Date();
+            const day = now.getDay();
+            const diff = day === 0 ? 6 : day - 1; // 월요일 기준
+            
+            const monday = new Date(now);
+            monday.setDate(now.getDate() - diff);
+            monday.setHours(0, 0, 0, 0);
+            
+            if (weekType === 'last') {
+                monday.setDate(monday.getDate() - 7);
+            } else if (weekType === 'last2') {
+                monday.setDate(monday.getDate() - 14);
+            }
+            
+            return monday.toISOString().split('T')[0];
+        }
+
+        // 리포트 생성
+        async function generateReport() {
+            const studentValue = document.getElementById('studentSelect').value;
+            const weekType = document.getElementById('weekSelect').value;
+            
+            if (!studentValue) {
+                showToast('학생을 선택해주세요');
+                return;
+            }
+            
+            const [floor, name] = studentValue.split('|');
+            const weekStart = getWeekStart(weekType);
+            
+            // 로딩 표시
+            document.getElementById('reportContainer').classList.add('show');
+            document.getElementById('reportContainer').innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>리포트 생성 중...</p>
+                </div>
+            `;
+            
+            try {
+                const url = `${API_URL}?action=getWeeklyReport&floor=${encodeURIComponent(floor)}&name=${encodeURIComponent(name)}&weekStart=${weekStart}`;
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentReport = result.report;
+                    renderReport(result.report);
+                } else {
+                    showToast('리포트 생성 실패: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('오류가 발생했습니다');
+            }
+        }
+
+        // 리포트 렌더링
+        function renderReport(report) {
+            const container = document.getElementById('reportContainer');
+            
+            // 기본 정보
+            const startDate = new Date(report.period.start);
+            const endDate = new Date(report.period.end);
+            const periodText = `${formatDateKR(startDate)} ~ ${formatDateKR(endDate)}`;
+            
+            container.innerHTML = `
+                <!-- 리포트 헤더 -->
+                <div class="report-header">
+                    <div class="report-title">📚 김엄마독서실 주간 학습 리포트</div>
+                    <div class="report-student">${report.student.name}</div>
+                    <div class="report-period">${periodText}</div>
+                </div>
+
+                <div class="report-body">
+                    <!-- 이번 주 요약 -->
+                    <div class="section">
+                        <div class="section-title">📈 이번 주 요약</div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">${report.thisWeek.totalPlans}</div>
+                                <div class="stat-label">총 계획</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value success">${report.thisWeek.completed}</div>
+                                <div class="stat-label">완료</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value primary">${report.thisWeek.rate}%</div>
+                                <div class="stat-label">실천율</div>
+                            </div>
+                        </div>
+                        <div class="stats-grid" style="margin-top: 10px;">
+                            <div class="stat-card" style="grid-column: span 3;">
+                                <div class="stat-value warning">${report.thisWeek.totalTimeHours}시간</div>
+                                <div class="stat-label">총 공부시간</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 과목별 공부시간 -->
+                    <div class="section">
+                        <div class="section-title">📚 과목별 공부시간</div>
+                        <div class="subject-list">
+                            ${renderSubjectList(report.thisWeek.subjectTime, report.thisWeek.totalTime)}
+                        </div>
+                    </div>
+
+                    <!-- 요일별 패턴 -->
+                    <div class="section">
+                        <div class="section-title">📅 요일별 공부 패턴</div>
+                        <div class="daily-chart">
+                            ${renderDailyChart(report.daily)}
+                        </div>
+                    </div>
+
+                    <!-- 랭킹 -->
+                    <div class="section">
+                        <div class="section-title">🏆 이번 주 랭킹</div>
+                        <div class="ranking-box">
+                            <div class="rank-item">
+                                <div class="rank-value">${report.ranking.overall}위/${report.ranking.total}명</div>
+                                <div class="rank-label">전체 순위</div>
+                            </div>
+                            <div class="rank-item">
+                                <div class="rank-value">${report.ranking.floor}위/${report.ranking.floorTotal}명</div>
+                                <div class="rank-label">${report.student.floor} 순위</div>
+                            </div>
+                            <div class="rank-item">
+                                <div class="rank-value">상위 ${report.ranking.percentile}%</div>
+                                <div class="rank-label">전체 대비</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 지난 주 대비 -->
+                    <div class="section">
+                        <div class="section-title">📊 지난 주 대비</div>
+                        <div class="comparison-box">
+                            ${renderComparison(report.thisWeek, report.lastWeek)}
+                        </div>
+                    </div>
+
+                    <!-- AI 분석 코멘트 -->
+                    <div class="section">
+                        <div class="section-title">💬 학습 분석 코멘트</div>
+                        <div class="comment-box">
+                            ${renderComments(report)}
+                        </div>
+                    </div>
+
+                    <!-- 복사 버튼 -->
+                    <button class="btn btn-copy" onclick="copyReport()">
+                        📋 리포트 복사하기
+                    </button>
+                </div>
+
+                <div class="report-footer">
+                    <div class="footer-logo">📚 김엄마독서실</div>
+                </div>
+            `;
+        }
+
+        // 과목별 리스트 렌더링
+        function renderSubjectList(subjectTime, totalTime) {
+            if (!subjectTime || Object.keys(subjectTime).length === 0) {
+                return '<div style="color: #9ca3af; text-align: center; padding: 20px;">데이터가 없습니다</div>';
+            }
+            
+            const subjectColors = {
+                '수학': 'math', '영어': 'english', '국어': 'korean',
+                '물리': 'science', '화학': 'science', '생명': 'science', '지구과학': 'science',
+                '한국사': 'other', '사회탐구': 'other'
+            };
+            
+            return Object.entries(subjectTime)
+                .sort((a, b) => b[1] - a[1])
+                .map(([subject, time]) => {
+                    const percent = totalTime > 0 ? Math.round((time / totalTime) * 100) : 0;
+                    const colorClass = subjectColors[subject] || 'other';
+                    const hours = Math.floor(time / 60);
+                    const mins = time % 60;
+                    const timeStr = hours > 0 ? `${hours}시간 ${mins}분` : `${mins}분`;
+                    
+                    return `
+                        <div class="subject-item">
+                            <div class="subject-name">${subject}</div>
+                            <div class="subject-bar-container">
+                                <div class="subject-bar ${colorClass}" style="width: ${percent}%"></div>
+                            </div>
+                            <div class="subject-time">${timeStr} (${percent}%)</div>
+                        </div>
+                    `;
+                }).join('');
+        }
+
+        // 요일별 차트 렌더링
+        function renderDailyChart(daily) {
+            const days = ['월', '화', '수', '목', '금', '토', '일'];
+            const maxTime = Math.max(...Object.values(daily), 60);
+            
+            return days.map(day => {
+                const time = daily[day] || 0;
+                const height = maxTime > 0 ? Math.round((time / maxTime) * 80) : 0;
+                const hours = Math.floor(time / 60);
+                const mins = time % 60;
+                const timeStr = time > 0 ? (hours > 0 ? `${hours}h${mins > 0 ? mins + 'm' : ''}` : `${mins}m`) : '-';
+                
+                return `
+                    <div class="day-bar-wrapper">
+                        <div class="day-time">${timeStr}</div>
+                        <div class="day-bar" style="height: ${height}px;"></div>
+                        <div class="day-label">${day}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 비교 렌더링
+        function renderComparison(thisWeek, lastWeek) {
+            const timeDiff = thisWeek.totalTime - lastWeek.totalTime;
+            const rateDiff = thisWeek.rate - lastWeek.rate;
+            
+            const timeClass = timeDiff > 0 ? 'up' : timeDiff < 0 ? 'down' : 'same';
+            const rateClass = rateDiff > 0 ? 'up' : rateDiff < 0 ? 'down' : 'same';
+            
+            const timeDiffHours = Math.round(Math.abs(timeDiff) / 60 * 10) / 10;
+            const timeStr = timeDiff > 0 ? `+${timeDiffHours}시간 ↑` : timeDiff < 0 ? `-${timeDiffHours}시간 ↓` : '동일';
+            const rateStr = rateDiff > 0 ? `+${rateDiff}% ↑` : rateDiff < 0 ? `${rateDiff}% ↓` : '동일';
+            
+            return `
+                <div class="compare-item">
+                    <div class="compare-value ${timeClass}">${timeStr}</div>
+                    <div class="compare-label">공부시간</div>
+                </div>
+                <div class="compare-item">
+                    <div class="compare-value ${rateClass}">${rateStr}</div>
+                    <div class="compare-label">실천율 (${lastWeek.rate}% → ${thisWeek.rate}%)</div>
+                </div>
+            `;
+        }
+
+        // AI 코멘트 생성
+        function renderComments(report) {
+            const good = [];
+            const improve = [];
+            const goal = [];
+            
+            const tw = report.thisWeek;
+            const lw = report.lastWeek;
+            const rk = report.ranking;
+            
+            // 잘한 점 분석
+            if (tw.rate >= 80) {
+                good.push(`실천율 ${tw.rate}%로 목표를 잘 달성하고 있어요! 👏`);
+            } else if (tw.rate >= 60) {
+                good.push(`실천율 ${tw.rate}%로 꾸준히 노력하고 있어요!`);
+            }
+            
+            if (tw.totalTime > lw.totalTime) {
+                const diff = Math.round((tw.totalTime - lw.totalTime) / 60 * 10) / 10;
+                const percent = lw.totalTime > 0 ? Math.round((tw.totalTime - lw.totalTime) / lw.totalTime * 100) : 0;
+                good.push(`지난 주보다 공부시간이 ${diff}시간 증가했어요! (+${percent}%)`);
+            }
+            
+            if (rk.percentile <= 20) {
+                good.push(`전체 랭킹 상위 ${rk.percentile}%로 우수한 성적입니다! 🌟`);
+            } else if (rk.percentile <= 40) {
+                good.push(`전체 순위 ${rk.overall}위로 좋은 위치에 있어요!`);
+            }
+            
+            if (tw.completed >= 10) {
+                good.push(`이번 주 ${tw.completed}개의 계획을 완료했어요!`);
+            }
+            
+            if (good.length === 0) {
+                good.push('이번 주도 공부를 시작한 것 자체가 훌륭해요! 💪');
+            }
+            
+            // 개선 포인트 분석
+            if (tw.rate < 50) {
+                improve.push('계획을 조금 줄여서 실천율을 높여보세요');
+            }
+            
+            const subjects = Object.entries(tw.subjectTime || {});
+            if (subjects.length > 0) {
+                const sorted = subjects.sort((a, b) => b[1] - a[1]);
+                const topSubject = sorted[0];
+                const topPercent = Math.round((topSubject[1] / tw.totalTime) * 100);
+                if (topPercent > 60) {
+                    improve.push(`${topSubject[0]} 비중(${topPercent}%)이 높아요. 다른 과목도 챙겨보세요`);
+                }
+                
+                // 특정 과목 부족
+                const hasEnglish = subjects.some(s => s[0] === '영어');
+                const hasMath = subjects.some(s => s[0] === '수학');
+                if (!hasEnglish && tw.totalTime > 0) {
+                    improve.push('영어 공부도 추가해보세요');
+                }
+            }
+            
+            // 요일별 분석
+            const daily = report.daily;
+            const minDay = Object.entries(daily).reduce((a, b) => a[1] < b[1] ? a : b);
+            if (minDay[1] === 0 && tw.totalTime > 0) {
+                improve.push(`${minDay[0]}요일에 공부 기록이 없어요`);
+            }
+            
+            if (tw.totalTime < lw.totalTime && lw.totalTime > 0) {
+                improve.push('지난 주보다 공부시간이 줄었어요. 힘내세요!');
+            }
+            
+            if (improve.length === 0) {
+                improve.push('현재 패턴을 잘 유지해주세요!');
+            }
+            
+            // 다음 주 목표
+            const nextRate = Math.min(tw.rate + 10, 100);
+            goal.push(`실천율 ${nextRate}% 도전!`);
+            
+            const nextTime = Math.round((tw.totalTimeHours + 1) * 10) / 10;
+            goal.push(`주간 공부시간 ${nextTime}시간 이상`);
+            
+            if (rk.overall > 1) {
+                goal.push(`랭킹 ${Math.max(rk.overall - 2, 1)}위 도전!`);
+            }
+            
+            return `
+                <div class="comment-section">
+                    <div class="comment-title good">✅ 잘한 점</div>
+                    <ul class="comment-list">
+                        ${good.map(c => `<li>${c}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-title improve">📌 개선 포인트</div>
+                    <ul class="comment-list">
+                        ${improve.map(c => `<li>${c}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-title goal">🎯 다음 주 목표</div>
+                    <ul class="comment-list">
+                        ${goal.map(c => `<li>${c}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // 리포트 복사
+        function copyReport() {
+            if (!currentReport) {
+                showToast('먼저 리포트를 생성해주세요');
+                return;
+            }
+            
+            const r = currentReport;
+            const tw = r.thisWeek;
+            const lw = r.lastWeek;
+            const rk = r.ranking;
+            
+            // 과목별 텍스트
+            let subjectText = '';
+            Object.entries(tw.subjectTime || {})
+                .sort((a, b) => b[1] - a[1])
+                .forEach(([subject, time]) => {
+                    const hours = Math.floor(time / 60);
+                    const mins = time % 60;
+                    const timeStr = hours > 0 ? `${hours}시간 ${mins}분` : `${mins}분`;
+                    const percent = tw.totalTime > 0 ? Math.round((time / tw.totalTime) * 100) : 0;
+                    subjectText += `  • ${subject}: ${timeStr} (${percent}%)\n`;
+                });
+            
+            // 비교 텍스트
+            const timeDiff = tw.totalTime - lw.totalTime;
+            const timeDiffHours = Math.round(Math.abs(timeDiff) / 60 * 10) / 10;
+            const timeCompare = timeDiff > 0 ? `+${timeDiffHours}시간 ↑` : timeDiff < 0 ? `-${timeDiffHours}시간 ↓` : '동일';
+            const rateDiff = tw.rate - lw.rate;
+            const rateCompare = rateDiff > 0 ? `+${rateDiff}%` : `${rateDiff}%`;
+            
+            const text = `━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 ${r.student.name} 주간 학습 리포트
+   ${formatDateKR(new Date(r.period.start))} ~ ${formatDateKR(new Date(r.period.end))}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📈 이번 주 요약
+• 계획: ${tw.totalPlans}개 | 완료: ${tw.completed}개 | 실천율: ${tw.rate}%
+• 총 공부시간: ${tw.totalTimeHours}시간
+
+📚 과목별 공부시간
+${subjectText || '  (데이터 없음)\n'}
+🏆 이번 주 랭킹
+• 전체 순위: ${rk.overall}위 / ${rk.total}명 (상위 ${rk.percentile}%)
+• ${r.student.floor} 순위: ${rk.floor}위 / ${rk.floorTotal}명
+
+📊 지난 주 대비
+• 공부시간: ${timeCompare}
+• 실천율: ${lw.rate}% → ${tw.rate}% (${rateCompare})
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+💬 학습 분석 코멘트
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${generateTextComments(r)}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+         김엄마독서실 📚
+━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+
+            // 클립보드에 복사
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('📋 리포트가 복사되었습니다!');
+            }).catch(err => {
+                // 폴백: textarea 사용
+                const textarea = document.getElementById('copyText');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.left = '0';
+                textarea.select();
+                document.execCommand('copy');
+                textarea.style.position = 'absolute';
+                textarea.style.left = '-9999px';
+                showToast('📋 리포트가 복사되었습니다!');
+            });
+        }
+
+        // 텍스트용 코멘트 생성
+        function generateTextComments(report) {
+            const tw = report.thisWeek;
+            const lw = report.lastWeek;
+            const rk = report.ranking;
+            
+            let text = '✅ 잘한 점\n';
+            
+            if (tw.rate >= 80) {
+                text += `• 실천율 ${tw.rate}%로 목표를 잘 달성하고 있어요!\n`;
+            } else if (tw.rate >= 60) {
+                text += `• 실천율 ${tw.rate}%로 꾸준히 노력하고 있어요!\n`;
+            }
+            
+            if (tw.totalTime > lw.totalTime) {
+                const diff = Math.round((tw.totalTime - lw.totalTime) / 60 * 10) / 10;
+                text += `• 지난 주보다 공부시간이 ${diff}시간 증가했어요!\n`;
+            }
+            
+            if (rk.percentile <= 30) {
+                text += `• 전체 랭킹 상위 ${rk.percentile}%로 우수한 성적입니다!\n`;
+            }
+            
+            text += '\n📌 개선 포인트\n';
+            
+            if (tw.rate < 60) {
+                text += '• 계획을 조금 줄여서 실천율을 높여보세요\n';
+            }
+            
+            const subjects = Object.entries(tw.subjectTime || {});
+            if (subjects.length > 0) {
+                const sorted = subjects.sort((a, b) => b[1] - a[1]);
+                const topPercent = Math.round((sorted[0][1] / tw.totalTime) * 100);
+                if (topPercent > 60) {
+                    text += `• ${sorted[0][0]} 비중이 높아요. 다른 과목도 챙겨보세요\n`;
+                }
+            }
+            
+            if (tw.totalTime < lw.totalTime && lw.totalTime > 0) {
+                text += '• 지난 주보다 공부시간이 줄었어요. 힘내세요!\n';
+            }
+            
+            text += '\n🎯 다음 주 목표\n';
+            text += `• 실천율 ${Math.min(tw.rate + 10, 100)}% 도전!\n`;
+            text += `• 주간 공부시간 ${Math.round((tw.totalTimeHours + 1) * 10) / 10}시간 이상\n`;
+            
+            return text;
+        }
+
+        // 날짜 포맷
+        function formatDateKR(date) {
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+            return `${month}/${day}(${dayNames[date.getDay()]})`;
+        }
+
+        // 토스트 메시지
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

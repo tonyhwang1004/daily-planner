@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김엄마독서실 | 학부모 페이지</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a5f;
+            --primary-light: #2d5a8b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+        .logo i { color: #764ba2; }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1rem;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* 로그인 박스 */
+        .login-wrapper {
+            min-height: calc(100vh - 100px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-box {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .login-header .icon {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2.5rem;
+            color: white;
+        }
+        .login-header h1 { font-size: 1.5rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .login-header p { color: var(--gray-500); font-size: 0.9rem; }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: var(--gray-50);
+        }
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #764ba2;
+            background: white;
+        }
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(118, 75, 162, 0.4);
+        }
+
+        /* 메인 화면 */
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .child-info {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .child-avatar {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+            font-weight: 700;
+        }
+        .child-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+        .child-floor {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .card-title i { color: #764ba2; }
+
+        /* 통계 그리드 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        .stat-item {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-value.success { color: var(--success); }
+        .stat-value.warning { color: var(--warning); }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        /* 진행률 */
+        .progress-section {
+            margin-top: 1rem;
+        }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .progress-bar {
+            height: 12px;
+            background: var(--gray-200);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        /* 오늘의 계획 */
+        .plan-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+        }
+        .plan-status {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+        .plan-status.complete { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .plan-status.pending { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .plan-status.waiting { background: var(--gray-200); color: var(--gray-400); }
+        .plan-status.failed { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .plan-info h4 { font-size: 0.95rem; color: var(--gray-800); }
+        .plan-info p { font-size: 0.8rem; color: var(--gray-500); }
+
+        /* 주간 요약 */
+        .week-summary {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        .day-item {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+        }
+        .day-name {
+            font-size: 0.7rem;
+            color: var(--gray-500);
+            margin-bottom: 0.25rem;
+        }
+        .day-status {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        .day-status.high { background: var(--success); color: white; }
+        .day-status.mid { background: var(--warning); color: white; }
+        .day-status.low { background: var(--danger); color: white; }
+        .day-status.none { background: var(--gray-200); color: var(--gray-400); }
+
+        /* 메시지 */
+        .message-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+        .message-box h4 {
+            font-size: 0.9rem;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .message-box p {
+            font-size: 0.85rem;
+            color: #78350f;
+            line-height: 1.5;
+        }
+
+        /* 리포트 카드 */
+        .report-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .report-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .report-period {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        .report-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+        .report-stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        .report-stat-label {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* 탭 */
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 16px;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .tab {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            background: transparent;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* 빈 상태 */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-400);
+        }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+        /* 로딩 */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-400);
+        }
+        .loading i { font-size: 2rem; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--gray-800);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <header class="header" id="mainHeader" style="display: none;">
+        <div class="header-content">
+            <div class="logo"><i class="fas fa-heart"></i><span>학부모 페이지</span></div>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 로그인 화면 -->
+        <div class="screen active" id="loginScreen">
+            <div class="login-wrapper">
+                <div class="login-box">
+                    <div class="login-header">
+                        <div class="icon"><i class="fas fa-heart"></i></div>
+                        <h1>학부모 페이지</h1>
+                        <p>자녀의 학습 현황을 확인하세요</p>
+                    </div>
+                    <div class="form-group">
+                        <label>층 선택</label>
+                        <select id="loginFloor" onchange="loadStudentsByFloor()">
+                            <option value="">선택해주세요</option>
+                            <option value="7층">7층</option>
+                            <option value="8층">8층</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>자녀 이름</label>
+                        <select id="loginName"><option value="">층을 먼저 선택해주세요</option></select>
+                    </div>
+                    <button class="btn btn-primary" onclick="login()"><i class="fas fa-sign-in-alt"></i> 확인하기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 메인 화면 -->
+        <div class="screen" id="mainScreen">
+            <div class="child-info">
+                <div class="child-avatar" id="childAvatar">김</div>
+                <div class="child-name" id="childName">김연서</div>
+                <div class="child-floor" id="childFloor">8층</div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('today')">오늘</button>
+                <button class="tab" onclick="showTab('week')">이번주</button>
+                <button class="tab" onclick="showTab('report')">리포트</button>
+            </div>
+
+            <!-- 오늘 탭 -->
+            <div class="tab-content active" id="todayTab">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-calendar-day"></i> 오늘의 학습</div>
+                        <span id="todayDate" style="font-size: 0.85rem; color: var(--gray-500);"></span>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="todayPlan">0</div>
+                            <div class="stat-label">계획</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value success" id="todayComplete">0</div>
+                            <div class="stat-label">완료</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value warning" id="todayPending">0</div>
+                            <div class="stat-label">검사대기</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="todayTime">0h</div>
+                            <div class="stat-label">공부시간</div>
+                        </div>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>오늘 실천율</span>
+                            <span id="todayRate">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="todayProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-list-check"></i> 오늘의 계획</div>
+                    </div>
+                    <div id="todayPlanList">
+                        <div class="loading"><i class="fas fa-spinner"></i></div>
+                    </div>
+                </div>
+
+                <div class="message-box" id="aiMessage">
+                    <h4><i class="fas fa-lightbulb"></i> AI 코멘트</h4>
+                    <p id="aiMessageText">학습 데이터를 분석 중입니다...</p>
+                </div>
+            </div>
+
+            <!-- 이번주 탭 -->
+            <div class="tab-content" id="weekTab">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-calendar-week"></i> 이번 주 요약</div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="weekPlan">0</div>
+                            <div class="stat-label">주간 계획</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value success" id="weekComplete">0</div>
+                            <div class="stat-label">주간 완료</div>
+                        </div>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>주간 실천율</span>
+                            <span id="weekRate">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="weekProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="week-summary" id="weekSummary">
+                        <!-- 요일별 현황 -->
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-clock"></i> 주간 공부시간</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 3rem; font-weight: 700; color: var(--primary);" id="weekTime">0h</div>
+                        <div style="color: var(--gray-500); font-size: 0.9rem;">총 공부시간</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-bullseye"></i> 이번 주 목표</div>
+                    </div>
+                    <div id="weekGoal" style="padding: 0.5rem; color: var(--gray-600);">
+                        목표가 설정되지 않았습니다.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 리포트 탭 -->
+            <div class="tab-content" id="reportTab">
+                <div class="report-card">
+                    <div class="report-header">
+                        <div class="report-title" id="reportMonth">1월 리포트</div>
+                        <div class="report-period" id="reportPeriod">2026년 1월</div>
+                    </div>
+                    <div class="report-stats">
+                        <div>
+                            <div class="report-stat-value" id="monthPlan">0</div>
+                            <div class="report-stat-label">총 계획</div>
+                        </div>
+                        <div>
+                            <div class="report-stat-value" id="monthComplete">0</div>
+                            <div class="report-stat-label">완료</div>
+                        </div>
+                        <div>
+                            <div class="report-stat-value" id="monthRate">0%</div>
+                            <div class="report-stat-label">실천율</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-trophy"></i> 랭킹</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 0.9rem; color: var(--gray-500);">전체 랭킹</div>
+                        <div style="font-size: 2.5rem; font-weight: 700; color: #764ba2;" id="overallRank">-</div>
+                        <div style="font-size: 0.85rem; color: var(--gray-400);" id="rankDetail">명 중</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-star"></i> 상점 현황</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--warning);" id="totalPoints">0</div>
+                        <div style="font-size: 0.85rem; color: var(--gray-500);">누적 상점</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwGFbsj8FgFIuF-iFkJ4ekyS76MWQf9UrUysJ-Fs12vuVByJwenoYRgOJeOZiPOa6gzkg/exec';
+        
+        let currentChild = null;
+
+        async function apiCall(data) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(data)
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        function getMonday(d) {
+            const date = new Date(d);
+            const day = date.getDay();
+            const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(date.setDate(diff));
+        }
+
+        // 로그인
+        async function loadStudentsByFloor() {
+            const floor = document.getElementById('loginFloor').value;
+            const nameSelect = document.getElementById('loginName');
+            
+            if (!floor) {
+                nameSelect.innerHTML = '<option value="">층을 먼저 선택해주세요</option>';
+                return;
+            }
+            
+            nameSelect.innerHTML = '<option value="">로딩중...</option>';
+            const result = await apiCall({ action: 'getStudents', floor: floor });
+            
+            if (result.success) {
+                nameSelect.innerHTML = '<option value="">선택해주세요</option>';
+                result.students.forEach(s => {
+                    const name = s.name || s;
+                    nameSelect.innerHTML += `<option value="${name}">${name}</option>`;
+                });
+            }
+        }
+
+        async function login() {
+            const floor = document.getElementById('loginFloor').value;
+            const name = document.getElementById('loginName').value;
+            
+            if (!floor || !name) {
+                showToast('층과 이름을 선택해주세요');
+                return;
+            }
+            
+            currentChild = { floor, name };
+            
+            document.getElementById('childName').textContent = name;
+            document.getElementById('childFloor').textContent = floor;
+            document.getElementById('childAvatar').textContent = name.charAt(0);
+            
+            document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('mainScreen').classList.add('active');
+            document.getElementById('mainHeader').style.display = 'block';
+            
+            loadTodayData();
+        }
+
+        function logout() {
+            currentChild = null;
+            document.getElementById('mainHeader').style.display = 'none';
+            document.getElementById('mainScreen').classList.remove('active');
+            document.getElementById('loginScreen').classList.add('active');
+        }
+
+        // 탭 전환
+        function showTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId + 'Tab').classList.add('active');
+            
+            if (tabId === 'today') loadTodayData();
+            if (tabId === 'week') loadWeekData();
+            if (tabId === 'report') loadReportData();
+        }
+
+        // 오늘 데이터
+        async function loadTodayData() {
+            const today = new Date();
+            document.getElementById('todayDate').textContent = 
+                today.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' });
+            
+            const result = await apiCall({
+                action: 'getRecords',
+                floor: currentChild.floor,
+                name: currentChild.name,
+                date: formatDate(today)
+            });
+            
+            if (result.success) {
+                const records = result.records || [];
+                const total = records.length;
+                const completed = records.filter(r => r.status === 'approved').length;
+                const pending = records.filter(r => r.status === 'requested').length;
+                const totalTime = records.filter(r => r.status === 'approved')
+                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
+                
+                document.getElementById('todayPlan').textContent = total;
+                document.getElementById('todayComplete').textContent = completed;
+                document.getElementById('todayPending').textContent = pending;
+                document.getElementById('todayTime').textContent = (totalTime / 60).toFixed(1) + 'h';
+                
+                const rate = total > 0 ? Math.round(completed / total * 100) : 0;
+                document.getElementById('todayRate').textContent = rate + '%';
+                document.getElementById('todayProgress').style.width = rate + '%';
+                
+                renderTodayPlans(records);
+                generateAIMessage(records, rate);
+            }
+        }
+
+        function renderTodayPlans(records) {
+            const container = document.getElementById('todayPlanList');
+            
+            if (!records || records.length === 0) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-calendar-check"></i><p>오늘 계획이 없습니다</p></div>';
+                return;
+            }
+            
+            container.innerHTML = records.map(r => {
+                let statusClass = 'waiting';
+                let statusIcon = '<i class="fas fa-circle"></i>';
+                
+                if (r.status === 'approved') {
+                    statusClass = 'complete';
+                    statusIcon = '<i class="fas fa-check"></i>';
+                } else if (r.status === 'requested') {
+                    statusClass = 'pending';
+                    statusIcon = '<i class="fas fa-clock"></i>';
+                } else if (r.status === 'failed') {
+                    statusClass = 'failed';
+                    statusIcon = '<i class="fas fa-times"></i>';
+                }
+                
+                return `<div class="plan-item">
+                    <div class="plan-status ${statusClass}">${statusIcon}</div>
+                    <div class="plan-info">
+                        <h4>${r.book}</h4>
+                        <p>${r.subject} ${r.actualTime ? '· ' + r.actualTime + '분' : ''}</p>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function generateAIMessage(records, rate) {
+            let message = '';
+            const total = records.length;
+            const completed = records.filter(r => r.status === 'approved').length;
+            
+            if (total === 0) {
+                message = '오늘 계획을 아직 등록하지 않았어요. 계획을 세워보면 어떨까요? 📝';
+            } else if (rate >= 80) {
+                message = '훌륭해요! 오늘 목표를 잘 달성하고 있어요. 이 조자로 계속 화이팅! 🎉';
+            } else if (rate >= 50) {
+                message = '절반 이상 완료했어요! 조금만 더 힘내면 목표 달성! 💪';
+            } else if (completed > 0) {
+                message = '좋은 시작이에요! 남은 계획도 차근차근 해나가봐요. 😊';
+            } else {
+                message = '아직 완료한 계획이 없어요. 지금부터 시작해볼까요? 📚';
+            }
+            
+            document.getElementById('aiMessageText').textContent = message;
+        }
+
+        // 주간 데이터
+        async function loadWeekData() {
+            const monday = getMonday(new Date());
+            const sunday = new Date(monday);
+            sunday.setDate(sunday.getDate() + 6);
+            
+            const result = await apiCall({
+                action: 'getWeeklyReport',
+                floor: currentChild.floor,
+                name: currentChild.name,
+                weekStart: formatDate(monday)
+            });
+            
+            if (result.success) {
+                const r = result.report;
+                
+                document.getElementById('weekPlan').textContent = r.thisWeek.totalPlans;
+                document.getElementById('weekComplete').textContent = r.thisWeek.completed;
+                document.getElementById('weekRate').textContent = r.thisWeek.rate + '%';
+                document.getElementById('weekProgress').style.width = r.thisWeek.rate + '%';
+                document.getElementById('weekTime').textContent = r.thisWeek.totalTimeHours + 'h';
+                
+                // 요일별 현황
+                renderWeekSummary(r.daily);
+            }
+            
+            // 주간 목표
+            const goalResult = await apiCall({
+                action: 'getGoals',
+                floor: currentChild.floor,
+                name: currentChild.name
+            });
+            
+            if (goalResult.success) {
+                const weekKey = formatDate(monday);
+                const goal = goalResult.weekGoals[weekKey];
+                
+                if (goal && (goal.goal1 || goal.goal2 || goal.goal3)) {
+                    let html = '';
+                    if (goal.goal1) html += `<p>1. ${goal.goal1}</p>`;
+                    if (goal.goal2) html += `<p>2. ${goal.goal2}</p>`;
+                    if (goal.goal3) html += `<p>3. ${goal.goal3}</p>`;
+                    document.getElementById('weekGoal').innerHTML = html;
+                }
+            }
+        }
+
+        function renderWeekSummary(daily) {
+            const container = document.getElementById('weekSummary');
+            const days = ['월', '화', '수', '목', '금', '토', '일'];
+            
+            container.innerHTML = days.map(day => {
+                const time = daily[day] || 0;
+                const hours = time / 60;
+                
+                let statusClass = 'none';
+                if (hours >= 3) statusClass = 'high';
+                else if (hours >= 1) statusClass = 'mid';
+                else if (hours > 0) statusClass = 'low';
+                
+                return `<div class="day-item">
+                    <div class="day-name">${day}</div>
+                    <div class="day-status ${statusClass}">${hours > 0 ? hours.toFixed(0) : '-'}</div>
+                </div>`;
+            }).join('');
+        }
+
+        // 리포트 데이터
+        async function loadReportData() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            
+            document.getElementById('reportMonth').textContent = `${month}월 리포트`;
+            document.getElementById('reportPeriod').textContent = `${year}년 ${month}월`;
+            
+            const result = await apiCall({
+                action: 'getMonthlyReport',
+                floor: currentChild.floor,
+                name: currentChild.name,
+                year: year,
+                month: month
+            });
+            
+            if (result.success) {
+                const r = result.report;
+                document.getElementById('monthPlan').textContent = r.stats.totalPlans;
+                document.getElementById('monthComplete').textContent = r.stats.completed;
+                document.getElementById('monthRate').textContent = r.stats.rate + '%';
+            }
+            
+            // 랭킹
+            const rankResult = await apiCall({ action: 'getRanking' });
+            if (rankResult.success) {
+                const rankings = rankResult.rankings || [];
+                const myRank = rankings.findIndex(r => r.name === currentChild.name) + 1;
+                
+                if (myRank > 0) {
+                    document.getElementById('overallRank').textContent = myRank + '위';
+                    document.getElementById('rankDetail').textContent = `${rankings.length}명 중`;
+                } else {
+                    document.getElementById('overallRank').textContent = '-';
+                    document.getElementById('rankDetail').textContent = '데이터 없음';
+                }
+            }
+            
+            // 상점
+            const pointResult = await apiCall({
+                action: 'getPoints',
+                floor: currentChild.floor,
+                name: currentChild.name
+            });
+            
+            if (pointResult.success) {
+                document.getElementById('totalPoints').textContent = pointResult.total || 0;
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>

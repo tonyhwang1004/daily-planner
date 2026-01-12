@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>플래너 검사 승인 - 김엄마독서실</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8b 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            font-size: 22px;
+            color: #1e3a5f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header p {
+            color: #6b7280;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .filter-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-bar select {
+            padding: 10px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            cursor: pointer;
+        }
+        .filter-bar select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .btn-refresh {
+            padding: 10px 20px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-refresh:hover {
+            background: #2563eb;
+        }
+        .stats-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 30px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e3a5f;
+        }
+        .stat-value.pending {
+            color: #f59e0b;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .request-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .request-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .request-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .request-header.approved {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .student-avatar {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .student-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .student-floor {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .request-time {
+            font-size: 12px;
+            opacity: 0.9;
+            text-align: right;
+        }
+        .request-body {
+            padding: 20px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            background: #f9fafb;
+            padding: 12px 15px;
+            border-radius: 10px;
+        }
+        .info-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .info-value input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+        }
+        .info-value input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .subject-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .subject-badge.math { background: #dbeafe; color: #1d4ed8; }
+        .subject-badge.korean { background: #fef3c7; color: #b45309; }
+        .subject-badge.english { background: #d1fae5; color: #047857; }
+        .subject-badge.science { background: #ede9fe; color: #6d28d9; }
+        .subject-badge.social { background: #fce7f3; color: #be185d; }
+        .subject-badge.other { background: #f3f4f6; color: #374151; }
+        .note-box {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 12px 15px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 20px;
+        }
+        .note-label {
+            font-size: 12px;
+            color: #92400e;
+            margin-bottom: 4px;
+        }
+        .note-text {
+            font-size: 14px;
+            color: #78350f;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-approve {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        .btn-approve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        .btn-reject {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        .btn-reject:hover {
+            background: #e5e7eb;
+        }
+        .btn-save {
+            background: #3b82f6;
+            color: white;
+        }
+        .btn-save:hover {
+            background: #2563eb;
+        }
+        .empty-state {
+            background: white;
+            border-radius: 16px;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .empty-desc {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+        }
+        .toast.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        /* 모달 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .modal-header h3 {
+            font-size: 18px;
+            color: #1f2937;
+        }
+        .modal-body {
+            padding: 20px;
+        }
+        .modal-body textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+        }
+        .modal-body textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .modal-btn-cancel {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        .modal-btn-confirm {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>✅ 플래너 검사 승인</h1>
+            <p>학생들의 검사 요청을 확인하고 승인해주세요</p>
+        </div>
+
+        <!-- 필터 -->
+        <div class="filter-bar">
+            <select id="floorFilter">
+                <option value="">전체 층</option>
+                <option value="7층">7층</option>
+                <option value="8층">8층</option>
+            </select>
+            <select id="dateFilter">
+                <option value="today">오늘</option>
+                <option value="all">전체</option>
+            </select>
+            <button class="btn-refresh" onclick="loadRequests()">
+                🔄 새로고침
+            </button>
+        </div>
+
+        <!-- 통계 -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value pending" id="pendingCount">0</div>
+                <div class="stat-label">대기 중</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="todayApproved">0</div>
+                <div class="stat-label">오늘 승인</div>
+            </div>
+        </div>
+
+        <!-- 검사 요청 목록 -->
+        <div id="requestList" class="request-list">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>검사 요청을 불러오는 중...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 반려 모달 -->
+    <div class="modal-overlay" id="rejectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>반려 사유 입력</h3>
+            </div>
+            <div class="modal-body">
+                <textarea id="rejectReason" placeholder="반려 사유를 입력하세요 (예: 페이지 확인 필요)"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" onclick="closeRejectModal()">취소</button>
+                <button class="modal-btn modal-btn-confirm" onclick="confirmReject()">반려하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 토스트 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // API URL - 여기에 실제 배포된 API URL을 입력하세요
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwGFbsj8FgFIuF-iFkJ4ekyS76MWQf9UrUysJ-Fs12vuVByJwenoYRgOJeOZiPOa6gzkg/exec';
+        
+        let currentRejectRow = null;
+        let todayApprovedCount = 0;
+
+        // 페이지 로드 시
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRequests();
+            // 30초마다 자동 새로고침
+            setInterval(loadRequests, 30000);
+        });
+
+        // 검사 요청 목록 불러오기
+        async function loadRequests() {
+            const floor = document.getElementById('floorFilter').value;
+            const listEl = document.getElementById('requestList');
+            
+            try {
+                const url = `${API_URL}?action=getPendingRequests&floor=${encodeURIComponent(floor)}`;
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    renderRequests(result.requests);
+                    document.getElementById('pendingCount').textContent = result.requests.length;
+                } else {
+                    listEl.innerHTML = `<div class="empty-state"><div class="empty-icon">❌</div><div class="empty-title">오류 발생</div><div class="empty-desc">${result.error}</div></div>`;
+                }
+            } catch (error) {
+                listEl.innerHTML = `<div class="empty-state"><div class="empty-icon">🔌</div><div class="empty-title">연결 오류</div><div class="empty-desc">네트워크 연결을 확인해주세요</div></div>`;
+            }
+        }
+
+        // 요청 목록 렌더링
+        function renderRequests(requests) {
+            const listEl = document.getElementById('requestList');
+            
+            if (requests.length === 0) {
+                listEl.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🎉</div>
+                        <div class="empty-title">모든 검사 완료!</div>
+                        <div class="empty-desc">대기 중인 검사 요청이 없습니다</div>
+                    </div>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = requests.map(req => {
+                const subjectClass = getSubjectClass(req.subject);
+                const timeStr = req.requestTime ? formatTime(req.requestTime) : '';
+                
+                return `
+                    <div class="request-card" id="card-${req.row}">
+                        <div class="request-header">
+                            <div class="student-info">
+                                <div class="student-avatar">${req.name.charAt(0)}</div>
+                                <div>
+                                    <div class="student-name">${req.name}</div>
+                                    <div class="student-floor">${req.floor}</div>
+                                </div>
+                            </div>
+                            <div class="request-time">
+                                ${req.date}<br>
+                                ${timeStr}
+                            </div>
+                        </div>
+                        <div class="request-body">
+                            <div class="info-grid">
+                                <div class="info-item" style="grid-column: span 2;">
+                                    <div class="info-label">과목 / 교재</div>
+                                    <div class="info-value">
+                                        <span class="subject-badge ${subjectClass}">${req.subject}</span>
+                                        ${req.book}
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">시작 페이지</div>
+                                    <div class="info-value">
+                                        <input type="number" id="start-${req.row}" value="${req.startPage || ''}" placeholder="시작">
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">끝 페이지</div>
+                                    <div class="info-value">
+                                        <input type="number" id="end-${req.row}" value="${req.endPage || ''}" placeholder="끝">
+                                    </div>
+                                </div>
+                                <div class="info-item" style="grid-column: span 2;">
+                                    <div class="info-label">실제 공부 시간 (분)</div>
+                                    <div class="info-value">
+                                        <input type="number" id="time-${req.row}" value="${req.actualTime || ''}" placeholder="분">
+                                    </div>
+                                </div>
+                            </div>
+                            ${req.note ? `<div class="note-box"><div class="note-label">📝 학생 메모</div><div class="note-text">${req.note}</div></div>` : ''}
+                            <div class="action-buttons">
+                                <button class="btn btn-reject" onclick="openRejectModal(${req.row})">
+                                    ↩️ 반려
+                                </button>
+                                <button class="btn btn-save" onclick="saveChanges(${req.row})">
+                                    💾 수정저장
+                                </button>
+                                <button class="btn btn-approve" onclick="approveRequest(${req.row})">
+                                    ✅ 승인
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 과목별 스타일 클래스
+        function getSubjectClass(subject) {
+            if (subject.includes('수학')) return 'math';
+            if (subject.includes('국어')) return 'korean';
+            if (subject.includes('영어')) return 'english';
+            if (subject.includes('과학') || subject.includes('물리') || subject.includes('화학') || subject.includes('생물')) return 'science';
+            if (subject.includes('사회') || subject.includes('역사') || subject.includes('지리')) return 'social';
+            return 'other';
+        }
+
+        // 시간 포맷
+        function formatTime(dateStr) {
+            if (!dateStr) return '';
+            const parts = dateStr.split(' ');
+            if (parts.length > 1) {
+                return parts[1].substring(0, 5);
+            }
+            return '';
+        }
+
+        // 수정 저장
+        async function saveChanges(row) {
+            const startPage = document.getElementById(`start-${row}`).value;
+            const endPage = document.getElementById(`end-${row}`).value;
+            const actualTime = document.getElementById(`time-${row}`).value;
+
+            try {
+                const url = `${API_URL}?action=updateRecord&row=${row}&startPage=${startPage}&endPage=${endPage}&actualTime=${actualTime}`;
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    showToast('✅ 수정되었습니다');
+                } else {
+                    showToast('❌ 수정 실패: ' + result.error);
+                }
+            } catch (error) {
+                showToast('❌ 오류 발생');
+            }
+        }
+
+        // 승인
+        async function approveRequest(row) {
+            try {
+                // 먼저 수정사항 저장
+                await saveChanges(row);
+                
+                const url = `${API_URL}?action=approveRecord&row=${row}`;
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    showToast('✅ 승인 완료!');
+                    todayApprovedCount++;
+                    document.getElementById('todayApproved').textContent = todayApprovedCount;
+                    
+                    // 카드 애니메이션 후 제거
+                    const card = document.getElementById(`card-${row}`);
+                    card.style.transition = 'all 0.3s ease';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateX(100px)';
+                    setTimeout(() => {
+                        loadRequests();
+                    }, 300);
+                } else {
+                    showToast('❌ 승인 실패: ' + result.error);
+                }
+            } catch (error) {
+                showToast('❌ 오류 발생');
+            }
+        }
+
+        // 반려 모달 열기
+        function openRejectModal(row) {
+            currentRejectRow = row;
+            document.getElementById('rejectModal').classList.add('show');
+            document.getElementById('rejectReason').value = '';
+            document.getElementById('rejectReason').focus();
+        }
+
+        // 반려 모달 닫기
+        function closeRejectModal() {
+            document.getElementById('rejectModal').classList.remove('show');
+            currentRejectRow = null;
+        }
+
+        // 반려 확인
+        async function confirmReject() {
+            if (!currentRejectRow) return;
+            
+            const reason = document.getElementById('rejectReason').value;
+            
+            try {
+                const url = `${API_URL}?action=rejectRecord&row=${currentRejectRow}&reason=${encodeURIComponent(reason)}`;
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    showToast('↩️ 반려되었습니다');
+                    closeRejectModal();
+                    loadRequests();
+                } else {
+                    showToast('❌ 반려 실패: ' + result.error);
+                }
+            } catch (error) {
+                showToast('❌ 오류 발생');
+            }
+        }
+
+        // 토스트 메시지
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 필터 변경 시 새로고침
+        document.getElementById('floorFilter').addEventListener('change', loadRequests);
+    </script>
+</body>
+</html>

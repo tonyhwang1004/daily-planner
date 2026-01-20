@@ -182,6 +182,15 @@
             background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
             color: white;
         }
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+        }
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.85rem; width: auto; }
         .btn-xs { padding: 0.35rem 0.75rem; font-size: 0.75rem; width: auto; }
         .card {
@@ -267,6 +276,140 @@
         .menu-item .icon.orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
         .menu-item .icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
         .menu-item .icon.red { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .menu-item .icon.pink { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
+
+        /* 오늘의 공부 표정 */
+        .mood-display {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .mood-emoji {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            animation: bounce 2s ease infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .mood-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+        .mood-subtext {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        /* 일기장 스타일 */
+        .diary-stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .diary-mood-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .diary-mood-emoji {
+            font-size: 3.5rem;
+        }
+        .diary-mood-info {
+            flex: 1;
+        }
+        .diary-study-time {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .diary-mood-text {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .diary-stats-row {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .diary-stat {
+            text-align: center;
+        }
+        .diary-stat-label {
+            display: block;
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+        .diary-stat-value {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .diary-prompts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .diary-prompt {
+            background: var(--gray-100);
+            padding: 0.4rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .diary-prompt:hover {
+            background: var(--accent);
+            color: white;
+        }
+        #diaryContent {
+            min-height: 200px;
+            resize: vertical;
+        }
+        .diary-word-count {
+            text-align: right;
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            margin-top: 0.5rem;
+        }
+        .diary-item {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .diary-item:hover {
+            background: var(--gray-100);
+        }
+        .diary-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .diary-item-date {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        .diary-item-emoji {
+            font-size: 1.5rem;
+        }
+        .diary-item-preview {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
         .menu-item h3 { font-size: 0.95rem; color: var(--gray-800); margin-bottom: 0.25rem; }
         .menu-item p { font-size: 0.75rem; color: var(--gray-500); }
         .bottom-nav {
@@ -530,6 +673,45 @@
             background: rgba(59, 130, 246, 0.05);
         }
 
+        /* 복사/공유 버튼 영역 */
+        .share-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+        .share-btn.copy {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            color: white;
+        }
+        .share-btn.copy:hover {
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+        .share-btn.kakao {
+            background: #FEE500;
+            color: #3C1E1E;
+        }
+        .share-btn.kakao:hover {
+            box-shadow: 0 8px 20px rgba(254, 229, 0, 0.5);
+        }
+
         /* 실천 기록 */
         .date-nav {
             display: flex;
@@ -696,6 +878,11 @@
             height: 6px;
             border-radius: 50%;
         }
+        .calendar-day .day-emoji {
+            position: absolute;
+            bottom: 2px;
+            font-size: 0.6rem;
+        }
         .rate-dot.high { background: var(--success); }
         .rate-dot.mid { background: var(--warning); }
         .rate-dot.low { background: var(--danger); }
@@ -765,6 +952,28 @@
             gap: 1rem;
         }
 
+        /* 미리보기 모달 */
+        .preview-content {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            font-family: 'Noto Sans KR', sans-serif;
+            max-height: 400px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        .preview-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .preview-actions .btn {
+            flex: 1;
+        }
+
         /* 토스트 */
         .toast {
             position: fixed;
@@ -781,6 +990,7 @@
             z-index: 300;
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { background: var(--success); }
 
         /* 빈 상태 */
         .empty-state {
@@ -950,13 +1160,19 @@
                     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
                 </div>
             </div>
+            <!-- 오늘의 공부 표정 -->
+            <div class="mood-display" id="todayMoodDisplay">
+                <div class="mood-emoji" id="todayMoodEmoji">😊</div>
+                <div class="mood-text" id="todayMoodText">오늘 8시간 이상 공부했어요!</div>
+            </div>
+
             <div class="menu-grid">
                 <div class="menu-item" onclick="showScreen('bookScreen')"><div class="icon blue"><i class="fas fa-book"></i></div><h3>교재 관리</h3><p>과목별 교재 등록</p></div>
                 <div class="menu-item" onclick="showScreen('planScreen')"><div class="icon green"><i class="fas fa-calendar-plus"></i></div><h3>주간 계획</h3><p>STEP 1 계획 수립</p></div>
                 <div class="menu-item" onclick="showScreen('recordScreen')"><div class="icon orange"><i class="fas fa-check-double"></i></div><h3>실천 기록</h3><p>STEP 2 실천 체크</p></div>
+                <div class="menu-item" onclick="showScreen('diaryScreen')"><div class="icon pink"><i class="fas fa-book-open"></i></div><h3>오늘의 일기</h3><p>하루 기록하기</p></div>
                 <div class="menu-item" onclick="showScreen('statsScreen')"><div class="icon purple"><i class="fas fa-trophy"></i></div><h3>통계/랭킹</h3><p>공부시간 랭킹</p></div>
                 <div class="menu-item" onclick="showScreen('calendarScreen')"><div class="icon red"><i class="fas fa-calendar-alt"></i></div><h3>학습 캘린더</h3><p>월간 학습 현황</p></div>
-                <div class="menu-item" onclick="showScreen('goalScreen')"><div class="icon orange"><i class="fas fa-bullseye"></i></div><h3>목표 설정</h3><p>주간/월간 목표</p></div>
             </div>
         </div>
 
@@ -1013,6 +1229,17 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- 복사/공유 버튼 -->
+            <div class="share-buttons">
+                <button class="share-btn copy" onclick="copyWeeklyPlan()">
+                    <i class="fas fa-copy"></i> 계획표 복사하기
+                </button>
+                <button class="share-btn copy" onclick="previewWeeklyPlan()" style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%);">
+                    <i class="fas fa-eye"></i> 미리보기
+                </button>
+            </div>
+
             <div style="margin-top: 1rem; text-align: center;">
                 <button class="btn btn-primary btn-sm" onclick="openModal('addPlanModal')" style="width: auto; padding: 0.75rem 1.5rem;">
                     <i class="fas fa-plus"></i> 계획 추가
@@ -1072,9 +1299,9 @@
                     <div class="calendar-day-header">토</div>
                 </div>
                 <div class="calendar-legend">
-                    <div class="legend-item"><div class="legend-dot" style="background: var(--success);"></div> 80% 이상</div>
-                    <div class="legend-item"><div class="legend-dot" style="background: var(--warning);"></div> 50~79%</div>
-                    <div class="legend-item"><div class="legend-dot" style="background: var(--danger);"></div> 50% 미만</div>
+                    <div class="legend-item"><span style="font-size: 1rem;">😊</span> 8시간↑</div>
+                    <div class="legend-item"><span style="font-size: 1rem;">🙂</span> 4~8시간</div>
+                    <div class="legend-item"><span style="font-size: 1rem;">😢</span> 4시간↓</div>
                 </div>
             </div>
             <div class="card" style="margin-top: 1rem;">
@@ -1083,6 +1310,73 @@
                     <div class="stat-card"><div class="stat-value" id="monthPlans">0</div><div class="stat-label">이달 계획</div></div>
                     <div class="stat-card"><div class="stat-value success" id="monthComplete">0</div><div class="stat-label">이달 완료</div></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- 일기장 화면 -->
+        <div class="screen" id="diaryScreen">
+            <div class="date-nav">
+                <button onclick="changeDiaryDate(-1)"><i class="fas fa-chevron-left"></i></button>
+                <span class="date-display" id="diaryDateDisplay">1월 20일</span>
+                <button onclick="changeDiaryDate(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <!-- 오늘의 공부 현황 -->
+            <div class="card diary-stats-card">
+                <div class="diary-mood-section">
+                    <div class="diary-mood-emoji" id="diaryMoodEmoji">😊</div>
+                    <div class="diary-mood-info">
+                        <div class="diary-study-time" id="diaryStudyTime">오늘 공부시간: 8시간 30분</div>
+                        <div class="diary-mood-text" id="diaryMoodText">잘했어요! 목표 달성!</div>
+                    </div>
+                </div>
+                <div class="diary-stats-row">
+                    <div class="diary-stat">
+                        <span class="diary-stat-label">완료</span>
+                        <span class="diary-stat-value" id="diaryCompleted">5개</span>
+                    </div>
+                    <div class="diary-stat">
+                        <span class="diary-stat-label">미완료</span>
+                        <span class="diary-stat-value" id="diaryFailed">1개</span>
+                    </div>
+                    <div class="diary-stat">
+                        <span class="diary-stat-label">실천율</span>
+                        <span class="diary-stat-value" id="diaryRate">83%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 일기 작성 영역 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fas fa-pen"></i> 오늘의 일기</div>
+                    <button class="btn btn-primary btn-sm" onclick="saveDiary()" id="saveDiaryBtn">
+                        <i class="fas fa-save"></i> 저장
+                    </button>
+                </div>
+                
+                <div class="diary-prompts">
+                    <span class="diary-prompt" onclick="insertPrompt('오늘 가장 열심히 한 과목은 ')">📚 열심히 한 과목</span>
+                    <span class="diary-prompt" onclick="insertPrompt('오늘의 반성: ')">💭 반성</span>
+                    <span class="diary-prompt" onclick="insertPrompt('내일 목표: ')">🎯 내일 목표</span>
+                    <span class="diary-prompt" onclick="insertPrompt('오늘 기분: ')">😊 기분</span>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 0;">
+                    <textarea id="diaryContent" rows="8" placeholder="오늘 하루는 어땠나요? 자유롭게 작성해보세요.&#10;&#10;예시:&#10;- 오늘 수학 문제가 어려웠지만 끝까지 풀었다&#10;- 영어 단어 50개 외웠다&#10;- 내일은 국어에 더 집중해야겠다"></textarea>
+                </div>
+                
+                <div class="diary-word-count">
+                    <span id="diaryWordCount">0</span>자
+                </div>
+            </div>
+
+            <!-- 최근 일기 목록 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fas fa-history"></i> 최근 일기</div>
+                </div>
+                <div id="recentDiaryList"></div>
             </div>
         </div>
 
@@ -1267,6 +1561,21 @@
         </div>
     </div>
 
+    <!-- 계획표 미리보기 모달 -->
+    <div class="modal-overlay" id="previewModal">
+        <div class="modal" style="max-width: 450px;">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-eye"></i> 계획표 미리보기</h3>
+                <button class="modal-close" onclick="closeModal('previewModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="preview-content" id="previewContent"></div>
+            <div class="preview-actions">
+                <button class="btn btn-primary" onclick="copyFromPreview()"><i class="fas fa-copy"></i> 복사하기</button>
+                <button class="btn btn-outline" onclick="closeModal('previewModal')">닫기</button>
+            </div>
+        </div>
+    </div>
+
     <div class="toast" id="toast">저장되었습니다!</div>
 
     <!-- 스톱워치 화면 -->
@@ -1308,6 +1617,10 @@
         let swPausedTime = 0;
         let swIsRunning = false;
         let swCurrentPlan = null;
+
+        // 일기장 변수
+        let diaryDate = new Date();
+        let diaryData = {};
 
         // 유틸리티 함수
         function getMonday(d) {
@@ -1380,6 +1693,7 @@
             await loadUserData();
             updateTodayDate();
             updateHomeStats();
+            updateHomeMood();
         }
 
         function logout() {
@@ -1766,6 +2080,180 @@
             }
         }
 
+        // =============================================
+        // 계획표 복사/공유 기능
+        // =============================================
+        function generateWeeklyPlanText() {
+            const weekDates = getWeekDates(currentWeekStart);
+            const month = weekDates[0].getMonth() + 1;
+            const weekNum = Math.ceil(weekDates[0].getDate() / 7);
+            const weekKey = formatDate(currentWeekStart);
+            const goals = weekGoals[weekKey] || {};
+            
+            let text = '';
+            text += '📚 김엄마독서실 주간 계획표\n';
+            text += '━━━━━━━━━━━━━━━━━━━━\n';
+            text += `👤 학생: ${currentUser.name} (${currentUser.floor})\n`;
+            text += `📅 ${month}월 ${weekNum}주차 (${formatDateKR(weekDates[0])}~${formatDateKR(weekDates[6])})\n\n`;
+            
+            // 이번주 목표
+            if (goals.goal1 || goals.goal2 || goals.goal3) {
+                text += '🎯 이번주 목표\n';
+                if (goals.goal1) text += `  1. ${goals.goal1}\n`;
+                if (goals.goal2) text += `  2. ${goals.goal2}\n`;
+                if (goals.goal3) text += `  3. ${goals.goal3}\n`;
+                text += '\n';
+            }
+            
+            text += '📖 주간 계획\n';
+            text += '━━━━━━━━━━━━━━━━━━━━\n';
+            
+            // 교재별로 그룹화
+            const bookGroups = {};
+            userBooks.forEach(book => {
+                const key = `${book.subject}|${book.name}`;
+                if (!bookGroups[key]) {
+                    bookGroups[key] = { subject: book.subject, name: book.name };
+                }
+            });
+            userPlans.forEach(plan => {
+                const key = `${plan.subject}|${plan.book}`;
+                if (!bookGroups[key]) {
+                    bookGroups[key] = { subject: plan.subject, name: plan.book };
+                }
+            });
+            
+            // 과목별로 정렬
+            const sortedBooks = Object.values(bookGroups).sort((a, b) => {
+                const order = ['국어', '수학', '영어', '물리', '화학', '생명', '지구과학', '한국사', '사회탐구'];
+                return order.indexOf(a.subject) - order.indexOf(b.subject);
+            });
+            
+            // 현재 과목 추적
+            let currentSubject = '';
+            
+            sortedBooks.forEach(book => {
+                // 해당 교재의 계획들
+                const bookPlans = [];
+                for (let i = 0; i < 7; i++) {
+                    const dateStr = formatDate(weekDates[i]);
+                    const dayPlans = userPlans.filter(p => 
+                        p.date === dateStr && p.subject === book.subject && p.book === book.name
+                    );
+                    if (dayPlans.length > 0) {
+                        dayPlans.forEach(plan => {
+                            let status = '⬜';
+                            if (plan.status === 'approved' || plan.status === 'O') status = '✅';
+                            else if (plan.status === 'failed' || plan.status === 'X') status = '❌';
+                            else if (plan.status === 'requested') status = '⏳';
+                            
+                            let pageInfo = '';
+                            if (plan.startPage && plan.endPage) {
+                                pageInfo = ` (p.${plan.startPage}~${plan.endPage})`;
+                            } else if (plan.planPages) {
+                                pageInfo = ` (${plan.planPages})`;
+                            }
+                            
+                            bookPlans.push({
+                                day: getDayName(i),
+                                date: weekDates[i].getDate(),
+                                status: status,
+                                pages: pageInfo
+                            });
+                        });
+                    }
+                }
+                
+                if (bookPlans.length > 0) {
+                    // 과목이 바뀌면 구분선
+                    if (currentSubject !== book.subject) {
+                        if (currentSubject !== '') text += '\n';
+                        text += `【${book.subject}】\n`;
+                        currentSubject = book.subject;
+                    }
+                    
+                    text += `  📕 ${book.name}\n`;
+                    bookPlans.forEach(p => {
+                        text += `     ${p.status} ${p.day}(${p.date})${p.pages}\n`;
+                    });
+                }
+            });
+            
+            // 통계 요약
+            const totalPlans = userPlans.length;
+            const completedPlans = userPlans.filter(p => p.status === 'approved' || p.status === 'O').length;
+            const pendingPlans = userPlans.filter(p => p.status === 'requested').length;
+            const failedPlans = userPlans.filter(p => p.status === 'failed' || p.status === 'X').length;
+            
+            text += '\n━━━━━━━━━━━━━━━━━━━━\n';
+            text += '📊 이번주 현황\n';
+            text += `  • 전체 계획: ${totalPlans}개\n`;
+            text += `  • 완료: ${completedPlans}개 ✅\n`;
+            text += `  • 검사대기: ${pendingPlans}개 ⏳\n`;
+            text += `  • 미완료: ${failedPlans}개 ❌\n`;
+            if (totalPlans > 0) {
+                const rate = Math.round(completedPlans / totalPlans * 100);
+                text += `  • 실천율: ${rate}%\n`;
+            }
+            text += '\n━━━━━━━━━━━━━━━━━━━━\n';
+            text += '김엄마독서실 일일플래너';
+            
+            return text;
+        }
+
+        function copyWeeklyPlan() {
+            const text = generateWeeklyPlanText();
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 계획표가 복사되었습니다!\n카카오톡에 붙여넣기 하세요', true);
+                }).catch(err => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('📋 계획표가 복사되었습니다!', true);
+            } catch (err) {
+                showToast('복사 실패. 다시 시도해주세요.');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function previewWeeklyPlan() {
+            const text = generateWeeklyPlanText();
+            document.getElementById('previewContent').textContent = text;
+            openModal('previewModal');
+        }
+
+        function copyFromPreview() {
+            const text = document.getElementById('previewContent').textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 계획표가 복사되었습니다!', true);
+                    closeModal('previewModal');
+                }).catch(err => {
+                    fallbackCopy(text);
+                    closeModal('previewModal');
+                });
+            } else {
+                fallbackCopy(text);
+                closeModal('previewModal');
+            }
+        }
+
         // 주간 목표
         async function loadGoals() {
             const result = await apiCall({
@@ -2074,11 +2562,11 @@
 
         // 캘린더
         async function initCalendarScreen() {
-            renderCalendar();
+            await renderCalendar();
             await loadMonthStats();
         }
 
-        function renderCalendar() {
+        async function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             const year = calendarMonth.getFullYear();
             const month = calendarMonth.getMonth();
@@ -2093,6 +2581,9 @@
             const lastDay = new Date(year, month + 1, 0);
             const startDay = firstDay.getDay();
             const today = formatDate(new Date());
+            
+            // 월간 공부시간 데이터 로드
+            const monthData = await loadMonthStudyData(year, month + 1);
             
             // 이전 달
             const prevLastDay = new Date(year, month, 0).getDate();
@@ -2110,6 +2601,22 @@
                 day.className = 'calendar-day';
                 if (dateStr === today) day.classList.add('today');
                 day.textContent = i;
+                
+                // 공부시간에 따른 이모지 추가
+                const studyTime = monthData[dateStr] || 0;
+                if (studyTime > 0) {
+                    const emoji = document.createElement('span');
+                    emoji.className = 'day-emoji';
+                    if (studyTime >= 480) {
+                        emoji.textContent = '😊';
+                    } else if (studyTime >= 240) {
+                        emoji.textContent = '🙂';
+                    } else {
+                        emoji.textContent = '😢';
+                    }
+                    day.appendChild(emoji);
+                }
+                
                 day.onclick = () => {
                     recordDate = new Date(dateStr);
                     showScreen('recordScreen');
@@ -2125,6 +2632,21 @@
                 day.textContent = i;
                 grid.appendChild(day);
             }
+        }
+
+        async function loadMonthStudyData(year, month) {
+            const result = await apiCall({
+                action: 'getMonthStudyData',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                year: year,
+                month: month
+            });
+            
+            if (result.success && result.data) {
+                return result.data;
+            }
+            return {};
         }
 
         async function loadMonthStats() {
@@ -2145,9 +2667,9 @@
             }
         }
 
-        function changeCalendarMonth(delta) {
+        async function changeCalendarMonth(delta) {
             calendarMonth.setMonth(calendarMonth.getMonth() + delta);
-            initCalendarScreen();
+            await initCalendarScreen();
         }
 
         // 목표 화면
@@ -2225,9 +2747,205 @@
             if (screenId === 'bookScreen') renderBookList();
             if (screenId === 'planScreen') await initPlanScreen();
             if (screenId === 'recordScreen') await initRecordScreen();
+            if (screenId === 'diaryScreen') await initDiaryScreen();
             if (screenId === 'statsScreen') await initStatsScreen();
             if (screenId === 'calendarScreen') await initCalendarScreen();
             if (screenId === 'goalScreen') renderGoalScreen();
+        }
+
+        // =============================================
+        // 일기장 기능
+        // =============================================
+        async function initDiaryScreen() {
+            document.getElementById('diaryDateDisplay').textContent = 
+                diaryDate.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
+            
+            // 해당 날짜 공부 현황 로드
+            await loadDiaryStats();
+            
+            // 해당 날짜 일기 로드
+            await loadDiary();
+            
+            // 최근 일기 목록 로드
+            await loadRecentDiaries();
+            
+            // 글자수 카운트 이벤트
+            const textarea = document.getElementById('diaryContent');
+            textarea.addEventListener('input', updateWordCount);
+        }
+
+        async function loadDiaryStats() {
+            const result = await apiCall({
+                action: 'getRecords',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(diaryDate)
+            });
+            
+            if (result.success) {
+                const records = result.records || [];
+                const completed = records.filter(r => r.status === 'approved' || r.status === 'O').length;
+                const failed = records.filter(r => r.status === 'failed' || r.status === 'X').length;
+                const totalTime = records.filter(r => r.status === 'approved' || r.status === 'O')
+                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
+                
+                const hours = Math.floor(totalTime / 60);
+                const minutes = totalTime % 60;
+                const rate = records.length > 0 ? Math.round(completed / records.length * 100) : 0;
+                
+                // 표정 결정 (8시간 = 480분 기준)
+                let emoji, moodText;
+                if (totalTime >= 480) {
+                    emoji = '😊';
+                    moodText = '잘했어요! 목표 달성!';
+                } else if (totalTime >= 240) {
+                    emoji = '🙂';
+                    moodText = '조금만 더 힘내요!';
+                } else if (totalTime > 0) {
+                    emoji = '😢';
+                    moodText = '내일은 더 열심히!';
+                } else {
+                    emoji = '😴';
+                    moodText = '아직 기록이 없어요';
+                }
+                
+                document.getElementById('diaryMoodEmoji').textContent = emoji;
+                document.getElementById('diaryStudyTime').textContent = 
+                    `공부시간: ${hours}시간 ${minutes}분`;
+                document.getElementById('diaryMoodText').textContent = moodText;
+                document.getElementById('diaryCompleted').textContent = completed + '개';
+                document.getElementById('diaryFailed').textContent = failed + '개';
+                document.getElementById('diaryRate').textContent = rate + '%';
+            }
+        }
+
+        async function loadDiary() {
+            const result = await apiCall({
+                action: 'getDiary',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(diaryDate)
+            });
+            
+            if (result.success && result.diary) {
+                document.getElementById('diaryContent').value = result.diary.content || '';
+                updateWordCount();
+            } else {
+                document.getElementById('diaryContent').value = '';
+                updateWordCount();
+            }
+        }
+
+        async function saveDiary() {
+            const content = document.getElementById('diaryContent').value.trim();
+            
+            const result = await apiCall({
+                action: 'saveDiary',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(diaryDate),
+                content: content
+            });
+            
+            if (result.success) {
+                showToast('📝 일기가 저장되었습니다!', true);
+                await loadRecentDiaries();
+            } else {
+                showToast('저장 실패. 다시 시도해주세요.');
+            }
+        }
+
+        async function loadRecentDiaries() {
+            const result = await apiCall({
+                action: 'getRecentDiaries',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                limit: 5
+            });
+            
+            const list = document.getElementById('recentDiaryList');
+            
+            if (result.success && result.diaries && result.diaries.length > 0) {
+                list.innerHTML = result.diaries.map(diary => {
+                    const date = new Date(diary.date);
+                    const dateStr = date.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
+                    const preview = diary.content.substring(0, 50) + (diary.content.length > 50 ? '...' : '');
+                    
+                    return `<div class="diary-item" onclick="viewDiary('${diary.date}')">
+                        <div class="diary-item-header">
+                            <span class="diary-item-date">${dateStr}</span>
+                            <span class="diary-item-emoji">${diary.emoji || '📝'}</span>
+                        </div>
+                        <div class="diary-item-preview">${preview}</div>
+                    </div>`;
+                }).join('');
+            } else {
+                list.innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><p>작성된 일기가 없습니다</p></div>';
+            }
+        }
+
+        function viewDiary(dateStr) {
+            diaryDate = new Date(dateStr);
+            initDiaryScreen();
+        }
+
+        function changeDiaryDate(delta) {
+            diaryDate.setDate(diaryDate.getDate() + delta);
+            initDiaryScreen();
+        }
+
+        function insertPrompt(text) {
+            const textarea = document.getElementById('diaryContent');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const value = textarea.value;
+            
+            textarea.value = value.substring(0, start) + '\n' + text + value.substring(end);
+            textarea.focus();
+            textarea.selectionStart = textarea.selectionEnd = start + text.length + 1;
+            updateWordCount();
+        }
+
+        function updateWordCount() {
+            const content = document.getElementById('diaryContent').value;
+            document.getElementById('diaryWordCount').textContent = content.length;
+        }
+
+        // 홈 화면 표정 업데이트
+        async function updateHomeMood() {
+            const result = await apiCall({
+                action: 'getRecords',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(new Date())
+            });
+            
+            if (result.success) {
+                const records = result.records || [];
+                const totalTime = records.filter(r => r.status === 'approved' || r.status === 'O')
+                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
+                
+                const hours = Math.floor(totalTime / 60);
+                const minutes = totalTime % 60;
+                
+                let emoji, moodText;
+                if (totalTime >= 480) { // 8시간 이상
+                    emoji = '😊';
+                    moodText = `오늘 ${hours}시간 ${minutes}분 공부! 대단해요!`;
+                } else if (totalTime >= 240) { // 4시간 이상
+                    emoji = '🙂';
+                    moodText = `현재 ${hours}시간 ${minutes}분 공부 중! 조금 더 힘내요!`;
+                } else if (totalTime > 0) {
+                    emoji = '😢';
+                    moodText = `아직 ${hours}시간 ${minutes}분... 8시간 목표 도전!`;
+                } else {
+                    emoji = '😴';
+                    moodText = '오늘 공부 기록이 없어요. 시작해볼까요?';
+                }
+                
+                document.getElementById('todayMoodEmoji').textContent = emoji;
+                document.getElementById('todayMoodText').textContent = moodText;
+            }
         }
 
         // 모달 & 토스트
@@ -2239,11 +2957,12 @@
             document.getElementById(modalId).classList.remove('active');
         }
 
-        function showToast(message) {
+        function showToast(message, isSuccess = false) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
+            toast.className = 'toast' + (isSuccess ? ' success' : '');
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
+            setTimeout(() => toast.classList.remove('show'), 2500);
         }
     </script>
 </body>

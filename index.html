@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>김엄마독서실 | 일일플래너</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,141 +26,82 @@
             --gray-700: #374151;
             --gray-800: #1f2937;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            height: 100%; 
+            overflow: hidden;
+            touch-action: manipulation;
+        }
         body {
             font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            min-height: 100vh;
+            background: var(--gray-100);
             color: var(--gray-800);
         }
-        .header {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            padding: 1rem 1.5rem;
+
+        /* 로그인 화면 */
+        .login-screen {
             position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .header-content {
-            max-width: 600px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--primary);
-        }
-        .logo i { font-size: 1.4rem; color: var(--accent); }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--gray-600);
-        }
-        .user-avatar {
-            width: 32px; height: 32px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
-            border-radius: 50%;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.8rem;
+            z-index: 1000;
+            padding: 1rem;
         }
-        .logout-btn {
-            background: none;
-            border: none;
-            color: var(--gray-400);
-            cursor: pointer;
-            padding: 0.25rem;
-            font-size: 1rem;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 70px 1rem 100px;
-            min-height: 100vh;
-        }
-        .screen { display: none; animation: fadeIn 0.3s ease; }
-        .screen.active { display: block; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .login-wrapper {
-            min-height: calc(100vh - 100px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .login-screen.hidden { display: none; }
         .login-box {
             background: white;
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 2.5rem 2rem;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            max-width: 380px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
         }
-        .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+        .login-header { text-align: center; margin-bottom: 2rem; }
         .login-header .icon {
-            width: 70px; height: 70px;
+            width: 80px; height: 80px;
             background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1rem;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: white;
         }
-        .login-header h1 { font-size: 1.5rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .login-header h1 { font-size: 1.6rem; color: var(--primary); margin-bottom: 0.5rem; }
         .login-header p { color: var(--gray-500); font-size: 0.9rem; }
         .form-group { margin-bottom: 1.25rem; }
         .form-group label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--gray-700);
             margin-bottom: 0.5rem;
         }
-        .form-group select,
-        .form-group input,
-        .form-group textarea {
+        .form-group select, .form-group input, .form-group textarea {
             width: 100%;
-            padding: 0.875rem 1rem;
+            padding: 1rem 1.25rem;
             border: 2px solid var(--gray-200);
-            border-radius: 12px;
-            font-size: 1rem;
+            border-radius: 14px;
+            font-size: 1.1rem;
             font-family: inherit;
             transition: all 0.2s;
             background: var(--gray-50);
         }
-        .form-group select:focus,
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group select:focus, .form-group input:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--accent);
             background: white;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
         }
         .btn {
             width: 100%;
-            padding: 1rem;
+            padding: 1.1rem;
             border: none;
-            border-radius: 12px;
-            font-size: 1rem;
+            border-radius: 14px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -170,333 +111,78 @@
             background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
             color: white;
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        .btn-primary:active { transform: scale(0.98); }
+
+        /* 메인 대시보드 */
+        .dashboard {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            height: 100dvh;
         }
-        .btn-success {
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+        .dashboard.active { display: flex; }
+
+        /* 상단 헤더 */
+        .top-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
-        }
-        .btn-danger {
-            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
-            color: white;
-        }
-        .btn-outline {
-            background: white;
-            border: 2px solid var(--accent);
-            color: var(--accent);
-        }
-        .btn-outline:hover {
-            background: var(--accent);
-            color: white;
-        }
-        .btn-sm { padding: 0.5rem 1rem; font-size: 0.85rem; width: auto; }
-        .btn-xs { padding: 0.35rem 0.75rem; font-size: 0.75rem; width: auto; }
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-        .card-header {
+            padding: 0.75rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            flex-shrink: 0;
         }
-        .card-title {
-            font-size: 1.1rem;
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .user-avatar {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
-            color: var(--primary);
+            font-size: 1rem;
+        }
+        .user-name { font-weight: 600; font-size: 1rem; }
+        .user-floor { font-size: 0.75rem; opacity: 0.8; }
+        .header-right {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        .card-title i { color: var(--accent); }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        .stat-card {
-            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
-        }
-        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--primary); }
-        .stat-value.success { color: var(--success); }
-        .stat-value.warning { color: var(--warning); }
-        .stat-label { font-size: 0.75rem; color: var(--gray-500); margin-top: 0.25rem; }
-        .progress-container { margin: 1rem 0; }
-        .progress-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem; }
-        .progress-bar { height: 10px; background: var(--gray-200); border-radius: 10px; overflow: hidden; }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent) 0%, var(--success) 100%);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .menu-item {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            border: 2px solid transparent;
-        }
-        .menu-item:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
-        }
-        .menu-item .icon {
-            width: 50px; height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 0.75rem;
-            font-size: 1.5rem;
-        }
-        .menu-item .icon.blue { background: rgba(59, 130, 246, 0.1); color: var(--accent); }
-        .menu-item .icon.green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-        .menu-item .icon.orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        .menu-item .icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
-        .menu-item .icon.red { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
-        .menu-item .icon.pink { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
-
-        /* 오늘의 공부 표정 */
-        .mood-display {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-        .mood-emoji {
-            font-size: 4rem;
-            margin-bottom: 0.5rem;
+        .mood-badge {
+            font-size: 1.8rem;
             animation: bounce 2s ease infinite;
         }
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-5px); }
         }
-        .mood-text {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--gray-700);
-        }
-        .mood-subtext {
-            font-size: 0.85rem;
-            color: var(--gray-500);
-            margin-top: 0.25rem;
-        }
-
-        /* 일기장 스타일 */
-        .diary-stats-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        .diary-mood-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        .diary-mood-emoji {
-            font-size: 3.5rem;
-        }
-        .diary-mood-info {
-            flex: 1;
-        }
-        .diary-study-time {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        .diary-mood-text {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        .diary-stats-row {
-            display: flex;
-            justify-content: space-around;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-        .diary-stat {
-            text-align: center;
-        }
-        .diary-stat-label {
-            display: block;
-            font-size: 0.75rem;
-            opacity: 0.8;
-        }
-        .diary-stat-value {
-            display: block;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        .diary-prompts {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .diary-prompt {
-            background: var(--gray-100);
-            padding: 0.4rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .diary-prompt:hover {
-            background: var(--accent);
-            color: white;
-        }
-        #diaryContent {
-            min-height: 200px;
-            resize: vertical;
-        }
-        .diary-word-count {
-            text-align: right;
-            font-size: 0.8rem;
-            color: var(--gray-400);
-            margin-top: 0.5rem;
-        }
-        .diary-item {
-            background: var(--gray-50);
-            border-radius: 12px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .diary-item:hover {
-            background: var(--gray-100);
-        }
-        .diary-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        .diary-item-date {
-            font-weight: 600;
-            color: var(--gray-800);
-        }
-        .diary-item-emoji {
-            font-size: 1.5rem;
-        }
-        .diary-item-preview {
-            font-size: 0.85rem;
-            color: var(--gray-600);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .menu-item h3 { font-size: 0.95rem; color: var(--gray-800); margin-bottom: 0.25rem; }
-        .menu-item p { font-size: 0.75rem; color: var(--gray-500); }
-        .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: white;
-            padding: 0.5rem 1rem;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
-            z-index: 100;
-        }
-        .bottom-nav-content {
-            max-width: 600px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-around;
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            color: var(--gray-400);
-            cursor: pointer;
-            transition: all 0.2s;
-            border-radius: 12px;
-        }
-        .nav-item.active { color: var(--accent); }
-        .nav-item i { font-size: 1.25rem; margin-bottom: 0.25rem; }
-        .nav-item span { font-size: 0.7rem; font-weight: 500; }
-
-        /* 교재 아이템 */
-        .book-item {
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .book-info h4 { font-size: 0.95rem; color: var(--gray-800); }
-        .book-info p { font-size: 0.8rem; color: var(--gray-500); }
-        .book-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .subject-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .badge-korean { background: #fef3c7; color: #d97706; }
-        .badge-math { background: #dbeafe; color: #2563eb; }
-        .badge-english { background: #dcfce7; color: #16a34a; }
-        .badge-science { background: #f3e8ff; color: #9333ea; }
-        .badge-social { background: #fce7f3; color: #db2777; }
-        .delete-btn {
-            width: 32px;
-            height: 32px;
+        .header-btn {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.15);
             border: none;
-            background: var(--gray-200);
-            color: var(--gray-500);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .delete-btn:hover {
-            background: var(--danger);
+            border-radius: 12px;
             color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
         }
 
-        /* 주간 계획표 (표 형식) */
-        .week-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
+        /* 날짜/주차 선택 바 */
+        .week-bar {
             background: white;
-            border-radius: 12px;
-            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--gray-200);
+            flex-shrink: 0;
         }
-        .week-nav-btn {
+        .week-nav {
             width: 36px; height: 36px;
             border: none;
             background: var(--gray-100);
@@ -506,473 +192,450 @@
             align-items: center;
             justify-content: center;
             color: var(--gray-600);
-            transition: all 0.2s;
+            font-size: 1rem;
         }
-        .week-nav-btn:hover { background: var(--accent); color: white; }
-        .week-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary);
+        .week-nav:active { background: var(--accent); color: white; }
+        .week-info { text-align: center; }
+        .week-title { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
+        .week-range { font-size: 0.8rem; color: var(--gray-500); }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            flex: 1;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* 이번주 목표 */
-        .goal-box {
+        /* 이번주 목표 (접이식) */
+        .goal-section {
             background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border-radius: 12px;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            margin: 0.75rem;
+            border-radius: 14px;
+            overflow: hidden;
         }
         .goal-header {
+            padding: 0.75rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            cursor: pointer;
         }
         .goal-title {
             font-weight: 700;
             color: #92400e;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
-        .goal-edit-btn {
+        .goal-toggle {
             background: none;
             border: none;
             color: #92400e;
+            font-size: 1rem;
             cursor: pointer;
-            font-size: 0.85rem;
+            transition: transform 0.3s;
         }
+        .goal-toggle.open { transform: rotate(180deg); }
         .goal-content {
+            padding: 0 1rem 0.75rem;
             font-size: 0.85rem;
             color: #78350f;
-            line-height: 1.5;
+            display: none;
         }
-        .goal-content p {
-            margin-bottom: 0.25rem;
-        }
+        .goal-content.open { display: block; }
 
-        /* 주간 계획 테이블 */
-        .weekly-table-container {
-            overflow-x: auto;
+        /* 주간 계획표 */
+        .plan-table-container {
+            margin: 0 0.5rem 0.75rem;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
         }
-        .weekly-table {
+        .plan-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.75rem;
-            table-layout: fixed;
+            font-size: 0.7rem;
         }
-        .weekly-table th {
+        .plan-table th {
             background: var(--primary);
             color: white;
-            padding: 8px 4px;
+            padding: 10px 4px;
             font-weight: 600;
             text-align: center;
             position: sticky;
             top: 0;
+            z-index: 10;
         }
-        .weekly-table th:first-child { width: 40px; }
-        .weekly-table th:nth-child(2) { width: 55px; }
-        .weekly-table th:first-child,
-        .weekly-table th:nth-child(2) {
-            background: var(--primary);
+        .plan-table th:first-child { 
+            width: 50px; 
+            left: 0;
+            z-index: 11;
         }
-        .weekly-table td {
+        .plan-table td {
             padding: 4px 2px;
             border: 1px solid var(--gray-200);
             text-align: center;
             vertical-align: top;
-            height: 50px;
-            font-size: 0.7rem;
+            min-height: 55px;
+            height: 55px;
         }
-        .weekly-table td:first-child,
-        .weekly-table td:nth-child(2) {
+        .plan-table td:first-child {
             background: var(--gray-50);
             font-weight: 600;
             font-size: 0.65rem;
-        }
-        .weekly-table tr:hover td {
-            background: rgba(59, 130, 246, 0.05);
-        }
-        .weekly-table tr:hover td:first-child,
-        .weekly-table tr:hover td:nth-child(2) {
-            background: var(--gray-100);
+            position: sticky;
+            left: 0;
+            z-index: 5;
         }
         .day-header {
             display: flex;
             flex-direction: column;
             align-items: center;
+            line-height: 1.2;
         }
-        .day-name { font-size: 0.65rem; }
-        .day-date { font-size: 0.8rem; font-weight: 700; }
-        .day-header.today {
-            color: var(--accent);
-        }
-        .day-header.sat { color: #3b82f6; }
-        .day-header.sun { color: #ef4444; }
+        .day-name { font-size: 0.65rem; opacity: 0.9; }
+        .day-date { font-size: 0.85rem; font-weight: 700; }
+        .day-header.today { color: #fbbf24; }
+        .day-header.sat { color: #93c5fd; }
+        .day-header.sun { color: #fca5a5; }
 
         /* 셀 내용 */
         .cell-content {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            min-height: 30px;
+            gap: 3px;
+            min-height: 45px;
+            padding: 2px;
         }
         .cell-plan {
             background: var(--gray-100);
-            border-radius: 3px;
-            padding: 2px 3px;
-            font-size: 0.6rem;
+            border-radius: 6px;
+            padding: 4px 6px;
+            font-size: 0.65rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
             position: relative;
+            text-align: left;
+            border-left: 3px solid var(--gray-300);
         }
-        .cell-plan:hover {
-            background: var(--gray-200);
-        }
+        .cell-plan:active { transform: scale(0.96); }
         .cell-plan.completed {
-            background: rgba(16, 185, 129, 0.2);
-            border-left: 3px solid var(--success);
+            background: rgba(16, 185, 129, 0.15);
+            border-left-color: var(--success);
         }
         .cell-plan.failed {
-            background: rgba(239, 68, 68, 0.2);
-            border-left: 3px solid var(--danger);
+            background: rgba(239, 68, 68, 0.15);
+            border-left-color: var(--danger);
         }
         .cell-plan.pending {
-            background: rgba(245, 158, 11, 0.2);
-            border-left: 3px solid var(--warning);
+            background: rgba(245, 158, 11, 0.15);
+            border-left-color: var(--warning);
+        }
+        .cell-plan .book-name {
+            font-weight: 600;
+            color: var(--gray-700);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .cell-plan .pages {
             font-size: 0.55rem;
             color: var(--gray-500);
         }
-        .cell-plan .status-icon {
+        .cell-plan .status-emoji {
             position: absolute;
-            top: 1px;
-            right: 1px;
-            font-size: 0.5rem;
+            top: 2px;
+            right: 3px;
+            font-size: 0.7rem;
         }
         .cell-add {
             width: 100%;
-            height: 100%;
-            min-height: 30px;
-            border: 1px dashed var(--gray-300);
+            min-height: 40px;
+            border: 2px dashed var(--gray-300);
             background: transparent;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             color: var(--gray-400);
-            transition: all 0.2s;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
         }
-        .cell-add:hover {
+        .cell-add:active {
             border-color: var(--accent);
             color: var(--accent);
             background: rgba(59, 130, 246, 0.05);
         }
 
-        /* 복사/공유 버튼 영역 */
-        .share-buttons {
+        /* 하단 퀵 액션 바 */
+        .quick-actions {
+            background: white;
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--gray-200);
+            flex-shrink: 0;
+        }
+        .action-buttons {
             display: flex;
             gap: 0.5rem;
-            margin-top: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+            overflow-x: auto;
+            padding-bottom: 0.25rem;
         }
-        .share-btn {
-            display: inline-flex;
+        .action-btn {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.25rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            justify-content: center;
+            width: 70px;
+            height: 65px;
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: inherit;
         }
-        .share-btn:hover {
-            transform: translateY(-2px);
+        .action-btn:active {
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.1);
         }
-        .share-btn.copy {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
-            color: white;
+        .action-btn i {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
         }
-        .share-btn.copy:hover {
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        .action-btn span {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--gray-600);
         }
-        .share-btn.kakao {
-            background: #FEE500;
-            color: #3C1E1E;
-        }
-        .share-btn.kakao:hover {
-            box-shadow: 0 8px 20px rgba(254, 229, 0, 0.5);
-        }
+        .action-btn.blue i { color: var(--accent); }
+        .action-btn.green i { color: var(--success); }
+        .action-btn.orange i { color: var(--warning); }
+        .action-btn.purple i { color: #8b5cf6; }
+        .action-btn.pink i { color: #ec4899; }
+        .action-btn.red i { color: var(--danger); }
 
-        /* 실천 기록 */
-        .date-nav {
-            display: flex;
-            align-items: center;
+        /* 모달 기본 스타일 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 500;
+            align-items: flex-end;
             justify-content: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: white;
-            border-radius: 12px;
-            margin-bottom: 1rem;
         }
-        .date-nav button {
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 24px 24px 0 0;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .modal-handle {
+            width: 40px;
+            height: 5px;
+            background: var(--gray-300);
+            border-radius: 3px;
+            margin: 10px auto;
+        }
+        .modal-header {
+            padding: 0 1.25rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .modal-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .modal-close {
             width: 36px; height: 36px;
             border: none;
             background: var(--gray-100);
             border-radius: 50%;
             cursor: pointer;
+            color: var(--gray-500);
+            font-size: 1rem;
+        }
+        .modal-body {
+            padding: 1.25rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .modal-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            gap: 0.75rem;
+        }
+        .modal-footer .btn { flex: 1; }
+
+        /* 펜슬 입력 영역 */
+        .pencil-input-area {
+            background: #fffef5;
+            border: 2px solid var(--gray-300);
+            border-radius: 14px;
+            min-height: 150px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        .pencil-canvas {
+            width: 100%;
+            height: 200px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        .pencil-tools {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+        }
+        .pencil-tool {
+            width: 36px; height: 36px;
+            border: 2px solid var(--gray-300);
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--gray-600);
-            transition: all 0.2s;
+            font-size: 1rem;
         }
-        .date-nav button:hover { background: var(--accent); color: white; }
-        .date-display {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary);
-            min-width: 150px;
-            text-align: center;
+        .pencil-tool.active {
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.1);
         }
-        .plan-item {
-            background: white;
-            border: 2px solid var(--gray-200);
-            border-radius: 12px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            transition: all 0.2s;
-        }
-        .plan-item.approved { border-color: var(--success); background: rgba(16, 185, 129, 0.05); }
-        .plan-item.failed { border-color: var(--danger); background: rgba(239, 68, 68, 0.05); }
-        .plan-item.requested { border-color: var(--warning); background: rgba(245, 158, 11, 0.05); }
-        .plan-header {
+        .pencil-colors {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.75rem;
+            gap: 0.25rem;
+            margin-left: auto;
         }
-        .plan-title { font-weight: 600; color: var(--gray-800); }
-        .plan-subtitle { font-size: 0.8rem; color: var(--gray-500); }
-        .plan-actions { display: flex; gap: 0.5rem; }
-        .plan-btn {
+        .color-btn {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .color-btn.active { border-color: var(--gray-800); }
+
+        /* 텍스트 입력 (대형) */
+        .large-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            min-height: 120px;
+            resize: none;
+            background: #fffef5;
+        }
+        .large-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        /* 입력 모드 선택 탭 */
+        .input-mode-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            background: var(--gray-100);
+            border-radius: 12px;
+            padding: 4px;
+        }
+        .mode-tab {
             flex: 1;
-            padding: 0.625rem;
+            padding: 0.75rem;
             border: none;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            background: transparent;
+            border-radius: 10px;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
+            color: var(--gray-500);
             transition: all 0.2s;
         }
-        .plan-btn.timer {
+        .mode-tab.active {
+            background: white;
+            color: var(--accent);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 실천 기록 카드 */
+        .record-card {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 14px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .record-card.completed { border-color: var(--success); background: rgba(16, 185, 129, 0.05); }
+        .record-card.failed { border-color: var(--danger); background: rgba(239, 68, 68, 0.05); }
+        .record-card.pending { border-color: var(--warning); background: rgba(245, 158, 11, 0.05); }
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .record-title { font-weight: 700; font-size: 1rem; }
+        .record-subject { font-size: 0.8rem; color: var(--gray-500); }
+        .record-status {
+            font-size: 1.5rem;
+        }
+        .record-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .record-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+        .record-btn.primary {
             background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
             color: white;
         }
-        .plan-btn.complete { background: var(--success); color: white; }
-        .plan-btn.fail { background: var(--gray-200); color: var(--gray-600); }
+        .record-btn.success { background: var(--success); color: white; }
+        .record-btn.danger { background: var(--gray-200); color: var(--gray-600); }
 
-        /* 랭킹 */
-        .ranking-item {
+        /* 일기장 */
+        .diary-mood {
             display: flex;
             align-items: center;
-            padding: 0.75rem;
-            border-radius: 10px;
-            margin-bottom: 0.5rem;
-            background: var(--gray-50);
-        }
-        .ranking-item.top-1 { background: linear-gradient(135deg, #fef3c7, #fde68a); }
-        .ranking-item.top-2 { background: linear-gradient(135deg, #e5e7eb, #d1d5db); }
-        .ranking-item.top-3 { background: linear-gradient(135deg, #fed7aa, #fdba74); }
-        .ranking-num {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: var(--gray-200);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.85rem;
-            margin-right: 0.75rem;
-        }
-        .top-1 .ranking-num { background: #fbbf24; color: white; }
-        .top-2 .ranking-num { background: #9ca3af; color: white; }
-        .top-3 .ranking-num { background: #f97316; color: white; }
-        .ranking-info { flex: 1; }
-        .ranking-name { font-weight: 600; font-size: 0.9rem; }
-        .ranking-detail { font-size: 0.75rem; color: var(--gray-500); }
-        .ranking-score { font-weight: 700; color: var(--accent); }
-
-        /* 캘린더 */
-        .calendar-container {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 14px;
+            color: white;
             margin-bottom: 1rem;
         }
-        .calendar-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        .calendar-nav {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-        }
-        .calendar-day-header {
-            text-align: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--gray-500);
-            padding: 8px 0;
-        }
-        .calendar-day-header:first-child { color: var(--danger); }
-        .calendar-day-header:last-child { color: var(--accent); }
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-        .calendar-day:hover {
-            background: var(--gray-100);
-        }
-        .calendar-day.today {
-            background: var(--accent);
-            color: white;
-            font-weight: 700;
-        }
-        .calendar-day.other-month {
-            color: var(--gray-300);
-        }
-        .calendar-day .rate-dot {
-            position: absolute;
-            bottom: 4px;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-        }
-        .calendar-day .day-emoji {
-            position: absolute;
-            bottom: 2px;
-            font-size: 0.6rem;
-        }
-        .rate-dot.high { background: var(--success); }
-        .rate-dot.mid { background: var(--warning); }
-        .rate-dot.low { background: var(--danger); }
-        .calendar-legend {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-            font-size: 0.75rem;
-            color: var(--gray-500);
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .legend-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        /* 모달 */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 200;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-        .modal-overlay.active { display: flex; }
-        .modal {
-            background: white;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 400px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 1.5rem;
-            animation: modalIn 0.3s ease;
-        }
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        .modal-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
-        .modal-close {
-            width: 32px; height: 32px;
-            border: none;
-            background: var(--gray-100);
-            border-radius: 50%;
-            cursor: pointer;
-            color: var(--gray-500);
-        }
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        /* 미리보기 모달 */
-        .preview-content {
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
-            padding: 1rem;
-            font-size: 0.85rem;
-            white-space: pre-wrap;
-            font-family: 'Noto Sans KR', sans-serif;
-            max-height: 400px;
-            overflow-y: auto;
-            line-height: 1.6;
-        }
-        .preview-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        .preview-actions .btn {
-            flex: 1;
-        }
+        .diary-emoji { font-size: 3rem; }
+        .diary-info h3 { font-size: 1.1rem; font-weight: 700; }
+        .diary-info p { font-size: 0.85rem; opacity: 0.9; }
 
         /* 토스트 */
         .toast {
@@ -982,81 +645,56 @@
             transform: translateX(-50%) translateY(20px);
             background: var(--gray-800);
             color: white;
-            padding: 0.875rem 1.5rem;
-            border-radius: 12px;
-            font-size: 0.9rem;
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            font-size: 0.95rem;
             opacity: 0;
             transition: all 0.3s;
-            z-index: 300;
+            z-index: 600;
+            text-align: center;
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .toast.success { background: var(--success); }
 
-        /* 빈 상태 */
-        .empty-state {
-            text-align: center;
-            padding: 2rem;
-            color: var(--gray-400);
-        }
-        .empty-state i { font-size: 2.5rem; margin-bottom: 0.75rem; }
-        .empty-state p { font-size: 0.9rem; }
-
-        /* 스톱워치 */
-        .stopwatch-container {
+        /* 스톱워치 전체화면 */
+        .stopwatch-screen {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            z-index: 500;
+            z-index: 600;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
         }
-        .stopwatch-container.active { display: flex; }
-        .stopwatch-subject {
-            font-size: 1rem;
-            opacity: 0.7;
-            margin-bottom: 0.25rem;
-        }
-        .stopwatch-book {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-        }
-        .stopwatch-display {
+        .stopwatch-screen.active { display: flex; }
+        .sw-subject { font-size: 1rem; opacity: 0.7; }
+        .sw-book { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; }
+        .sw-display {
             font-size: 5rem;
             font-weight: 700;
             font-family: 'Courier New', monospace;
             letter-spacing: 4px;
         }
-        .stopwatch-seconds {
-            font-size: 2rem;
-            opacity: 0.7;
-            font-family: 'Courier New', monospace;
-            margin-bottom: 1rem;
-        }
-        .stopwatch-status {
+        .sw-status {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 3rem;
+            margin: 1rem 0 3rem;
         }
-        .status-dot {
+        .sw-dot {
             width: 12px; height: 12px;
             border-radius: 50%;
             background: var(--success);
             animation: pulse 1.5s infinite;
         }
-        .status-dot.paused {
-            background: var(--warning);
-            animation: none;
-        }
+        .sw-dot.paused { background: var(--warning); animation: none; }
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        .stopwatch-buttons {
+        .sw-buttons {
             display: flex;
             gap: 1.5rem;
         }
@@ -1066,563 +704,462 @@
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        .sw-btn:active { transform: scale(0.95); }
-        .sw-btn-pause { background: var(--warning); color: white; }
-        .sw-btn-play { background: var(--success); color: white; }
-        .sw-btn-stop { background: var(--danger); color: white; }
-        .sw-btn-cancel { background: var(--gray-500); color: white; }
-        .stopwatch-info {
-            position: absolute;
-            bottom: 50px;
-            color: rgba(255,255,255,0.5);
-            font-size: 0.85rem;
-        }
+        .sw-btn.cancel { background: var(--gray-500); color: white; }
+        .sw-btn.pause { background: var(--warning); color: white; }
+        .sw-btn.play { background: var(--success); color: white; }
+        .sw-btn.stop { background: var(--danger); color: white; }
 
-        /* 상벌점 표시 */
-        .point-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        .point-badge.plus {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-        .point-badge.minus {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
+        /* 숨김 */
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <header class="header" id="mainHeader" style="display: none;">
-        <div class="header-content">
-            <div class="logo"><i class="fas fa-book-open"></i><span>김엄마독서실</span></div>
-            <div class="user-info">
-                <span id="headerUserName">김연서</span>
-                <div class="user-avatar" id="headerAvatar">김</div>
-                <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+    <!-- 로그인 화면 -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="icon"><i class="fas fa-calendar-check"></i></div>
+                <h1>일일플래너</h1>
+                <p>김엄마독서실 학습 관리</p>
             </div>
+            <div class="form-group">
+                <label>층 선택</label>
+                <select id="loginFloor" onchange="loadStudents()">
+                    <option value="">선택해주세요</option>
+                    <option value="7층">7층</option>
+                    <option value="8층">8층</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>이름</label>
+                <select id="loginName">
+                    <option value="">층을 먼저 선택해주세요</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> 시작하기
+            </button>
         </div>
-    </header>
+    </div>
 
-    <div class="container">
-        <!-- 로그인 화면 -->
-        <div class="screen active" id="loginScreen">
-            <div class="login-wrapper">
-                <div class="login-box">
-                    <div class="login-header">
-                        <div class="icon"><i class="fas fa-calendar-check"></i></div>
-                        <h1>일일플래너</h1>
-                        <p>김엄마독서실 학습 관리 시스템</p>
-                    </div>
-                    <div class="form-group">
-                        <label>층 선택</label>
-                        <select id="loginFloor" onchange="loadStudentsByFloor()">
-                            <option value="">선택해주세요</option>
-                            <option value="7층">7층</option>
-                            <option value="8층">8층</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>이름</label>
-                        <select id="loginName"><option value="">층을 먼저 선택해주세요</option></select>
-                    </div>
-                    <button class="btn btn-primary" onclick="login()"><i class="fas fa-sign-in-alt"></i> 시작하기</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 홈 화면 -->
-        <div class="screen" id="homeScreen">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><i class="fas fa-chart-pie"></i> 오늘의 학습 현황</div>
-                    <span id="todayDate" style="font-size: 0.85rem; color: var(--gray-500);"></span>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-value" id="statPlan">0</div><div class="stat-label">오늘 계획</div></div>
-                    <div class="stat-card"><div class="stat-value success" id="statComplete">0</div><div class="stat-label">완료</div></div>
-                    <div class="stat-card"><div class="stat-value" id="statTime">0h</div><div class="stat-label">공부시간</div></div>
-                    <div class="stat-card"><div class="stat-value warning" id="statPoint">0</div><div class="stat-label">상점</div></div>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-header"><span>실천율</span><span id="progressPercent">0%</span></div>
-                    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
-                </div>
-            </div>
-            <!-- 오늘의 공부 표정 -->
-            <div class="mood-display" id="todayMoodDisplay">
-                <div class="mood-emoji" id="todayMoodEmoji">😊</div>
-                <div class="mood-text" id="todayMoodText">오늘 8시간 이상 공부했어요!</div>
-            </div>
-
-            <div class="menu-grid">
-                <div class="menu-item" onclick="showScreen('bookScreen')"><div class="icon blue"><i class="fas fa-book"></i></div><h3>교재 관리</h3><p>과목별 교재 등록</p></div>
-                <div class="menu-item" onclick="showScreen('planScreen')"><div class="icon green"><i class="fas fa-calendar-plus"></i></div><h3>주간 계획</h3><p>STEP 1 계획 수립</p></div>
-                <div class="menu-item" onclick="showScreen('recordScreen')"><div class="icon orange"><i class="fas fa-check-double"></i></div><h3>실천 기록</h3><p>STEP 2 실천 체크</p></div>
-                <div class="menu-item" onclick="showScreen('diaryScreen')"><div class="icon pink"><i class="fas fa-book-open"></i></div><h3>오늘의 일기</h3><p>하루 기록하기</p></div>
-                <div class="menu-item" onclick="showScreen('statsScreen')"><div class="icon purple"><i class="fas fa-trophy"></i></div><h3>통계/랭킹</h3><p>공부시간 랭킹</p></div>
-                <div class="menu-item" onclick="showScreen('calendarScreen')"><div class="icon red"><i class="fas fa-calendar-alt"></i></div><h3>학습 캘린더</h3><p>월간 학습 현황</p></div>
-            </div>
-        </div>
-
-        <!-- 교재 관리 화면 -->
-        <div class="screen" id="bookScreen">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><i class="fas fa-book"></i> 내 교재 목록</div>
-                    <button class="btn btn-primary btn-sm" onclick="openModal('addBookModal')"><i class="fas fa-plus"></i> 추가</button>
-                </div>
-                <div id="bookList"></div>
-            </div>
-        </div>
-
-        <!-- 주간 계획 화면 (테이블 형식) -->
-        <div class="screen" id="planScreen">
-            <div class="week-header">
-                <button class="week-nav-btn" onclick="changeWeek(-1)"><i class="fas fa-chevron-left"></i></button>
+    <!-- 메인 대시보드 -->
+    <div class="dashboard" id="dashboard">
+        <!-- 상단 헤더 -->
+        <div class="top-header">
+            <div class="header-left">
+                <div class="user-avatar" id="userAvatar">김</div>
                 <div>
-                    <div class="week-title" id="weekTitle">1월 2주차</div>
-                    <div style="font-size: 0.8rem; color: var(--gray-500); text-align: center;" id="weekRange">1/6(월) ~ 1/12(일)</div>
+                    <div class="user-name" id="userName">김연서</div>
+                    <div class="user-floor" id="userFloor">7층</div>
                 </div>
-                <button class="week-nav-btn" onclick="changeWeek(1)"><i class="fas fa-chevron-right"></i></button>
             </div>
+            <div class="header-right">
+                <div class="mood-badge" id="todayMood">😊</div>
+                <button class="header-btn" onclick="copyWeekPlan()"><i class="fas fa-share-alt"></i></button>
+                <button class="header-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
 
+        <!-- 주차 선택 바 -->
+        <div class="week-bar">
+            <button class="week-nav" onclick="changeWeek(-1)"><i class="fas fa-chevron-left"></i></button>
+            <div class="week-info">
+                <div class="week-title" id="weekTitle">1월 3주차</div>
+                <div class="week-range" id="weekRange">1/20(월) ~ 1/26(일)</div>
+            </div>
+            <button class="week-nav" onclick="changeWeek(1)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <!-- 메인 콘텐츠 -->
+        <div class="main-content">
             <!-- 이번주 목표 -->
-            <div class="goal-box" id="weekGoalBox">
-                <div class="goal-header">
+            <div class="goal-section">
+                <div class="goal-header" onclick="toggleGoal()">
                     <span class="goal-title">🎯 이번주 목표</span>
-                    <button class="goal-edit-btn" onclick="openModal('editGoalModal')"><i class="fas fa-edit"></i> 수정</button>
+                    <button class="goal-toggle" id="goalToggle"><i class="fas fa-chevron-down"></i></button>
                 </div>
-                <div class="goal-content" id="weekGoalContent">
-                    <p>목표를 설정해주세요!</p>
+                <div class="goal-content" id="goalContent">
+                    <div id="goalText">목표를 설정해주세요!</div>
                 </div>
             </div>
 
             <!-- 주간 계획표 -->
-            <div class="weekly-table-container">
-                <table class="weekly-table" id="weeklyTable">
+            <div class="plan-table-container">
+                <table class="plan-table" id="planTable">
                     <thead>
                         <tr>
-                            <th>과목</th>
-                            <th>교재명</th>
-                            <th id="dayHeader0">월</th>
-                            <th id="dayHeader1">화</th>
-                            <th id="dayHeader2">수</th>
-                            <th id="dayHeader3">목</th>
-                            <th id="dayHeader4">금</th>
-                            <th id="dayHeader5">토</th>
-                            <th id="dayHeader6">일</th>
+                            <th>교재</th>
+                            <th id="day0"></th>
+                            <th id="day1"></th>
+                            <th id="day2"></th>
+                            <th id="day3"></th>
+                            <th id="day4"></th>
+                            <th id="day5"></th>
+                            <th id="day6"></th>
                         </tr>
                     </thead>
-                    <tbody id="weeklyTableBody">
-                    </tbody>
+                    <tbody id="planTableBody"></tbody>
                 </table>
             </div>
+        </div>
 
-            <!-- 복사/공유 버튼 -->
-            <div class="share-buttons">
-                <button class="share-btn copy" onclick="copyWeeklyPlan()">
-                    <i class="fas fa-copy"></i> 계획표 복사하기
+        <!-- 하단 퀵 액션 -->
+        <div class="quick-actions">
+            <div class="action-buttons">
+                <button class="action-btn blue" onclick="openModal('addBookModal')">
+                    <i class="fas fa-plus"></i>
+                    <span>교재추가</span>
                 </button>
-                <button class="share-btn copy" onclick="previewWeeklyPlan()" style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%);">
-                    <i class="fas fa-eye"></i> 미리보기
+                <button class="action-btn green" onclick="openModal('addPlanModal')">
+                    <i class="fas fa-calendar-plus"></i>
+                    <span>계획추가</span>
                 </button>
-            </div>
-
-            <div style="margin-top: 1rem; text-align: center;">
-                <button class="btn btn-primary btn-sm" onclick="openModal('addPlanModal')" style="width: auto; padding: 0.75rem 1.5rem;">
-                    <i class="fas fa-plus"></i> 계획 추가
+                <button class="action-btn orange" onclick="openTodayRecord()">
+                    <i class="fas fa-check-double"></i>
+                    <span>오늘실천</span>
                 </button>
-            </div>
-        </div>
-
-        <!-- 실천 기록 화면 -->
-        <div class="screen" id="recordScreen">
-            <div class="date-nav">
-                <button onclick="changeRecordDate(-1)"><i class="fas fa-chevron-left"></i></button>
-                <span class="date-display" id="recordDateDisplay">1월 13일</span>
-                <button onclick="changeRecordDate(1)"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="card">
-                <div class="card-header"><div class="card-title"><i class="fas fa-check-double"></i> 오늘의 실천</div></div>
-                <div id="recordList"></div>
-            </div>
-        </div>
-
-        <!-- 통계/랭킹 화면 -->
-        <div class="screen" id="statsScreen">
-            <div class="card">
-                <div class="card-header"><div class="card-title"><i class="fas fa-chart-bar"></i> 내 학습 통계</div></div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-value" id="myTotalPlan">0</div><div class="stat-label">총 계획</div></div>
-                    <div class="stat-card"><div class="stat-value success" id="myTotalComplete">0</div><div class="stat-label">총 완료</div></div>
-                    <div class="stat-card"><div class="stat-value" id="myTotalTime">0h</div><div class="stat-label">총 공부시간</div></div>
-                    <div class="stat-card"><div class="stat-value warning" id="myTotalPoint">0</div><div class="stat-label">총 상점</div></div>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-header"><span>전체 실천율</span><span id="myProgressPercent">0%</span></div>
-                    <div class="progress-bar"><div class="progress-fill" id="myProgressFill" style="width: 0%"></div></div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><div class="card-title"><i class="fas fa-trophy"></i> 공부시간 랭킹</div></div>
-                <div id="rankingList"></div>
-            </div>
-        </div>
-
-        <!-- 학습 캘린더 화면 -->
-        <div class="screen" id="calendarScreen">
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <button class="week-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fas fa-chevron-left"></i></button>
-                    <span class="calendar-title" id="calendarTitle">2026년 1월</span>
-                    <button class="week-nav-btn" onclick="changeCalendarMonth(1)"><i class="fas fa-chevron-right"></i></button>
-                </div>
-                <div class="calendar-grid" id="calendarGrid">
-                    <div class="calendar-day-header">일</div>
-                    <div class="calendar-day-header">월</div>
-                    <div class="calendar-day-header">화</div>
-                    <div class="calendar-day-header">수</div>
-                    <div class="calendar-day-header">목</div>
-                    <div class="calendar-day-header">금</div>
-                    <div class="calendar-day-header">토</div>
-                </div>
-                <div class="calendar-legend">
-                    <div class="legend-item"><span style="font-size: 1rem;">😊</span> 8시간↑</div>
-                    <div class="legend-item"><span style="font-size: 1rem;">🙂</span> 4~8시간</div>
-                    <div class="legend-item"><span style="font-size: 1rem;">😢</span> 4시간↓</div>
-                </div>
-            </div>
-            <div class="card" style="margin-top: 1rem;">
-                <div class="card-header"><div class="card-title"><i class="fas fa-info-circle"></i> 이달의 요약</div></div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-value" id="monthPlans">0</div><div class="stat-label">이달 계획</div></div>
-                    <div class="stat-card"><div class="stat-value success" id="monthComplete">0</div><div class="stat-label">이달 완료</div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 일기장 화면 -->
-        <div class="screen" id="diaryScreen">
-            <div class="date-nav">
-                <button onclick="changeDiaryDate(-1)"><i class="fas fa-chevron-left"></i></button>
-                <span class="date-display" id="diaryDateDisplay">1월 20일</span>
-                <button onclick="changeDiaryDate(1)"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            
-            <!-- 오늘의 공부 현황 -->
-            <div class="card diary-stats-card">
-                <div class="diary-mood-section">
-                    <div class="diary-mood-emoji" id="diaryMoodEmoji">😊</div>
-                    <div class="diary-mood-info">
-                        <div class="diary-study-time" id="diaryStudyTime">오늘 공부시간: 8시간 30분</div>
-                        <div class="diary-mood-text" id="diaryMoodText">잘했어요! 목표 달성!</div>
-                    </div>
-                </div>
-                <div class="diary-stats-row">
-                    <div class="diary-stat">
-                        <span class="diary-stat-label">완료</span>
-                        <span class="diary-stat-value" id="diaryCompleted">5개</span>
-                    </div>
-                    <div class="diary-stat">
-                        <span class="diary-stat-label">미완료</span>
-                        <span class="diary-stat-value" id="diaryFailed">1개</span>
-                    </div>
-                    <div class="diary-stat">
-                        <span class="diary-stat-label">실천율</span>
-                        <span class="diary-stat-value" id="diaryRate">83%</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 일기 작성 영역 -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><i class="fas fa-pen"></i> 오늘의 일기</div>
-                    <button class="btn btn-primary btn-sm" onclick="saveDiary()" id="saveDiaryBtn">
-                        <i class="fas fa-save"></i> 저장
-                    </button>
-                </div>
-                
-                <div class="diary-prompts">
-                    <span class="diary-prompt" onclick="insertPrompt('오늘 가장 열심히 한 과목은 ')">📚 열심히 한 과목</span>
-                    <span class="diary-prompt" onclick="insertPrompt('오늘의 반성: ')">💭 반성</span>
-                    <span class="diary-prompt" onclick="insertPrompt('내일 목표: ')">🎯 내일 목표</span>
-                    <span class="diary-prompt" onclick="insertPrompt('오늘 기분: ')">😊 기분</span>
-                </div>
-                
-                <div class="form-group" style="margin-bottom: 0;">
-                    <textarea id="diaryContent" rows="8" placeholder="오늘 하루는 어땠나요? 자유롭게 작성해보세요.&#10;&#10;예시:&#10;- 오늘 수학 문제가 어려웠지만 끝까지 풀었다&#10;- 영어 단어 50개 외웠다&#10;- 내일은 국어에 더 집중해야겠다"></textarea>
-                </div>
-                
-                <div class="diary-word-count">
-                    <span id="diaryWordCount">0</span>자
-                </div>
-            </div>
-
-            <!-- 최근 일기 목록 -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><i class="fas fa-history"></i> 최근 일기</div>
-                </div>
-                <div id="recentDiaryList"></div>
-            </div>
-        </div>
-
-        <!-- 목표 설정 화면 -->
-        <div class="screen" id="goalScreen">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><i class="fas fa-bullseye"></i> 이번 주 목표</div>
-                    <button class="btn btn-primary btn-sm" onclick="openModal('editGoalModal')"><i class="fas fa-edit"></i> 수정</button>
-                </div>
-                <div id="currentWeekGoal" style="padding: 1rem; background: var(--gray-50); border-radius: 10px;">
-                    목표를 설정해주세요!
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><i class="fas fa-calendar-check"></i> 이번 달 목표</div>
-                    <button class="btn btn-primary btn-sm" onclick="openModal('editMonthGoalModal')"><i class="fas fa-edit"></i> 수정</button>
-                </div>
-                <div id="currentMonthGoal" style="padding: 1rem; background: var(--gray-50); border-radius: 10px;">
-                    목표를 설정해주세요!
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><div class="card-title"><i class="fas fa-star"></i> 상벌점 현황</div></div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value success" id="totalReward">0</div>
-                        <div class="stat-label">총 상점</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" style="color: var(--danger);" id="totalPenalty">0</div>
-                        <div class="stat-label">총 벌점</div>
-                    </div>
-                </div>
-                <div id="pointHistory" style="max-height: 200px; overflow-y: auto;"></div>
+                <button class="action-btn pink" onclick="openModal('diaryModal')">
+                    <i class="fas fa-book-open"></i>
+                    <span>일기</span>
+                </button>
+                <button class="action-btn purple" onclick="openModal('statsModal')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>통계</span>
+                </button>
+                <button class="action-btn blue" onclick="openModal('goalModal')">
+                    <i class="fas fa-bullseye"></i>
+                    <span>목표설정</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- 하단 네비게이션 -->
-    <nav class="bottom-nav" id="bottomNav" style="display: none;">
-        <div class="bottom-nav-content">
-            <div class="nav-item active" onclick="showScreen('homeScreen')"><i class="fas fa-home"></i><span>홈</span></div>
-            <div class="nav-item" onclick="showScreen('planScreen')"><i class="fas fa-calendar-alt"></i><span>계획</span></div>
-            <div class="nav-item" onclick="showScreen('recordScreen')"><i class="fas fa-check-circle"></i><span>실천</span></div>
-            <div class="nav-item" onclick="showScreen('statsScreen')"><i class="fas fa-chart-line"></i><span>통계</span></div>
+    <!-- 계획 상세/실천 모달 -->
+    <div class="modal-overlay" id="planDetailModal">
+        <div class="modal">
+            <div class="modal-handle"></div>
+            <div class="modal-header">
+                <h3 class="modal-title" id="planDetailTitle">수학 - 자이스토리</h3>
+                <button class="modal-close" onclick="closeModal('planDetailModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="record-card" id="planDetailCard">
+                    <div class="record-header">
+                        <div>
+                            <div class="record-title" id="detailBook">자이스토리</div>
+                            <div class="record-subject" id="detailSubject">수학</div>
+                        </div>
+                        <div class="record-status" id="detailStatus">⬜</div>
+                    </div>
+                    <div id="detailInfo" style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 0.75rem;">
+                        <p>📅 날짜: <span id="detailDate">1/20(월)</span></p>
+                        <p>📄 페이지: <span id="detailPages">p.5~11</span></p>
+                    </div>
+                    <div class="record-actions" id="detailActions">
+                        <button class="record-btn primary" onclick="startTimer()"><i class="fas fa-stopwatch"></i> 타이머</button>
+                        <button class="record-btn success" onclick="openRecordInput()"><i class="fas fa-pen"></i> 기록</button>
+                        <button class="record-btn danger" onclick="markFailed()"><i class="fas fa-times"></i> 미완료</button>
+                    </div>
+                </div>
+
+                <!-- 펜슬 입력 영역 (기록시) -->
+                <div id="recordInputArea" class="hidden">
+                    <div class="input-mode-tabs">
+                        <button class="mode-tab active" onclick="switchInputMode('text')">⌨️ 키보드</button>
+                        <button class="mode-tab" onclick="switchInputMode('pencil')">✏️ 펜슬</button>
+                    </div>
+                    
+                    <!-- 텍스트 입력 -->
+                    <div id="textInputMode">
+                        <div class="form-group">
+                            <label>페이지</label>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <input type="number" id="recordStartPage" placeholder="시작" style="flex:1;">
+                                <span style="padding: 0.5rem;">~</span>
+                                <input type="number" id="recordEndPage" placeholder="끝" style="flex:1;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>공부시간 (분)</label>
+                            <input type="number" id="recordTime" placeholder="예: 55">
+                        </div>
+                        <div class="form-group">
+                            <label>메모</label>
+                            <textarea class="large-input" id="recordMemo" placeholder="오늘 공부하면서 느낀 점..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 펜슬 입력 -->
+                    <div id="pencilInputMode" class="hidden">
+                        <div class="form-group">
+                            <label>페이지 & 시간 (손글씨로 입력)</label>
+                            <div class="pencil-input-area">
+                                <canvas id="pencilCanvas" class="pencil-canvas"></canvas>
+                                <div class="pencil-tools">
+                                    <button class="pencil-tool active" onclick="setPencilTool('pen')"><i class="fas fa-pen"></i></button>
+                                    <button class="pencil-tool" onclick="setPencilTool('eraser')"><i class="fas fa-eraser"></i></button>
+                                    <button class="pencil-tool" onclick="clearCanvas()"><i class="fas fa-trash"></i></button>
+                                    <div class="pencil-colors">
+                                        <button class="color-btn active" style="background: #1f2937;" onclick="setPencilColor('#1f2937')"></button>
+                                        <button class="color-btn" style="background: #3b82f6;" onclick="setPencilColor('#3b82f6')"></button>
+                                        <button class="color-btn" style="background: #ef4444;" onclick="setPencilColor('#ef4444')"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>공부시간 (분)</label>
+                            <input type="number" id="recordTimePencil" placeholder="예: 55" style="font-size: 1.2rem; padding: 1rem;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="detailFooter">
+                <button class="btn btn-danger" onclick="deletePlan()" style="flex: 0.5;"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-primary" id="submitRecordBtn" onclick="submitRecord()" class="hidden"><i class="fas fa-check"></i> 검사요청</button>
+            </div>
         </div>
-    </nav>
+    </div>
 
     <!-- 교재 추가 모달 -->
     <div class="modal-overlay" id="addBookModal">
         <div class="modal">
+            <div class="modal-handle"></div>
             <div class="modal-header">
-                <h3 class="modal-title">교재 추가</h3>
+                <h3 class="modal-title">📚 교재 추가</h3>
                 <button class="modal-close" onclick="closeModal('addBookModal')"><i class="fas fa-times"></i></button>
             </div>
-            <div class="form-group">
-                <label>과목</label>
-                <select id="bookSubject">
-                    <option value="">선택해주세요</option>
-                    <option value="국어">국어</option>
-                    <option value="수학">수학</option>
-                    <option value="영어">영어</option>
-                    <option value="물리">물리</option>
-                    <option value="화학">화학</option>
-                    <option value="생명">생명과학</option>
-                    <option value="지구과학">지구과학</option>
-                    <option value="한국사">한국사</option>
-                    <option value="사회탐구">사회탐구</option>
-                </select>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>과목</label>
+                    <select id="bookSubject" style="font-size: 1.1rem;">
+                        <option value="">선택해주세요</option>
+                        <option value="국어">국어</option>
+                        <option value="수학">수학</option>
+                        <option value="영어">영어</option>
+                        <option value="물리">물리</option>
+                        <option value="화학">화학</option>
+                        <option value="생명">생명과학</option>
+                        <option value="지구과학">지구과학</option>
+                        <option value="한국사">한국사</option>
+                        <option value="사회탐구">사회탐구</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>교재명</label>
+                    <input type="text" id="bookName" placeholder="예: 수특 독서, 자이스토리" style="font-size: 1.1rem;">
+                </div>
             </div>
-            <div class="form-group">
-                <label>교재명</label>
-                <input type="text" id="bookName" placeholder="예: 수특 독서, 자이스토리">
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="addBook()"><i class="fas fa-plus"></i> 추가하기</button>
             </div>
-            <button class="btn btn-primary" onclick="addBook()"><i class="fas fa-plus"></i> 추가하기</button>
         </div>
     </div>
 
     <!-- 계획 추가 모달 -->
     <div class="modal-overlay" id="addPlanModal">
         <div class="modal">
+            <div class="modal-handle"></div>
             <div class="modal-header">
-                <h3 class="modal-title">계획 추가</h3>
+                <h3 class="modal-title">📅 계획 추가</h3>
                 <button class="modal-close" onclick="closeModal('addPlanModal')"><i class="fas fa-times"></i></button>
             </div>
-            <div class="form-group">
-                <label>날짜</label>
-                <select id="planDate"></select>
-            </div>
-            <div class="form-group">
-                <label>교재 선택</label>
-                <select id="planBook"><option value="">선택해주세요</option></select>
-            </div>
-            <div class="form-group">
-                <label>계획 페이지 (선택)</label>
-                <div class="input-row">
-                    <input type="text" id="planStartPage" placeholder="시작 페이지">
-                    <input type="text" id="planEndPage" placeholder="끝 페이지">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>날짜</label>
+                    <select id="planDate" style="font-size: 1.1rem;"></select>
+                </div>
+                <div class="form-group">
+                    <label>교재 선택</label>
+                    <select id="planBook" style="font-size: 1.1rem;"></select>
+                </div>
+                <div class="form-group">
+                    <label>페이지 (선택)</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="planStartPage" placeholder="시작" style="flex:1; font-size: 1.1rem;">
+                        <span style="padding: 0.75rem;">~</span>
+                        <input type="text" id="planEndPage" placeholder="끝" style="flex:1; font-size: 1.1rem;">
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-primary" onclick="addPlan()"><i class="fas fa-plus"></i> 추가하기</button>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="addPlan()"><i class="fas fa-plus"></i> 추가하기</button>
+            </div>
         </div>
     </div>
 
-    <!-- 실천 기록 모달 -->
-    <div class="modal-overlay" id="recordModal">
+    <!-- 오늘 실천 모달 -->
+    <div class="modal-overlay" id="todayRecordModal">
         <div class="modal">
+            <div class="modal-handle"></div>
             <div class="modal-header">
-                <h3 class="modal-title">실천 기록</h3>
-                <button class="modal-close" onclick="closeModal('recordModal')"><i class="fas fa-times"></i></button>
+                <h3 class="modal-title">✅ 오늘의 실천</h3>
+                <button class="modal-close" onclick="closeModal('todayRecordModal')"><i class="fas fa-times"></i></button>
             </div>
-            <div class="form-group"><label id="recordBookLabel">수특 독서</label></div>
-            <div class="input-row">
-                <div class="form-group"><label>시작 페이지</label><input type="number" id="recordStartPage" placeholder="예: 9"></div>
-                <div class="form-group"><label>끝 페이지</label><input type="number" id="recordEndPage" placeholder="예: 15"></div>
+            <div class="modal-body" id="todayRecordList">
+                <!-- 동적 생성 -->
             </div>
-            <div class="form-group"><label>실제 공부 시간 (분)</label><input type="number" id="recordTime" placeholder="예: 55"></div>
-            <div class="form-group"><label>비고 (선택)</label><input type="text" id="recordNote" placeholder="메모가 있다면 입력하세요"></div>
-            <button class="btn btn-success" onclick="saveRecord()"><i class="fas fa-hand-paper"></i> 검사 요청</button>
         </div>
     </div>
 
-    <!-- 주간 목표 수정 모달 -->
-    <div class="modal-overlay" id="editGoalModal">
+    <!-- 일기 모달 -->
+    <div class="modal-overlay" id="diaryModal">
         <div class="modal">
+            <div class="modal-handle"></div>
             <div class="modal-header">
-                <h3 class="modal-title">이번 주 목표 설정</h3>
-                <button class="modal-close" onclick="closeModal('editGoalModal')"><i class="fas fa-times"></i></button>
+                <h3 class="modal-title">📔 오늘의 일기</h3>
+                <button class="modal-close" onclick="closeModal('diaryModal')"><i class="fas fa-times"></i></button>
             </div>
-            <div class="form-group">
-                <label>목표 1</label>
-                <input type="text" id="weekGoal1" placeholder="예: 수특 영어 끝내기">
+            <div class="modal-body">
+                <div class="diary-mood">
+                    <div class="diary-emoji" id="diaryEmoji">😊</div>
+                    <div class="diary-info">
+                        <h3 id="diaryStudyTime">오늘 8시간 30분 공부!</h3>
+                        <p id="diaryMoodText">정말 잘했어요!</p>
+                    </div>
+                </div>
+
+                <div class="input-mode-tabs">
+                    <button class="mode-tab active" onclick="switchDiaryMode('text')">⌨️ 키보드</button>
+                    <button class="mode-tab" onclick="switchDiaryMode('pencil')">✏️ 펜슬</button>
+                </div>
+
+                <!-- 텍스트 입력 -->
+                <div id="diaryTextMode">
+                    <textarea class="large-input" id="diaryContent" placeholder="오늘 하루는 어땠나요?&#10;&#10;• 열심히 한 과목:&#10;• 어려웠던 것:&#10;• 내일 목표:" style="min-height: 200px;"></textarea>
+                </div>
+
+                <!-- 펜슬 입력 -->
+                <div id="diaryPencilMode" class="hidden">
+                    <div class="pencil-input-area">
+                        <canvas id="diaryCanvas" class="pencil-canvas" style="height: 250px;"></canvas>
+                        <div class="pencil-tools">
+                            <button class="pencil-tool active" onclick="setDiaryTool('pen')"><i class="fas fa-pen"></i></button>
+                            <button class="pencil-tool" onclick="setDiaryTool('eraser')"><i class="fas fa-eraser"></i></button>
+                            <button class="pencil-tool" onclick="clearDiaryCanvas()"><i class="fas fa-trash"></i></button>
+                            <div class="pencil-colors">
+                                <button class="color-btn active" style="background: #1f2937;" onclick="setDiaryColor('#1f2937')"></button>
+                                <button class="color-btn" style="background: #3b82f6;" onclick="setDiaryColor('#3b82f6')"></button>
+                                <button class="color-btn" style="background: #ec4899;" onclick="setDiaryColor('#ec4899')"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>목표 2</label>
-                <input type="text" id="weekGoal2" placeholder="예: 국어 백문일답 끝내기">
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="saveDiary()"><i class="fas fa-save"></i> 저장하기</button>
             </div>
-            <div class="form-group">
-                <label>목표 3 (선택)</label>
-                <input type="text" id="weekGoal3" placeholder="예: 수학 50문제 풀기">
-            </div>
-            <button class="btn btn-primary" onclick="saveWeekGoal()"><i class="fas fa-save"></i> 저장하기</button>
         </div>
     </div>
 
-    <!-- 월간 목표 수정 모달 -->
-    <div class="modal-overlay" id="editMonthGoalModal">
+    <!-- 통계 모달 -->
+    <div class="modal-overlay" id="statsModal">
         <div class="modal">
+            <div class="modal-handle"></div>
             <div class="modal-header">
-                <h3 class="modal-title">이번 달 목표 설정</h3>
-                <button class="modal-close" onclick="closeModal('editMonthGoalModal')"><i class="fas fa-times"></i></button>
+                <h3 class="modal-title">📊 학습 통계</h3>
+                <button class="modal-close" onclick="closeModal('statsModal')"><i class="fas fa-times"></i></button>
             </div>
-            <div class="form-group">
-                <label>월간 목표</label>
-                <textarea id="monthGoalText" rows="4" placeholder="이번 달 목표를 작성해주세요"></textarea>
+            <div class="modal-body">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+                    <div style="background: var(--gray-50); border-radius: 12px; padding: 1rem; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);" id="statTotal">0</div>
+                        <div style="font-size: 0.8rem; color: var(--gray-500);">총 계획</div>
+                    </div>
+                    <div style="background: var(--gray-50); border-radius: 12px; padding: 1rem; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--success);" id="statComplete">0</div>
+                        <div style="font-size: 0.8rem; color: var(--gray-500);">완료</div>
+                    </div>
+                    <div style="background: var(--gray-50); border-radius: 12px; padding: 1rem; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--accent);" id="statTime">0h</div>
+                        <div style="font-size: 0.8rem; color: var(--gray-500);">총 공부시간</div>
+                    </div>
+                    <div style="background: var(--gray-50); border-radius: 12px; padding: 1rem; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--warning);" id="statRate">0%</div>
+                        <div style="font-size: 0.8rem; color: var(--gray-500);">실천율</div>
+                    </div>
+                </div>
+                <h4 style="margin-bottom: 0.75rem; color: var(--primary);"><i class="fas fa-trophy"></i> 공부시간 랭킹</h4>
+                <div id="rankingList"></div>
             </div>
-            <div class="form-group">
-                <label>목표 공부시간 (시간)</label>
-                <input type="number" id="monthGoalHours" placeholder="예: 100">
-            </div>
-            <div class="form-group">
-                <label>목표 실천율 (%)</label>
-                <input type="number" id="monthGoalRate" placeholder="예: 85">
-            </div>
-            <button class="btn btn-primary" onclick="saveMonthGoal()"><i class="fas fa-save"></i> 저장하기</button>
         </div>
     </div>
 
-    <!-- 계획 상세 모달 -->
-    <div class="modal-overlay" id="planDetailModal">
+    <!-- 목표 설정 모달 -->
+    <div class="modal-overlay" id="goalModal">
         <div class="modal">
+            <div class="modal-handle"></div>
             <div class="modal-header">
-                <h3 class="modal-title" id="planDetailTitle">계획 상세</h3>
-                <button class="modal-close" onclick="closeModal('planDetailModal')"><i class="fas fa-times"></i></button>
+                <h3 class="modal-title">🎯 목표 설정</h3>
+                <button class="modal-close" onclick="closeModal('goalModal')"><i class="fas fa-times"></i></button>
             </div>
-            <div id="planDetailContent"></div>
-            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                <button class="btn btn-danger btn-sm" onclick="deletePlan()" style="flex: 1;"><i class="fas fa-trash"></i> 삭제</button>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>목표 1</label>
+                    <input type="text" id="goal1" placeholder="예: 수특 영어 끝내기" style="font-size: 1.1rem;">
+                </div>
+                <div class="form-group">
+                    <label>목표 2</label>
+                    <input type="text" id="goal2" placeholder="예: 국어 백문일답 끝내기" style="font-size: 1.1rem;">
+                </div>
+                <div class="form-group">
+                    <label>목표 3</label>
+                    <input type="text" id="goal3" placeholder="예: 수학 50문제 풀기" style="font-size: 1.1rem;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="saveGoals()"><i class="fas fa-save"></i> 저장하기</button>
             </div>
         </div>
     </div>
-
-    <!-- 계획표 미리보기 모달 -->
-    <div class="modal-overlay" id="previewModal">
-        <div class="modal" style="max-width: 450px;">
-            <div class="modal-header">
-                <h3 class="modal-title"><i class="fas fa-eye"></i> 계획표 미리보기</h3>
-                <button class="modal-close" onclick="closeModal('previewModal')"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="preview-content" id="previewContent"></div>
-            <div class="preview-actions">
-                <button class="btn btn-primary" onclick="copyFromPreview()"><i class="fas fa-copy"></i> 복사하기</button>
-                <button class="btn btn-outline" onclick="closeModal('previewModal')">닫기</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="toast" id="toast">저장되었습니다!</div>
 
     <!-- 스톱워치 화면 -->
-    <div class="stopwatch-container" id="stopwatchScreen">
-        <div class="stopwatch-subject" id="swSubject">수학</div>
-        <div class="stopwatch-book" id="swBook">자이스토리</div>
-        <div class="stopwatch-display" id="swDisplay">00:00</div>
-        <div class="stopwatch-seconds" id="swSeconds">:00</div>
-        <div class="stopwatch-status">
-            <div class="status-dot" id="swStatusDot"></div>
-            <span class="status-text" id="swStatusText">공부 중...</span>
+    <div class="stopwatch-screen" id="stopwatchScreen">
+        <div class="sw-subject" id="swSubject">수학</div>
+        <div class="sw-book" id="swBook">자이스토리</div>
+        <div class="sw-display" id="swDisplay">00:00</div>
+        <div class="sw-status">
+            <div class="sw-dot" id="swDot"></div>
+            <span id="swStatusText">공부 중...</span>
         </div>
-        <div class="stopwatch-buttons">
-            <button class="sw-btn sw-btn-cancel" onclick="cancelStopwatch()" title="취소"><i class="fas fa-times"></i></button>
-            <button class="sw-btn sw-btn-pause" id="swPauseBtn" onclick="toggleStopwatch()"><i class="fas fa-pause" id="swPauseIcon"></i></button>
-            <button class="sw-btn sw-btn-stop" onclick="stopStopwatch()" title="종료"><i class="fas fa-stop"></i></button>
+        <div class="sw-buttons">
+            <button class="sw-btn cancel" onclick="cancelTimer()"><i class="fas fa-times"></i></button>
+            <button class="sw-btn pause" id="swPauseBtn" onclick="toggleTimer()"><i class="fas fa-pause" id="swPauseIcon"></i></button>
+            <button class="sw-btn stop" onclick="stopTimer()"><i class="fas fa-stop"></i></button>
         </div>
-        <div class="stopwatch-info">종료 버튼을 누르면 공부 시간이 자동으로 기록됩니다</div>
     </div>
+
+    <!-- 토스트 -->
+    <div class="toast" id="toast"></div>
 
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbwGFbsj8FgFIuF-iFkJ4ekyS76MWQf9UrUysJ-Fs12vuVByJwenoYRgOJeOZiPOa6gzkg/exec';
 
+        // 상태 변수
         let currentUser = null;
         let userBooks = [];
         let userPlans = [];
-        let currentWeekStart = getMonday(new Date());
-        let recordDate = new Date();
-        let currentRecordPlan = null;
-        let calendarMonth = new Date();
+        let weekStart = getMonday(new Date());
         let weekGoals = {};
-        let monthGoals = {};
-        let currentPlanDetail = null;
+        let currentPlan = null;
 
-        // 스톱워치 변수
+        // 스톱워치
         let swInterval = null;
         let swStartTime = null;
-        let swElapsedTime = 0;
-        let swPausedTime = 0;
-        let swIsRunning = false;
-        let swCurrentPlan = null;
+        let swElapsed = 0;
+        let swRunning = false;
 
-        // 일기장 변수
-        let diaryDate = new Date();
-        let diaryData = {};
+        // 펜슬 캔버스
+        let pencilCtx = null;
+        let diaryCtx = null;
+        let isDrawing = false;
+        let pencilColor = '#1f2937';
+        let pencilTool = 'pen';
+        let diaryColor = '#1f2937';
+        let diaryTool = 'pen';
 
-        // 유틸리티 함수
+        // 유틸리티
         function getMonday(d) {
             const date = new Date(d);
             const day = date.getDay();
@@ -1638,40 +1175,48 @@
             return `${date.getMonth() + 1}/${date.getDate()}`;
         }
 
-        function getDayName(dayIndex) {
-            return ['월', '화', '수', '목', '금', '토', '일'][dayIndex];
+        function getDayName(i) {
+            return ['월', '화', '수', '목', '금', '토', '일'][i];
         }
 
-        // API 호출
-        async function apiCall(data) {
+        function getWeekDates() {
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(weekStart);
+                d.setDate(weekStart.getDate() + i);
+                dates.push(d);
+            }
+            return dates;
+        }
+
+        // API
+        async function api(data) {
             try {
-                const response = await fetch(API_URL, {
+                const res = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(data)
                 });
-                return await response.json();
-            } catch (error) {
-                console.error('API Error:', error);
-                return { success: false, error: error.message };
+                return await res.json();
+            } catch (e) {
+                console.error(e);
+                return { success: false };
             }
         }
 
-        // 로그인 관련
-        async function loadStudentsByFloor() {
+        // 로그인
+        async function loadStudents() {
             const floor = document.getElementById('loginFloor').value;
-            const nameSelect = document.getElementById('loginName');
+            const sel = document.getElementById('loginName');
             if (!floor) {
-                nameSelect.innerHTML = '<option value="">층을 먼저 선택해주세요</option>';
+                sel.innerHTML = '<option value="">층을 먼저 선택해주세요</option>';
                 return;
             }
-            nameSelect.innerHTML = '<option value="">로딩중...</option>';
-            const result = await apiCall({ action: 'getStudents', floor: floor });
-            if (result.success) {
-                nameSelect.innerHTML = '<option value="">선택해주세요</option>';
-                result.students.forEach(s => {
-                    nameSelect.innerHTML += `<option value="${s.name}">${s.name}</option>`;
-                });
+            sel.innerHTML = '<option value="">로딩중...</option>';
+            const res = await api({ action: 'getStudents', floor });
+            if (res.success) {
+                sel.innerHTML = '<option value="">선택해주세요</option>' +
+                    res.students.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
             }
         }
 
@@ -1683,79 +1228,385 @@
                 return;
             }
             currentUser = { floor, name };
-            document.getElementById('headerUserName').textContent = name;
-            document.getElementById('headerAvatar').textContent = name.charAt(0);
-            document.getElementById('loginScreen').classList.remove('active');
-            document.getElementById('homeScreen').classList.add('active');
-            document.getElementById('mainHeader').style.display = 'block';
-            document.getElementById('bottomNav').style.display = 'block';
-            
-            await loadUserData();
-            updateTodayDate();
-            updateHomeStats();
-            updateHomeMood();
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userFloor').textContent = floor;
+            document.getElementById('userAvatar').textContent = name.charAt(0);
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('active');
+            await loadData();
         }
 
         function logout() {
             currentUser = null;
-            userBooks = [];
-            userPlans = [];
-            document.getElementById('mainHeader').style.display = 'none';
-            document.getElementById('bottomNav').style.display = 'none';
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('loginScreen').classList.add('active');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboard').classList.remove('active');
         }
 
-        async function loadUserData() {
+        async function loadData() {
             // 교재 로드
-            const booksResult = await apiCall({ action: 'getBooks', floor: currentUser.floor, name: currentUser.name });
-            if (booksResult.success) userBooks = booksResult.books || [];
-            
+            const bookRes = await api({ action: 'getBooks', floor: currentUser.floor, name: currentUser.name });
+            if (bookRes.success) userBooks = bookRes.books || [];
+
             // 계획 로드
-            await loadWeekPlans();
-            
+            await loadPlans();
+
             // 목표 로드
-            await loadGoals();
+            const goalRes = await api({ action: 'getGoals', floor: currentUser.floor, name: currentUser.name });
+            if (goalRes.success) weekGoals = goalRes.weekGoals || {};
+
+            renderWeekHeader();
+            renderTable();
+            renderGoal();
+            updateMood();
         }
 
-        // 교재 관리
-        function renderBookList() {
-            const list = document.getElementById('bookList');
-            if (!userBooks || userBooks.length === 0) {
-                list.innerHTML = '<div class="empty-state"><i class="fas fa-book"></i><p>등록된 교재가 없습니다</p></div>';
+        async function loadPlans() {
+            const dates = getWeekDates();
+            const res = await api({
+                action: 'getWeekPlans',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                startDate: formatDate(dates[0]),
+                endDate: formatDate(dates[6])
+            });
+            if (res.success) userPlans = res.plans || [];
+        }
+
+        // 주차 표시
+        function renderWeekHeader() {
+            const dates = getWeekDates();
+            const month = dates[0].getMonth() + 1;
+            const weekNum = Math.ceil(dates[0].getDate() / 7);
+            document.getElementById('weekTitle').textContent = `${month}월 ${weekNum}주차`;
+            document.getElementById('weekRange').textContent = `${formatDateKR(dates[0])}(월) ~ ${formatDateKR(dates[6])}(일)`;
+
+            const today = formatDate(new Date());
+            for (let i = 0; i < 7; i++) {
+                const th = document.getElementById(`day${i}`);
+                const d = dates[i];
+                const isToday = formatDate(d) === today;
+                const cls = isToday ? 'today' : (i === 5 ? 'sat' : (i === 6 ? 'sun' : ''));
+                th.innerHTML = `<div class="day-header ${cls}">
+                    <span class="day-name">${getDayName(i)}</span>
+                    <span class="day-date">${d.getDate()}</span>
+                </div>`;
+            }
+        }
+
+        function changeWeek(delta) {
+            weekStart.setDate(weekStart.getDate() + delta * 7);
+            loadPlans().then(() => {
+                renderWeekHeader();
+                renderTable();
+                renderGoal();
+            });
+        }
+
+        // 계획표 렌더링
+        function renderTable() {
+            const tbody = document.getElementById('planTableBody');
+            const dates = getWeekDates();
+
+            // 교재 그룹화
+            const books = {};
+            userBooks.forEach(b => { books[`${b.subject}|${b.name}`] = b; });
+            userPlans.forEach(p => { books[`${p.subject}|${p.book}`] = { subject: p.subject, name: p.book }; });
+
+            const sorted = Object.values(books).sort((a, b) => {
+                const order = ['국어', '수학', '영어', '물리', '화학', '생명', '지구과학', '한국사', '사회탐구'];
+                return order.indexOf(a.subject) - order.indexOf(b.subject);
+            });
+
+            if (sorted.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="padding: 2rem; text-align: center; color: var(--gray-400);">
+                    <i class="fas fa-plus-circle" style="font-size: 2rem; display: block; margin-bottom: 0.5rem;"></i>
+                    교재를 추가해주세요
+                </td></tr>`;
                 return;
             }
-            list.innerHTML = userBooks.map((book, index) => {
-                const badgeClass = getBadgeClass(book.subject);
-                return `<div class="book-item">
-                    <div class="book-info">
-                        <h4>${book.name}</h4>
-                        <p><span class="subject-badge ${badgeClass}">${book.subject}</span></p>
-                    </div>
-                    <div class="book-actions">
-                        <button class="delete-btn" onclick="deleteBook(${index})" title="삭제">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>`;
+
+            tbody.innerHTML = sorted.map(book => {
+                let row = `<td><div style="font-size: 0.6rem; color: var(--gray-500);">${book.subject}</div><div style="font-weight: 600;">${book.name}</div></td>`;
+                
+                for (let i = 0; i < 7; i++) {
+                    const dateStr = formatDate(dates[i]);
+                    const plans = userPlans.filter(p => p.date === dateStr && p.subject === book.subject && p.book === book.name);
+                    
+                    if (plans.length > 0) {
+                        row += `<td><div class="cell-content">`;
+                        plans.forEach(plan => {
+                            let cls = '';
+                            let emoji = '';
+                            if (plan.status === 'approved' || plan.status === 'O') { cls = 'completed'; emoji = '✅'; }
+                            else if (plan.status === 'failed' || plan.status === 'X') { cls = 'failed'; emoji = '❌'; }
+                            else if (plan.status === 'requested') { cls = 'pending'; emoji = '⏳'; }
+
+                            const pages = plan.startPage && plan.endPage ? `p.${plan.startPage}~${plan.endPage}` : (plan.planPages || '');
+                            row += `<div class="cell-plan ${cls}" onclick="openPlanDetail('${plan.subject}','${plan.book}','${dateStr}')">
+                                <span class="status-emoji">${emoji}</span>
+                                <div class="book-name">○</div>
+                                ${pages ? `<div class="pages">${pages}</div>` : ''}
+                            </div>`;
+                        });
+                        row += `</div></td>`;
+                    } else {
+                        row += `<td><button class="cell-add" onclick="quickAdd('${book.subject}','${book.name}','${dateStr}')">+</button></td>`;
+                    }
+                }
+                return `<tr>${row}</tr>`;
             }).join('');
         }
 
-        function getBadgeClass(subject) {
-            const map = {
-                '국어': 'badge-korean',
-                '수학': 'badge-math',
-                '영어': 'badge-english',
-                '물리': 'badge-science',
-                '화학': 'badge-science',
-                '생명': 'badge-science',
-                '지구과학': 'badge-science',
-                '한국사': 'badge-social',
-                '사회탐구': 'badge-social'
-            };
-            return map[subject] || 'badge-korean';
+        // 빠른 계획 추가
+        async function quickAdd(subject, bookName, dateStr) {
+            const res = await api({
+                action: 'addPlan',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: dateStr,
+                subject, bookName, time: 60
+            });
+            if (res.success) {
+                userPlans.push({ date: dateStr, subject, book: bookName, status: 'pending' });
+                renderTable();
+                showToast('✅ 계획 추가됨');
+            }
         }
 
+        // 목표
+        function toggleGoal() {
+            const content = document.getElementById('goalContent');
+            const toggle = document.getElementById('goalToggle');
+            content.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+
+        function renderGoal() {
+            const key = formatDate(weekStart);
+            const goals = weekGoals[key] || {};
+            let html = '';
+            if (goals.goal1) html += `<p>1. ${goals.goal1}</p>`;
+            if (goals.goal2) html += `<p>2. ${goals.goal2}</p>`;
+            if (goals.goal3) html += `<p>3. ${goals.goal3}</p>`;
+            document.getElementById('goalText').innerHTML = html || '목표를 설정해주세요!';
+        }
+
+        async function saveGoals() {
+            const key = formatDate(weekStart);
+            const g1 = document.getElementById('goal1').value.trim();
+            const g2 = document.getElementById('goal2').value.trim();
+            const g3 = document.getElementById('goal3').value.trim();
+            
+            await api({
+                action: 'saveWeekGoal',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                weekKey: key, goal1: g1, goal2: g2, goal3: g3
+            });
+            weekGoals[key] = { goal1: g1, goal2: g2, goal3: g3 };
+            renderGoal();
+            closeModal('goalModal');
+            showToast('🎯 목표 저장됨');
+        }
+
+        // 오늘의 표정
+        async function updateMood() {
+            const res = await api({
+                action: 'getRecords',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(new Date())
+            });
+            if (res.success) {
+                const records = res.records || [];
+                const totalTime = records.filter(r => r.status === 'approved' || r.status === 'O')
+                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
+                
+                let emoji = '😴';
+                if (totalTime >= 480) emoji = '😊';
+                else if (totalTime >= 240) emoji = '🙂';
+                else if (totalTime > 0) emoji = '😢';
+                
+                document.getElementById('todayMood').textContent = emoji;
+            }
+        }
+
+        // 계획 상세 모달
+        function openPlanDetail(subject, book, date) {
+            const plan = userPlans.find(p => p.subject === subject && p.book === book && p.date === date);
+            if (!plan) return;
+            
+            currentPlan = { subject, book, date, plan };
+            
+            document.getElementById('planDetailTitle').textContent = `${subject} - ${book}`;
+            document.getElementById('detailBook').textContent = book;
+            document.getElementById('detailSubject').textContent = subject;
+            
+            const d = new Date(date);
+            const dayIdx = (d.getDay() + 6) % 7;
+            document.getElementById('detailDate').textContent = `${formatDateKR(d)}(${getDayName(dayIdx)})`;
+            
+            const pages = plan.startPage && plan.endPage ? `p.${plan.startPage}~${plan.endPage}` : (plan.planPages || '없음');
+            document.getElementById('detailPages').textContent = pages;
+            
+            let status = '⬜';
+            let cardClass = '';
+            if (plan.status === 'approved' || plan.status === 'O') { status = '✅'; cardClass = 'completed'; }
+            else if (plan.status === 'failed' || plan.status === 'X') { status = '❌'; cardClass = 'failed'; }
+            else if (plan.status === 'requested') { status = '⏳'; cardClass = 'pending'; }
+            
+            document.getElementById('detailStatus').textContent = status;
+            document.getElementById('planDetailCard').className = 'record-card ' + cardClass;
+            
+            // 이미 완료/실패면 버튼 숨김
+            const actions = document.getElementById('detailActions');
+            const submitBtn = document.getElementById('submitRecordBtn');
+            if (plan.status === 'approved' || plan.status === 'O' || plan.status === 'failed' || plan.status === 'X') {
+                actions.classList.add('hidden');
+                submitBtn.classList.add('hidden');
+            } else {
+                actions.classList.remove('hidden');
+            }
+            
+            document.getElementById('recordInputArea').classList.add('hidden');
+            openModal('planDetailModal');
+        }
+
+        function openRecordInput() {
+            document.getElementById('detailActions').classList.add('hidden');
+            document.getElementById('recordInputArea').classList.remove('hidden');
+            document.getElementById('submitRecordBtn').classList.remove('hidden');
+            initPencilCanvas();
+        }
+
+        async function submitRecord() {
+            const time = document.getElementById('recordTime').value || document.getElementById('recordTimePencil').value;
+            if (!time) {
+                showToast('공부 시간을 입력해주세요');
+                return;
+            }
+            
+            const res = await api({
+                action: 'requestCheck',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: currentPlan.date,
+                subject: currentPlan.subject,
+                bookName: currentPlan.book,
+                startPage: document.getElementById('recordStartPage').value,
+                endPage: document.getElementById('recordEndPage').value,
+                actualTime: parseInt(time),
+                note: document.getElementById('recordMemo').value
+            });
+            
+            if (res.success) {
+                closeModal('planDetailModal');
+                await loadPlans();
+                renderTable();
+                updateMood();
+                showToast('✅ 검사 요청 완료!', true);
+            }
+        }
+
+        async function markFailed() {
+            if (!confirm('미완료로 기록할까요?')) return;
+            
+            const res = await api({
+                action: 'markFailed',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: currentPlan.date,
+                subject: currentPlan.subject,
+                bookName: currentPlan.book
+            });
+            
+            if (res.success) {
+                closeModal('planDetailModal');
+                await loadPlans();
+                renderTable();
+                showToast('기록됨');
+            }
+        }
+
+        async function deletePlan() {
+            if (!confirm('이 계획을 삭제할까요?')) return;
+            
+            const res = await api({
+                action: 'deletePlan',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: currentPlan.date,
+                subject: currentPlan.subject,
+                bookName: currentPlan.book
+            });
+            
+            if (res.success) {
+                closeModal('planDetailModal');
+                await loadPlans();
+                renderTable();
+                showToast('삭제됨');
+            }
+        }
+
+        // 타이머
+        function startTimer() {
+            document.getElementById('swSubject').textContent = currentPlan.subject;
+            document.getElementById('swBook').textContent = currentPlan.book;
+            document.getElementById('swDisplay').textContent = '00:00';
+            document.getElementById('stopwatchScreen').classList.add('active');
+            closeModal('planDetailModal');
+            
+            swStartTime = Date.now();
+            swElapsed = 0;
+            swRunning = true;
+            document.getElementById('swDot').classList.remove('paused');
+            document.getElementById('swStatusText').textContent = '공부 중...';
+            document.getElementById('swPauseIcon').className = 'fas fa-pause';
+            
+            swInterval = setInterval(() => {
+                if (!swRunning) return;
+                swElapsed = Math.floor((Date.now() - swStartTime) / 1000);
+                const m = Math.floor(swElapsed / 60);
+                const s = swElapsed % 60;
+                document.getElementById('swDisplay').textContent = 
+                    `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function toggleTimer() {
+            if (swRunning) {
+                swRunning = false;
+                document.getElementById('swDot').classList.add('paused');
+                document.getElementById('swStatusText').textContent = '일시정지';
+                document.getElementById('swPauseIcon').className = 'fas fa-play';
+            } else {
+                swRunning = true;
+                swStartTime = Date.now() - swElapsed * 1000;
+                document.getElementById('swDot').classList.remove('paused');
+                document.getElementById('swStatusText').textContent = '공부 중...';
+                document.getElementById('swPauseIcon').className = 'fas fa-pause';
+            }
+        }
+
+        function cancelTimer() {
+            if (confirm('타이머를 취소할까요?')) {
+                clearInterval(swInterval);
+                document.getElementById('stopwatchScreen').classList.remove('active');
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(swInterval);
+            document.getElementById('stopwatchScreen').classList.remove('active');
+            
+            const minutes = Math.ceil(swElapsed / 60);
+            document.getElementById('recordTime').value = minutes;
+            document.getElementById('recordTimePencil').value = minutes;
+            openPlanDetail(currentPlan.subject, currentPlan.book, currentPlan.date);
+            setTimeout(() => openRecordInput(), 100);
+        }
+
+        // 교재 추가
         async function addBook() {
             const subject = document.getElementById('bookSubject').value;
             const name = document.getElementById('bookName').value.trim();
@@ -1763,1207 +1614,403 @@
                 showToast('과목과 교재명을 입력해주세요');
                 return;
             }
-            const result = await apiCall({
+            
+            const res = await api({
                 action: 'addBook',
                 floor: currentUser.floor,
                 name: currentUser.name,
-                subject: subject,
-                bookName: name
+                subject, bookName: name
             });
-            if (result.success) {
+            
+            if (res.success) {
                 userBooks.push({ subject, name });
+                renderTable();
                 closeModal('addBookModal');
-                renderBookList();
-                showToast('교재가 추가되었습니다');
+                showToast('📚 교재 추가됨');
                 document.getElementById('bookSubject').value = '';
                 document.getElementById('bookName').value = '';
             }
         }
 
-        async function deleteBook(index) {
-            if (!confirm('이 교재를 삭제하시겠습니까?')) return;
-            const book = userBooks[index];
-            const result = await apiCall({
-                action: 'deleteBook',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                subject: book.subject,
-                bookName: book.name
-            });
-            if (result.success) {
-                userBooks.splice(index, 1);
-                renderBookList();
-                showToast('교재가 삭제되었습니다');
-            } else {
-                showToast('삭제 실패');
-            }
-        }
-
-        // 주간 계획
-        async function loadWeekPlans() {
-            const weekDates = getWeekDates(currentWeekStart);
-            const startDate = formatDate(weekDates[0]);
-            const endDate = formatDate(weekDates[6]);
-            
-            const result = await apiCall({
-                action: 'getWeekPlans',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                startDate: startDate,
-                endDate: endDate
-            });
-            
-            if (result.success) {
-                userPlans = result.plans || [];
-            }
-        }
-
-        function getWeekDates(monday) {
-            const dates = [];
-            for (let i = 0; i < 7; i++) {
-                const d = new Date(monday);
-                d.setDate(monday.getDate() + i);
-                dates.push(d);
-            }
-            return dates;
-        }
-
-        async function initPlanScreen() {
-            await loadWeekPlans();
-            renderWeeklyTable();
-            updateWeekHeader();
-            updatePlanDateSelect();
-            updatePlanBookSelect();
-            renderWeekGoal();
-        }
-
-        function updateWeekHeader() {
-            const weekDates = getWeekDates(currentWeekStart);
-            const month = weekDates[0].getMonth() + 1;
-            const weekNum = Math.ceil(weekDates[0].getDate() / 7);
-            
-            document.getElementById('weekTitle').textContent = `${month}월 ${weekNum}주차`;
-            document.getElementById('weekRange').textContent = 
-                `${formatDateKR(weekDates[0])}(월) ~ ${formatDateKR(weekDates[6])}(일)`;
-            
-            // 헤더 날짜 업데이트
-            const today = formatDate(new Date());
-            for (let i = 0; i < 7; i++) {
-                const th = document.getElementById(`dayHeader${i}`);
-                const date = weekDates[i];
-                const isToday = formatDate(date) === today;
-                const isSat = i === 5;
-                const isSun = i === 6;
-                
-                let className = 'day-header';
-                if (isToday) className += ' today';
-                if (isSat) className += ' sat';
-                if (isSun) className += ' sun';
-                
-                th.innerHTML = `<div class="${className}">
-                    <span class="day-name">${getDayName(i)}</span>
-                    <span class="day-date">${date.getDate()}</span>
-                </div>`;
-            }
-        }
-
-        function renderWeeklyTable() {
-            const tbody = document.getElementById('weeklyTableBody');
-            const weekDates = getWeekDates(currentWeekStart);
-            
-            // 교재별로 그룹화
-            const bookGroups = {};
-            userBooks.forEach(book => {
-                const key = `${book.subject}|${book.name}`;
-                if (!bookGroups[key]) {
-                    bookGroups[key] = { subject: book.subject, name: book.name };
-                }
-            });
-            
-            // 계획에서 교재 추가
-            userPlans.forEach(plan => {
-                const key = `${plan.subject}|${plan.book}`;
-                if (!bookGroups[key]) {
-                    bookGroups[key] = { subject: plan.subject, name: plan.book };
-                }
-            });
-            
-            if (Object.keys(bookGroups).length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 2rem; color: var(--gray-400);">
-                    <i class="fas fa-book" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
-                    먼저 교재를 등록해주세요
-                </td></tr>`;
-                return;
-            }
-            
-            // 과목별로 정렬
-            const sortedBooks = Object.values(bookGroups).sort((a, b) => {
-                const order = ['국어', '수학', '영어', '물리', '화학', '생명', '지구과학', '한국사', '사회탐구'];
-                return order.indexOf(a.subject) - order.indexOf(b.subject);
-            });
-            
-            tbody.innerHTML = sortedBooks.map(book => {
-                let cells = `<td>${book.subject}</td><td>${book.name}</td>`;
-                
-                for (let i = 0; i < 7; i++) {
-                    const dateStr = formatDate(weekDates[i]);
-                    const dayPlans = userPlans.filter(p => 
-                        p.date === dateStr && p.subject === book.subject && p.book === book.name
-                    );
-                    
-                    if (dayPlans.length > 0) {
-                        cells += `<td><div class="cell-content">`;
-                        dayPlans.forEach(plan => {
-                            let statusClass = '';
-                            let statusIcon = '';
-                            if (plan.status === 'approved' || plan.status === 'O') {
-                                statusClass = 'completed';
-                                statusIcon = '<span class="status-icon" style="color: var(--success);">✓</span>';
-                            } else if (plan.status === 'failed' || plan.status === 'X') {
-                                statusClass = 'failed';
-                                statusIcon = '<span class="status-icon" style="color: var(--danger);">✗</span>';
-                            } else if (plan.status === 'requested') {
-                                statusClass = 'pending';
-                                statusIcon = '<span class="status-icon" style="color: var(--warning);">⏳</span>';
-                            }
-                            
-                            const pages = plan.startPage && plan.endPage ? 
-                                `<div class="pages">p.${plan.startPage}~${plan.endPage}</div>` : 
-                                (plan.planPages ? `<div class="pages">${plan.planPages}</div>` : '');
-                            
-                            cells += `<div class="cell-plan ${statusClass}" onclick="openPlanDetail('${plan.subject}', '${plan.book}', '${dateStr}')">
-                                ${statusIcon}
-                                <div>O</div>
-                                ${pages}
-                            </div>`;
-                        });
-                        cells += `</div></td>`;
-                    } else {
-                        cells += `<td>
-                            <button class="cell-add" onclick="quickAddPlan('${book.subject}', '${book.name}', '${dateStr}')">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </td>`;
-                    }
-                }
-                
-                return `<tr>${cells}</tr>`;
-            }).join('');
-        }
-
-        async function quickAddPlan(subject, bookName, dateStr) {
-            const result = await apiCall({
-                action: 'addPlan',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: dateStr,
-                subject: subject,
-                bookName: bookName,
-                time: 60
-            });
-            
-            if (result.success) {
-                userPlans.push({
-                    date: dateStr,
-                    subject: subject,
-                    book: bookName,
-                    status: 'pending'
-                });
-                renderWeeklyTable();
-                showToast('계획이 추가되었습니다');
-            }
-        }
-
-        function openPlanDetail(subject, book, date) {
-            currentPlanDetail = { subject, book, date };
-            const plan = userPlans.find(p => p.subject === subject && p.book === book && p.date === date);
-            
-            document.getElementById('planDetailTitle').textContent = `${subject} - ${book}`;
-            
-            let statusText = '대기중';
-            if (plan.status === 'approved' || plan.status === 'O') statusText = '✅ 승인 완료';
-            else if (plan.status === 'failed' || plan.status === 'X') statusText = '❌ 미완료';
-            else if (plan.status === 'requested') statusText = '⏳ 검사 대기';
-            
-            document.getElementById('planDetailContent').innerHTML = `
-                <p><strong>날짜:</strong> ${date}</p>
-                <p><strong>상태:</strong> ${statusText}</p>
-                ${plan.startPage ? `<p><strong>페이지:</strong> p.${plan.startPage} ~ p.${plan.endPage}</p>` : ''}
-                ${plan.actualTime ? `<p><strong>공부시간:</strong> ${plan.actualTime}분</p>` : ''}
-            `;
-            
-            openModal('planDetailModal');
-        }
-
-        async function deletePlan() {
-            if (!currentPlanDetail) return;
-            if (!confirm('이 계획을 삭제하시겠습니까?')) return;
-            
-            const result = await apiCall({
-                action: 'deletePlan',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: currentPlanDetail.date,
-                subject: currentPlanDetail.subject,
-                bookName: currentPlanDetail.book
-            });
-            
-            if (result.success) {
-                userPlans = userPlans.filter(p => 
-                    !(p.subject === currentPlanDetail.subject && 
-                      p.book === currentPlanDetail.book && 
-                      p.date === currentPlanDetail.date)
-                );
-                closeModal('planDetailModal');
-                renderWeeklyTable();
-                showToast('계획이 삭제되었습니다');
-            }
-        }
-
-        function changeWeek(delta) {
-            currentWeekStart.setDate(currentWeekStart.getDate() + (delta * 7));
-            initPlanScreen();
-        }
-
-        function updatePlanDateSelect() {
-            const select = document.getElementById('planDate');
-            const weekDates = getWeekDates(currentWeekStart);
-            select.innerHTML = weekDates.map((d, i) => 
+        // 계획 추가 모달
+        function openAddPlanModal() {
+            const dates = getWeekDates();
+            document.getElementById('planDate').innerHTML = dates.map((d, i) =>
                 `<option value="${formatDate(d)}">${formatDateKR(d)} (${getDayName(i)})</option>`
             ).join('');
-        }
-
-        function updatePlanBookSelect() {
-            const select = document.getElementById('planBook');
-            select.innerHTML = '<option value="">선택해주세요</option>';
-            userBooks.forEach(book => {
-                select.innerHTML += `<option value="${book.subject}|${book.name}">[${book.subject}] ${book.name}</option>`;
-            });
+            
+            document.getElementById('planBook').innerHTML = '<option value="">선택해주세요</option>' +
+                userBooks.map(b => `<option value="${b.subject}|${b.name}">[${b.subject}] ${b.name}</option>`).join('');
+            
+            openModal('addPlanModal');
         }
 
         async function addPlan() {
             const date = document.getElementById('planDate').value;
-            const bookValue = document.getElementById('planBook').value;
-            if (!bookValue) {
+            const bookVal = document.getElementById('planBook').value;
+            if (!bookVal) {
                 showToast('교재를 선택해주세요');
                 return;
             }
-            const [subject, bookName] = bookValue.split('|');
+            const [subject, bookName] = bookVal.split('|');
             const startPage = document.getElementById('planStartPage').value;
             const endPage = document.getElementById('planEndPage').value;
             
-            const result = await apiCall({
+            const res = await api({
                 action: 'addPlan',
                 floor: currentUser.floor,
                 name: currentUser.name,
-                date: date,
-                subject: subject,
-                bookName: bookName,
-                time: 60,
-                startPage: startPage,
-                endPage: endPage
+                date, subject, bookName, time: 60, startPage, endPage
             });
             
-            if (result.success) {
+            if (res.success) {
                 userPlans.push({
-                    date: date,
-                    subject: subject,
-                    book: bookName,
-                    status: 'pending',
+                    date, subject, book: bookName, status: 'pending',
                     planPages: startPage && endPage ? `p.${startPage}~${endPage}` : ''
                 });
+                renderTable();
                 closeModal('addPlanModal');
-                renderWeeklyTable();
-                showToast('계획이 추가되었습니다');
-                document.getElementById('planStartPage').value = '';
-                document.getElementById('planEndPage').value = '';
+                showToast('📅 계획 추가됨');
             }
         }
 
-        // =============================================
-        // 계획표 복사/공유 기능
-        // =============================================
-        function generateWeeklyPlanText() {
-            const weekDates = getWeekDates(currentWeekStart);
-            const month = weekDates[0].getMonth() + 1;
-            const weekNum = Math.ceil(weekDates[0].getDate() / 7);
-            const weekKey = formatDate(currentWeekStart);
-            const goals = weekGoals[weekKey] || {};
+        // 오늘 실천
+        async function openTodayRecord() {
+            const res = await api({
+                action: 'getRecords',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(new Date())
+            });
             
-            let text = '';
-            text += '📚 김엄마독서실 주간 계획표\n';
-            text += '━━━━━━━━━━━━━━━━━━━━\n';
-            text += `👤 학생: ${currentUser.name} (${currentUser.floor})\n`;
-            text += `📅 ${month}월 ${weekNum}주차 (${formatDateKR(weekDates[0])}~${formatDateKR(weekDates[6])})\n\n`;
+            const list = document.getElementById('todayRecordList');
+            if (res.success && res.records && res.records.length > 0) {
+                list.innerHTML = res.records.map(r => {
+                    let status = '⬜', cls = '';
+                    if (r.status === 'approved' || r.status === 'O') { status = '✅'; cls = 'completed'; }
+                    else if (r.status === 'failed' || r.status === 'X') { status = '❌'; cls = 'failed'; }
+                    else if (r.status === 'requested') { status = '⏳'; cls = 'pending'; }
+                    
+                    return `<div class="record-card ${cls}" onclick="openPlanDetail('${r.subject}','${r.book}','${formatDate(new Date())}')">
+                        <div class="record-header">
+                            <div>
+                                <div class="record-title">${r.book}</div>
+                                <div class="record-subject">${r.subject}</div>
+                            </div>
+                            <div class="record-status">${status}</div>
+                        </div>
+                    </div>`;
+                }).join('');
+            } else {
+                list.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-400);"><i class="fas fa-calendar-check" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>오늘 계획이 없습니다</div>';
+            }
+            openModal('todayRecordModal');
+        }
+
+        // 일기
+        async function openDiaryModal() {
+            const res = await api({
+                action: 'getRecords',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(new Date())
+            });
             
-            // 이번주 목표
+            if (res.success) {
+                const records = res.records || [];
+                const totalTime = records.filter(r => r.status === 'approved' || r.status === 'O')
+                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
+                const hours = Math.floor(totalTime / 60);
+                const mins = totalTime % 60;
+                
+                let emoji = '😴', text = '아직 기록이 없어요';
+                if (totalTime >= 480) { emoji = '😊'; text = '정말 잘했어요!'; }
+                else if (totalTime >= 240) { emoji = '🙂'; text = '조금 더 힘내요!'; }
+                else if (totalTime > 0) { emoji = '😢'; text = '내일은 더 열심히!'; }
+                
+                document.getElementById('diaryEmoji').textContent = emoji;
+                document.getElementById('diaryStudyTime').textContent = `오늘 ${hours}시간 ${mins}분 공부!`;
+                document.getElementById('diaryMoodText').textContent = text;
+            }
+            
+            // 기존 일기 로드
+            const diaryRes = await api({
+                action: 'getDiary',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(new Date())
+            });
+            if (diaryRes.success && diaryRes.diary) {
+                document.getElementById('diaryContent').value = diaryRes.diary.content || '';
+            } else {
+                document.getElementById('diaryContent').value = '';
+            }
+            
+            initDiaryCanvas();
+            openModal('diaryModal');
+        }
+
+        async function saveDiary() {
+            const content = document.getElementById('diaryContent').value;
+            
+            await api({
+                action: 'saveDiary',
+                floor: currentUser.floor,
+                name: currentUser.name,
+                date: formatDate(new Date()),
+                content
+            });
+            
+            closeModal('diaryModal');
+            showToast('📔 일기 저장됨', true);
+        }
+
+        // 통계
+        async function openStatsModal() {
+            const res = await api({
+                action: 'getStats',
+                floor: currentUser.floor,
+                name: currentUser.name
+            });
+            
+            if (res.success) {
+                const s = res.stats;
+                document.getElementById('statTotal').textContent = s.totalPlans || 0;
+                document.getElementById('statComplete').textContent = s.completed || 0;
+                document.getElementById('statTime').textContent = (s.totalTimeHours || 0) + 'h';
+                document.getElementById('statRate').textContent = (s.rate || 0) + '%';
+            }
+            
+            const rankRes = await api({ action: 'getRanking' });
+            if (rankRes.success && rankRes.rankings) {
+                document.getElementById('rankingList').innerHTML = rankRes.rankings.slice(0, 5).map((r, i) => {
+                    const medal = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : `${i+1}`));
+                    return `<div style="display: flex; align-items: center; padding: 0.5rem; background: var(--gray-50); border-radius: 8px; margin-bottom: 0.5rem;">
+                        <span style="font-size: 1.2rem; width: 30px;">${medal}</span>
+                        <span style="flex: 1; font-weight: 600;">${r.name}</span>
+                        <span style="color: var(--accent); font-weight: 700;">${r.totalTime}h</span>
+                    </div>`;
+                }).join('');
+            }
+            
+            openModal('statsModal');
+        }
+
+        // 계획표 복사
+        function copyWeekPlan() {
+            const dates = getWeekDates();
+            const month = dates[0].getMonth() + 1;
+            const weekNum = Math.ceil(dates[0].getDate() / 7);
+            
+            let text = `📚 김엄마독서실 주간 계획표\n`;
+            text += `━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `👤 ${currentUser.name} (${currentUser.floor})\n`;
+            text += `📅 ${month}월 ${weekNum}주차\n\n`;
+            
+            const key = formatDate(weekStart);
+            const goals = weekGoals[key] || {};
             if (goals.goal1 || goals.goal2 || goals.goal3) {
-                text += '🎯 이번주 목표\n';
+                text += `🎯 이번주 목표\n`;
                 if (goals.goal1) text += `  1. ${goals.goal1}\n`;
                 if (goals.goal2) text += `  2. ${goals.goal2}\n`;
                 if (goals.goal3) text += `  3. ${goals.goal3}\n`;
                 text += '\n';
             }
             
-            text += '📖 주간 계획\n';
-            text += '━━━━━━━━━━━━━━━━━━━━\n';
+            text += `📖 계획 현황\n`;
+            userPlans.forEach(p => {
+                let status = '⬜';
+                if (p.status === 'approved' || p.status === 'O') status = '✅';
+                else if (p.status === 'failed' || p.status === 'X') status = '❌';
+                else if (p.status === 'requested') status = '⏳';
+                
+                const d = new Date(p.date);
+                const dayIdx = (d.getDay() + 6) % 7;
+                text += `${status} ${getDayName(dayIdx)} ${p.subject} ${p.book}\n`;
+            });
             
-            // 교재별로 그룹화
-            const bookGroups = {};
-            userBooks.forEach(book => {
-                const key = `${book.subject}|${book.name}`;
-                if (!bookGroups[key]) {
-                    bookGroups[key] = { subject: book.subject, name: book.name };
+            const total = userPlans.length;
+            const done = userPlans.filter(p => p.status === 'approved' || p.status === 'O').length;
+            text += `\n📊 실천율: ${total > 0 ? Math.round(done/total*100) : 0}%`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('📋 복사됨! 카톡에 붙여넣기 하세요', true);
+            });
+        }
+
+        // 펜슬 캔버스
+        function initPencilCanvas() {
+            const canvas = document.getElementById('pencilCanvas');
+            if (!canvas) return;
+            
+            canvas.width = canvas.offsetWidth * 2;
+            canvas.height = canvas.offsetHeight * 2;
+            pencilCtx = canvas.getContext('2d');
+            pencilCtx.scale(2, 2);
+            pencilCtx.lineCap = 'round';
+            pencilCtx.lineJoin = 'round';
+            
+            canvas.addEventListener('pointerdown', startDraw);
+            canvas.addEventListener('pointermove', draw);
+            canvas.addEventListener('pointerup', endDraw);
+            canvas.addEventListener('pointerleave', endDraw);
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            const rect = e.target.getBoundingClientRect();
+            pencilCtx.beginPath();
+            pencilCtx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = e.target.getBoundingClientRect();
+            pencilCtx.lineWidth = pencilTool === 'eraser' ? 20 : 2;
+            pencilCtx.strokeStyle = pencilTool === 'eraser' ? '#fffef5' : pencilColor;
+            pencilCtx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            pencilCtx.stroke();
+        }
+
+        function endDraw() { isDrawing = false; }
+
+        function setPencilTool(tool) {
+            pencilTool = tool;
+            document.querySelectorAll('#pencilInputMode .pencil-tool').forEach(b => b.classList.remove('active'));
+            event.target.closest('.pencil-tool').classList.add('active');
+        }
+
+        function setPencilColor(color) {
+            pencilColor = color;
+            document.querySelectorAll('#pencilInputMode .color-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function clearCanvas() {
+            if (pencilCtx) {
+                pencilCtx.clearRect(0, 0, 1000, 500);
+            }
+        }
+
+        // 일기 펜슬
+        function initDiaryCanvas() {
+            const canvas = document.getElementById('diaryCanvas');
+            if (!canvas) return;
+            
+            canvas.width = canvas.offsetWidth * 2;
+            canvas.height = 500;
+            diaryCtx = canvas.getContext('2d');
+            diaryCtx.scale(2, 2);
+            diaryCtx.lineCap = 'round';
+            diaryCtx.lineJoin = 'round';
+            
+            canvas.addEventListener('pointerdown', startDiaryDraw);
+            canvas.addEventListener('pointermove', diaryDraw);
+            canvas.addEventListener('pointerup', endDiaryDraw);
+            canvas.addEventListener('pointerleave', endDiaryDraw);
+        }
+
+        let isDiaryDrawing = false;
+        function startDiaryDraw(e) {
+            isDiaryDrawing = true;
+            const rect = e.target.getBoundingClientRect();
+            diaryCtx.beginPath();
+            diaryCtx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function diaryDraw(e) {
+            if (!isDiaryDrawing) return;
+            const rect = e.target.getBoundingClientRect();
+            diaryCtx.lineWidth = diaryTool === 'eraser' ? 20 : 2;
+            diaryCtx.strokeStyle = diaryTool === 'eraser' ? '#fffef5' : diaryColor;
+            diaryCtx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            diaryCtx.stroke();
+        }
+
+        function endDiaryDraw() { isDiaryDrawing = false; }
+
+        function setDiaryTool(tool) {
+            diaryTool = tool;
+            document.querySelectorAll('#diaryPencilMode .pencil-tool').forEach(b => b.classList.remove('active'));
+            event.target.closest('.pencil-tool').classList.add('active');
+        }
+
+        function setDiaryColor(color) {
+            diaryColor = color;
+            document.querySelectorAll('#diaryPencilMode .color-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function clearDiaryCanvas() {
+            if (diaryCtx) {
+                diaryCtx.clearRect(0, 0, 1000, 500);
+            }
+        }
+
+        // 입력 모드 전환
+        function switchInputMode(mode) {
+            document.querySelectorAll('#recordInputArea .mode-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (mode === 'text') {
+                document.getElementById('textInputMode').classList.remove('hidden');
+                document.getElementById('pencilInputMode').classList.add('hidden');
+            } else {
+                document.getElementById('textInputMode').classList.add('hidden');
+                document.getElementById('pencilInputMode').classList.remove('hidden');
+                setTimeout(initPencilCanvas, 100);
+            }
+        }
+
+        function switchDiaryMode(mode) {
+            document.querySelectorAll('#diaryModal .mode-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (mode === 'text') {
+                document.getElementById('diaryTextMode').classList.remove('hidden');
+                document.getElementById('diaryPencilMode').classList.add('hidden');
+            } else {
+                document.getElementById('diaryTextMode').classList.add('hidden');
+                document.getElementById('diaryPencilMode').classList.remove('hidden');
+                setTimeout(initDiaryCanvas, 100);
+            }
+        }
+
+        // 모달
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            if (id === 'addPlanModal') openAddPlanModal();
+            if (id === 'diaryModal') openDiaryModal();
+            if (id === 'statsModal') openStatsModal();
+            if (id === 'goalModal') {
+                const key = formatDate(weekStart);
+                const g = weekGoals[key] || {};
+                document.getElementById('goal1').value = g.goal1 || '';
+                document.getElementById('goal2').value = g.goal2 || '';
+                document.getElementById('goal3').value = g.goal3 || '';
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function showToast(msg, success = false) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast' + (success ? ' success' : '');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        // 모달 바깥 클릭시 닫기
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
                 }
             });
-            userPlans.forEach(plan => {
-                const key = `${plan.subject}|${plan.book}`;
-                if (!bookGroups[key]) {
-                    bookGroups[key] = { subject: plan.subject, name: plan.book };
-                }
-            });
-            
-            // 과목별로 정렬
-            const sortedBooks = Object.values(bookGroups).sort((a, b) => {
-                const order = ['국어', '수학', '영어', '물리', '화학', '생명', '지구과학', '한국사', '사회탐구'];
-                return order.indexOf(a.subject) - order.indexOf(b.subject);
-            });
-            
-            // 현재 과목 추적
-            let currentSubject = '';
-            
-            sortedBooks.forEach(book => {
-                // 해당 교재의 계획들
-                const bookPlans = [];
-                for (let i = 0; i < 7; i++) {
-                    const dateStr = formatDate(weekDates[i]);
-                    const dayPlans = userPlans.filter(p => 
-                        p.date === dateStr && p.subject === book.subject && p.book === book.name
-                    );
-                    if (dayPlans.length > 0) {
-                        dayPlans.forEach(plan => {
-                            let status = '⬜';
-                            if (plan.status === 'approved' || plan.status === 'O') status = '✅';
-                            else if (plan.status === 'failed' || plan.status === 'X') status = '❌';
-                            else if (plan.status === 'requested') status = '⏳';
-                            
-                            let pageInfo = '';
-                            if (plan.startPage && plan.endPage) {
-                                pageInfo = ` (p.${plan.startPage}~${plan.endPage})`;
-                            } else if (plan.planPages) {
-                                pageInfo = ` (${plan.planPages})`;
-                            }
-                            
-                            bookPlans.push({
-                                day: getDayName(i),
-                                date: weekDates[i].getDate(),
-                                status: status,
-                                pages: pageInfo
-                            });
-                        });
-                    }
-                }
-                
-                if (bookPlans.length > 0) {
-                    // 과목이 바뀌면 구분선
-                    if (currentSubject !== book.subject) {
-                        if (currentSubject !== '') text += '\n';
-                        text += `【${book.subject}】\n`;
-                        currentSubject = book.subject;
-                    }
-                    
-                    text += `  📕 ${book.name}\n`;
-                    bookPlans.forEach(p => {
-                        text += `     ${p.status} ${p.day}(${p.date})${p.pages}\n`;
-                    });
-                }
-            });
-            
-            // 통계 요약
-            const totalPlans = userPlans.length;
-            const completedPlans = userPlans.filter(p => p.status === 'approved' || p.status === 'O').length;
-            const pendingPlans = userPlans.filter(p => p.status === 'requested').length;
-            const failedPlans = userPlans.filter(p => p.status === 'failed' || p.status === 'X').length;
-            
-            text += '\n━━━━━━━━━━━━━━━━━━━━\n';
-            text += '📊 이번주 현황\n';
-            text += `  • 전체 계획: ${totalPlans}개\n`;
-            text += `  • 완료: ${completedPlans}개 ✅\n`;
-            text += `  • 검사대기: ${pendingPlans}개 ⏳\n`;
-            text += `  • 미완료: ${failedPlans}개 ❌\n`;
-            if (totalPlans > 0) {
-                const rate = Math.round(completedPlans / totalPlans * 100);
-                text += `  • 실천율: ${rate}%\n`;
-            }
-            text += '\n━━━━━━━━━━━━━━━━━━━━\n';
-            text += '김엄마독서실 일일플래너';
-            
-            return text;
-        }
-
-        function copyWeeklyPlan() {
-            const text = generateWeeklyPlanText();
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 계획표가 복사되었습니다!\n카카오톡에 붙여넣기 하세요', true);
-                }).catch(err => {
-                    fallbackCopy(text);
-                });
-            } else {
-                fallbackCopy(text);
-            }
-        }
-
-        function fallbackCopy(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.style.position = 'fixed';
-            textarea.style.left = '-9999px';
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                showToast('📋 계획표가 복사되었습니다!', true);
-            } catch (err) {
-                showToast('복사 실패. 다시 시도해주세요.');
-            }
-            document.body.removeChild(textarea);
-        }
-
-        function previewWeeklyPlan() {
-            const text = generateWeeklyPlanText();
-            document.getElementById('previewContent').textContent = text;
-            openModal('previewModal');
-        }
-
-        function copyFromPreview() {
-            const text = document.getElementById('previewContent').textContent;
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('📋 계획표가 복사되었습니다!', true);
-                    closeModal('previewModal');
-                }).catch(err => {
-                    fallbackCopy(text);
-                    closeModal('previewModal');
-                });
-            } else {
-                fallbackCopy(text);
-                closeModal('previewModal');
-            }
-        }
-
-        // 주간 목표
-        async function loadGoals() {
-            const result = await apiCall({
-                action: 'getGoals',
-                floor: currentUser.floor,
-                name: currentUser.name
-            });
-            if (result.success) {
-                weekGoals = result.weekGoals || {};
-                monthGoals = result.monthGoals || {};
-            }
-        }
-
-        function renderWeekGoal() {
-            const weekKey = formatDate(currentWeekStart);
-            const goals = weekGoals[weekKey] || {};
-            const content = document.getElementById('weekGoalContent');
-            
-            if (goals.goal1 || goals.goal2 || goals.goal3) {
-                let html = '';
-                if (goals.goal1) html += `<p>1. ${goals.goal1}</p>`;
-                if (goals.goal2) html += `<p>2. ${goals.goal2}</p>`;
-                if (goals.goal3) html += `<p>3. ${goals.goal3}</p>`;
-                content.innerHTML = html;
-            } else {
-                content.innerHTML = '<p>목표를 설정해주세요!</p>';
-            }
-        }
-
-        async function saveWeekGoal() {
-            const weekKey = formatDate(currentWeekStart);
-            const goal1 = document.getElementById('weekGoal1').value.trim();
-            const goal2 = document.getElementById('weekGoal2').value.trim();
-            const goal3 = document.getElementById('weekGoal3').value.trim();
-            
-            const result = await apiCall({
-                action: 'saveWeekGoal',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                weekKey: weekKey,
-                goal1: goal1,
-                goal2: goal2,
-                goal3: goal3
-            });
-            
-            if (result.success) {
-                weekGoals[weekKey] = { goal1, goal2, goal3 };
-                closeModal('editGoalModal');
-                renderWeekGoal();
-                showToast('목표가 저장되었습니다');
-            }
-        }
-
-        async function saveMonthGoal() {
-            const monthKey = `${calendarMonth.getFullYear()}-${calendarMonth.getMonth() + 1}`;
-            const goalText = document.getElementById('monthGoalText').value.trim();
-            const goalHours = document.getElementById('monthGoalHours').value;
-            const goalRate = document.getElementById('monthGoalRate').value;
-            
-            const result = await apiCall({
-                action: 'saveMonthGoal',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                monthKey: monthKey,
-                goalText: goalText,
-                goalHours: goalHours,
-                goalRate: goalRate
-            });
-            
-            if (result.success) {
-                monthGoals[monthKey] = { goalText, goalHours, goalRate };
-                closeModal('editMonthGoalModal');
-                renderGoalScreen();
-                showToast('목표가 저장되었습니다');
-            }
-        }
-
-        // 실천 기록
-        async function initRecordScreen() {
-            document.getElementById('recordDateDisplay').textContent = 
-                recordDate.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
-            await loadRecords();
-        }
-
-        async function loadRecords() {
-            const result = await apiCall({
-                action: 'getRecords',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: formatDate(recordDate)
-            });
-            if (result.success) renderRecordList(result.records);
-        }
-
-        function renderRecordList(records) {
-            const list = document.getElementById('recordList');
-            if (!records || records.length === 0) {
-                list.innerHTML = '<div class="empty-state"><i class="fas fa-clipboard-list"></i><p>이 날의 계획이 없습니다</p></div>';
-                return;
-            }
-            
-            list.innerHTML = records.map(plan => {
-                let statusText = '';
-                let showButtons = false;
-                
-                if (plan.status === 'pending' || !plan.status) {
-                    statusText = '<span style="color: var(--gray-400);">대기중</span>';
-                    showButtons = true;
-                } else if (plan.status === 'requested') {
-                    statusText = '<span style="color: var(--warning);"><i class="fas fa-clock"></i> 검사 대기</span>';
-                } else if (plan.status === 'approved' || plan.status === 'O') {
-                    statusText = '<span style="color: var(--success);"><i class="fas fa-check-circle"></i> 승인 완료</span>';
-                } else if (plan.status === 'failed' || plan.status === 'X') {
-                    statusText = '<span style="color: var(--danger);"><i class="fas fa-times"></i> 미완료</span>';
-                }
-                
-                return `<div class="plan-item ${plan.status}">
-                    <div class="plan-header">
-                        <div>
-                            <div class="plan-title">${plan.book}</div>
-                            <div class="plan-subtitle">${plan.subject}</div>
-                        </div>
-                        ${statusText}
-                    </div>
-                    ${showButtons ? `<div class="plan-actions">
-                        <button class="plan-btn timer" onclick="startStopwatch('${plan.subject}', '${plan.book}')"><i class="fas fa-stopwatch"></i> 타이머</button>
-                        <button class="plan-btn complete" onclick="openRecordModal('${plan.subject}', '${plan.book}')"><i class="fas fa-hand-paper"></i> 직접입력</button>
-                        <button class="plan-btn fail" onclick="markFailed('${plan.subject}', '${plan.book}')"><i class="fas fa-times"></i> 미완료</button>
-                    </div>` : ''}
-                </div>`;
-            }).join('');
-        }
-
-        async function changeRecordDate(delta) {
-            recordDate.setDate(recordDate.getDate() + delta);
-            await initRecordScreen();
-        }
-
-        function openRecordModal(subject, book) {
-            currentRecordPlan = { subject, book };
-            document.getElementById('recordBookLabel').textContent = `[${subject}] ${book}`;
-            openModal('recordModal');
-        }
-
-        async function saveRecord() {
-            const time = parseInt(document.getElementById('recordTime').value) || 0;
-            if (!time) {
-                showToast('공부 시간을 입력해주세요');
-                return;
-            }
-            
-            const result = await apiCall({
-                action: 'requestCheck',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: formatDate(recordDate),
-                subject: currentRecordPlan.subject,
-                bookName: currentRecordPlan.book,
-                startPage: document.getElementById('recordStartPage').value,
-                endPage: document.getElementById('recordEndPage').value,
-                actualTime: time,
-                note: document.getElementById('recordNote').value
-            });
-            
-            if (result.success) {
-                closeModal('recordModal');
-                await loadRecords();
-                showToast('검사 요청 완료!');
-                document.getElementById('recordStartPage').value = '';
-                document.getElementById('recordEndPage').value = '';
-                document.getElementById('recordTime').value = '';
-                document.getElementById('recordNote').value = '';
-            }
-        }
-
-        async function markFailed(subject, book) {
-            if (!confirm('미완료로 기록하시겠습니까?')) return;
-            
-            const result = await apiCall({
-                action: 'markFailed',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: formatDate(recordDate),
-                subject: subject,
-                bookName: book
-            });
-            
-            if (result.success) {
-                await loadRecords();
-                showToast('미완료로 기록되었습니다');
-            }
-        }
-
-        // 스톱워치
-        function startStopwatch(subject, book) {
-            swCurrentPlan = { subject, book };
-            document.getElementById('swSubject').textContent = subject;
-            document.getElementById('swBook').textContent = book;
-            document.getElementById('swDisplay').textContent = '00:00';
-            document.getElementById('swSeconds').textContent = ':00';
-            document.getElementById('stopwatchScreen').classList.add('active');
-            
-            swStartTime = Date.now();
-            swElapsedTime = 0;
-            swPausedTime = 0;
-            swIsRunning = true;
-            
-            document.getElementById('swStatusDot').classList.remove('paused');
-            document.getElementById('swStatusText').textContent = '공부 중...';
-            document.getElementById('swPauseIcon').className = 'fas fa-pause';
-            document.getElementById('swPauseBtn').className = 'sw-btn sw-btn-pause';
-            
-            swInterval = setInterval(updateStopwatchDisplay, 1000);
-        }
-
-        function updateStopwatchDisplay() {
-            if (!swIsRunning) return;
-            
-            const elapsed = Math.floor((Date.now() - swStartTime - swPausedTime) / 1000);
-            const minutes = Math.floor(elapsed / 60);
-            const seconds = elapsed % 60;
-            
-            document.getElementById('swDisplay').textContent = 
-                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            document.getElementById('swSeconds').textContent = `:${String(seconds).padStart(2, '0')}`;
-            
-            swElapsedTime = elapsed;
-        }
-
-        function toggleStopwatch() {
-            if (swIsRunning) {
-                swIsRunning = false;
-                swPausedTime += Date.now() - swStartTime - swPausedTime - (swElapsedTime * 1000);
-                document.getElementById('swStatusDot').classList.add('paused');
-                document.getElementById('swStatusText').textContent = '일시정지';
-                document.getElementById('swPauseIcon').className = 'fas fa-play';
-                document.getElementById('swPauseBtn').className = 'sw-btn sw-btn-play';
-            } else {
-                swIsRunning = true;
-                swStartTime = Date.now() - (swElapsedTime * 1000);
-                document.getElementById('swStatusDot').classList.remove('paused');
-                document.getElementById('swStatusText').textContent = '공부 중...';
-                document.getElementById('swPauseIcon').className = 'fas fa-pause';
-                document.getElementById('swPauseBtn').className = 'sw-btn sw-btn-pause';
-            }
-        }
-
-        function cancelStopwatch() {
-            if (confirm('타이머를 취소하시겠습니까?')) {
-                clearInterval(swInterval);
-                document.getElementById('stopwatchScreen').classList.remove('active');
-            }
-        }
-
-        function stopStopwatch() {
-            clearInterval(swInterval);
-            document.getElementById('stopwatchScreen').classList.remove('active');
-            
-            const minutes = Math.ceil(swElapsedTime / 60);
-            currentRecordPlan = swCurrentPlan;
-            document.getElementById('recordBookLabel').textContent = `[${swCurrentPlan.subject}] ${swCurrentPlan.book}`;
-            document.getElementById('recordTime').value = minutes;
-            openModal('recordModal');
-        }
-
-        // 통계
-        async function initStatsScreen() {
-            const result = await apiCall({
-                action: 'getStats',
-                floor: currentUser.floor,
-                name: currentUser.name
-            });
-            
-            if (result.success) {
-                const s = result.stats;
-                document.getElementById('myTotalPlan').textContent = s.totalPlans || 0;
-                document.getElementById('myTotalComplete').textContent = s.completed || 0;
-                document.getElementById('myTotalTime').textContent = (s.totalTimeHours || 0) + 'h';
-                document.getElementById('myTotalPoint').textContent = s.points || 0;
-                document.getElementById('myProgressPercent').textContent = (s.rate || 0) + '%';
-                document.getElementById('myProgressFill').style.width = (s.rate || 0) + '%';
-            }
-            
-            const rankResult = await apiCall({ action: 'getRanking' });
-            if (rankResult.success) renderRanking(rankResult.rankings);
-        }
-
-        function renderRanking(rankings) {
-            const list = document.getElementById('rankingList');
-            if (!rankings || rankings.length === 0) {
-                list.innerHTML = '<div class="empty-state"><i class="fas fa-trophy"></i><p>랭킹 데이터가 없습니다</p></div>';
-                return;
-            }
-            
-            list.innerHTML = rankings.map((r, i) => `
-                <div class="ranking-item ${i < 3 ? 'top-' + (i + 1) : ''}">
-                    <div class="ranking-num">${i + 1}</div>
-                    <div class="ranking-info">
-                        <div class="ranking-name">${r.name}</div>
-                        <div class="ranking-detail">${r.floor} · 실천율 ${r.rate}%</div>
-                    </div>
-                    <div class="ranking-score">${r.totalTime}h</div>
-                </div>
-            `).join('');
-        }
-
-        // 캘린더
-        async function initCalendarScreen() {
-            await renderCalendar();
-            await loadMonthStats();
-        }
-
-        async function renderCalendar() {
-            const grid = document.getElementById('calendarGrid');
-            const year = calendarMonth.getFullYear();
-            const month = calendarMonth.getMonth();
-            
-            document.getElementById('calendarTitle').textContent = `${year}년 ${month + 1}월`;
-            
-            // 기존 날짜 제거
-            const existingDays = grid.querySelectorAll('.calendar-day');
-            existingDays.forEach(d => d.remove());
-            
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const startDay = firstDay.getDay();
-            const today = formatDate(new Date());
-            
-            // 월간 공부시간 데이터 로드
-            const monthData = await loadMonthStudyData(year, month + 1);
-            
-            // 이전 달
-            const prevLastDay = new Date(year, month, 0).getDate();
-            for (let i = startDay - 1; i >= 0; i--) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day other-month';
-                day.textContent = prevLastDay - i;
-                grid.appendChild(day);
-            }
-            
-            // 이번 달
-            for (let i = 1; i <= lastDay.getDate(); i++) {
-                const day = document.createElement('div');
-                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-                day.className = 'calendar-day';
-                if (dateStr === today) day.classList.add('today');
-                day.textContent = i;
-                
-                // 공부시간에 따른 이모지 추가
-                const studyTime = monthData[dateStr] || 0;
-                if (studyTime > 0) {
-                    const emoji = document.createElement('span');
-                    emoji.className = 'day-emoji';
-                    if (studyTime >= 480) {
-                        emoji.textContent = '😊';
-                    } else if (studyTime >= 240) {
-                        emoji.textContent = '🙂';
-                    } else {
-                        emoji.textContent = '😢';
-                    }
-                    day.appendChild(emoji);
-                }
-                
-                day.onclick = () => {
-                    recordDate = new Date(dateStr);
-                    showScreen('recordScreen');
-                };
-                grid.appendChild(day);
-            }
-            
-            // 다음 달
-            const remaining = 42 - (startDay + lastDay.getDate());
-            for (let i = 1; i <= remaining; i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day other-month';
-                day.textContent = i;
-                grid.appendChild(day);
-            }
-        }
-
-        async function loadMonthStudyData(year, month) {
-            const result = await apiCall({
-                action: 'getMonthStudyData',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                year: year,
-                month: month
-            });
-            
-            if (result.success && result.data) {
-                return result.data;
-            }
-            return {};
-        }
-
-        async function loadMonthStats() {
-            const year = calendarMonth.getFullYear();
-            const month = calendarMonth.getMonth() + 1;
-            
-            const result = await apiCall({
-                action: 'getMonthStats',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                year: year,
-                month: month
-            });
-            
-            if (result.success) {
-                document.getElementById('monthPlans').textContent = result.stats.totalPlans || 0;
-                document.getElementById('monthComplete').textContent = result.stats.completed || 0;
-            }
-        }
-
-        async function changeCalendarMonth(delta) {
-            calendarMonth.setMonth(calendarMonth.getMonth() + delta);
-            await initCalendarScreen();
-        }
-
-        // 목표 화면
-        function renderGoalScreen() {
-            const weekKey = formatDate(currentWeekStart);
-            const monthKey = `${calendarMonth.getFullYear()}-${calendarMonth.getMonth() + 1}`;
-            
-            const wGoal = weekGoals[weekKey] || {};
-            const mGoal = monthGoals[monthKey] || {};
-            
-            let weekHtml = '';
-            if (wGoal.goal1 || wGoal.goal2 || wGoal.goal3) {
-                if (wGoal.goal1) weekHtml += `<p>1. ${wGoal.goal1}</p>`;
-                if (wGoal.goal2) weekHtml += `<p>2. ${wGoal.goal2}</p>`;
-                if (wGoal.goal3) weekHtml += `<p>3. ${wGoal.goal3}</p>`;
-            } else {
-                weekHtml = '목표를 설정해주세요!';
-            }
-            document.getElementById('currentWeekGoal').innerHTML = weekHtml;
-            
-            let monthHtml = '';
-            if (mGoal.goalText || mGoal.goalHours || mGoal.goalRate) {
-                if (mGoal.goalText) monthHtml += `<p>${mGoal.goalText}</p>`;
-                if (mGoal.goalHours) monthHtml += `<p>📚 목표 공부시간: ${mGoal.goalHours}시간</p>`;
-                if (mGoal.goalRate) monthHtml += `<p>📊 목표 실천율: ${mGoal.goalRate}%</p>`;
-            } else {
-                monthHtml = '목표를 설정해주세요!';
-            }
-            document.getElementById('currentMonthGoal').innerHTML = monthHtml;
-        }
-
-        // 홈 통계
-        function updateTodayDate() {
-            document.getElementById('todayDate').textContent = 
-                new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' });
-        }
-
-        async function updateHomeStats() {
-            const result = await apiCall({
-                action: 'getRecords',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: formatDate(new Date())
-            });
-            
-            if (result.success) {
-                const records = result.records || [];
-                const total = records.length;
-                const completed = records.filter(r => r.status === 'approved' || r.status === 'O').length;
-                const totalTime = records.filter(r => r.status === 'approved' || r.status === 'O')
-                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
-                
-                document.getElementById('statPlan').textContent = total;
-                document.getElementById('statComplete').textContent = completed;
-                document.getElementById('statTime').textContent = (totalTime / 60).toFixed(1) + 'h';
-                document.getElementById('statPoint').textContent = completed;
-                
-                const percent = total > 0 ? Math.round(completed / total * 100) : 0;
-                document.getElementById('progressPercent').textContent = percent + '%';
-                document.getElementById('progressFill').style.width = percent + '%';
-            }
-        }
-
-        // 화면 전환
-        async function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-            
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            const navMap = { 'homeScreen': 0, 'planScreen': 1, 'recordScreen': 2, 'statsScreen': 3 };
-            if (navMap[screenId] !== undefined) {
-                document.querySelectorAll('.nav-item')[navMap[screenId]].classList.add('active');
-            }
-            
-            if (screenId === 'bookScreen') renderBookList();
-            if (screenId === 'planScreen') await initPlanScreen();
-            if (screenId === 'recordScreen') await initRecordScreen();
-            if (screenId === 'diaryScreen') await initDiaryScreen();
-            if (screenId === 'statsScreen') await initStatsScreen();
-            if (screenId === 'calendarScreen') await initCalendarScreen();
-            if (screenId === 'goalScreen') renderGoalScreen();
-        }
-
-        // =============================================
-        // 일기장 기능
-        // =============================================
-        async function initDiaryScreen() {
-            document.getElementById('diaryDateDisplay').textContent = 
-                diaryDate.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
-            
-            // 해당 날짜 공부 현황 로드
-            await loadDiaryStats();
-            
-            // 해당 날짜 일기 로드
-            await loadDiary();
-            
-            // 최근 일기 목록 로드
-            await loadRecentDiaries();
-            
-            // 글자수 카운트 이벤트
-            const textarea = document.getElementById('diaryContent');
-            textarea.addEventListener('input', updateWordCount);
-        }
-
-        async function loadDiaryStats() {
-            const result = await apiCall({
-                action: 'getRecords',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: formatDate(diaryDate)
-            });
-            
-            if (result.success) {
-                const records = result.records || [];
-                const completed = records.filter(r => r.status === 'approved' || r.status === 'O').length;
-                const failed = records.filter(r => r.status === 'failed' || r.status === 'X').length;
-                const totalTime = records.filter(r => r.status === 'approved' || r.status === 'O')
-                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
-                
-                const hours = Math.floor(totalTime / 60);
-                const minutes = totalTime % 60;
-                const rate = records.length > 0 ? Math.round(completed / records.length * 100) : 0;
-                
-                // 표정 결정 (8시간 = 480분 기준)
-                let emoji, moodText;
-                if (totalTime >= 480) {
-                    emoji = '😊';
-                    moodText = '잘했어요! 목표 달성!';
-                } else if (totalTime >= 240) {
-                    emoji = '🙂';
-                    moodText = '조금만 더 힘내요!';
-                } else if (totalTime > 0) {
-                    emoji = '😢';
-                    moodText = '내일은 더 열심히!';
-                } else {
-                    emoji = '😴';
-                    moodText = '아직 기록이 없어요';
-                }
-                
-                document.getElementById('diaryMoodEmoji').textContent = emoji;
-                document.getElementById('diaryStudyTime').textContent = 
-                    `공부시간: ${hours}시간 ${minutes}분`;
-                document.getElementById('diaryMoodText').textContent = moodText;
-                document.getElementById('diaryCompleted').textContent = completed + '개';
-                document.getElementById('diaryFailed').textContent = failed + '개';
-                document.getElementById('diaryRate').textContent = rate + '%';
-            }
-        }
-
-        async function loadDiary() {
-            const result = await apiCall({
-                action: 'getDiary',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: formatDate(diaryDate)
-            });
-            
-            if (result.success && result.diary) {
-                document.getElementById('diaryContent').value = result.diary.content || '';
-                updateWordCount();
-            } else {
-                document.getElementById('diaryContent').value = '';
-                updateWordCount();
-            }
-        }
-
-        async function saveDiary() {
-            const content = document.getElementById('diaryContent').value.trim();
-            
-            const result = await apiCall({
-                action: 'saveDiary',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: formatDate(diaryDate),
-                content: content
-            });
-            
-            if (result.success) {
-                showToast('📝 일기가 저장되었습니다!', true);
-                await loadRecentDiaries();
-            } else {
-                showToast('저장 실패. 다시 시도해주세요.');
-            }
-        }
-
-        async function loadRecentDiaries() {
-            const result = await apiCall({
-                action: 'getRecentDiaries',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                limit: 5
-            });
-            
-            const list = document.getElementById('recentDiaryList');
-            
-            if (result.success && result.diaries && result.diaries.length > 0) {
-                list.innerHTML = result.diaries.map(diary => {
-                    const date = new Date(diary.date);
-                    const dateStr = date.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
-                    const preview = diary.content.substring(0, 50) + (diary.content.length > 50 ? '...' : '');
-                    
-                    return `<div class="diary-item" onclick="viewDiary('${diary.date}')">
-                        <div class="diary-item-header">
-                            <span class="diary-item-date">${dateStr}</span>
-                            <span class="diary-item-emoji">${diary.emoji || '📝'}</span>
-                        </div>
-                        <div class="diary-item-preview">${preview}</div>
-                    </div>`;
-                }).join('');
-            } else {
-                list.innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><p>작성된 일기가 없습니다</p></div>';
-            }
-        }
-
-        function viewDiary(dateStr) {
-            diaryDate = new Date(dateStr);
-            initDiaryScreen();
-        }
-
-        function changeDiaryDate(delta) {
-            diaryDate.setDate(diaryDate.getDate() + delta);
-            initDiaryScreen();
-        }
-
-        function insertPrompt(text) {
-            const textarea = document.getElementById('diaryContent');
-            const start = textarea.selectionStart;
-            const end = textarea.selectionEnd;
-            const value = textarea.value;
-            
-            textarea.value = value.substring(0, start) + '\n' + text + value.substring(end);
-            textarea.focus();
-            textarea.selectionStart = textarea.selectionEnd = start + text.length + 1;
-            updateWordCount();
-        }
-
-        function updateWordCount() {
-            const content = document.getElementById('diaryContent').value;
-            document.getElementById('diaryWordCount').textContent = content.length;
-        }
-
-        // 홈 화면 표정 업데이트
-        async function updateHomeMood() {
-            const result = await apiCall({
-                action: 'getRecords',
-                floor: currentUser.floor,
-                name: currentUser.name,
-                date: formatDate(new Date())
-            });
-            
-            if (result.success) {
-                const records = result.records || [];
-                const totalTime = records.filter(r => r.status === 'approved' || r.status === 'O')
-                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
-                
-                const hours = Math.floor(totalTime / 60);
-                const minutes = totalTime % 60;
-                
-                let emoji, moodText;
-                if (totalTime >= 480) { // 8시간 이상
-                    emoji = '😊';
-                    moodText = `오늘 ${hours}시간 ${minutes}분 공부! 대단해요!`;
-                } else if (totalTime >= 240) { // 4시간 이상
-                    emoji = '🙂';
-                    moodText = `현재 ${hours}시간 ${minutes}분 공부 중! 조금 더 힘내요!`;
-                } else if (totalTime > 0) {
-                    emoji = '😢';
-                    moodText = `아직 ${hours}시간 ${minutes}분... 8시간 목표 도전!`;
-                } else {
-                    emoji = '😴';
-                    moodText = '오늘 공부 기록이 없어요. 시작해볼까요?';
-                }
-                
-                document.getElementById('todayMoodEmoji').textContent = emoji;
-                document.getElementById('todayMoodText').textContent = moodText;
-            }
-        }
-
-        // 모달 & 토스트
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
-        function showToast(message, isSuccess = false) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast' + (isSuccess ? ' success' : '');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
+        });
     </script>
 </body>
 </html>

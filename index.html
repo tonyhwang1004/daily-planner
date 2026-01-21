@@ -8,7 +8,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            /* 기본 테마: 오션 블루 */
             --primary: #1e3a5f;
             --primary-light: #2d5a8b;
             --primary-dark: #0f1f33;
@@ -19,7 +18,6 @@
             --header-text: white;
         }
 
-        /* 🌸 체리 블라썸 */
         [data-theme="cherry"] {
             --primary: #db2777;
             --primary-light: #ec4899;
@@ -30,7 +28,6 @@
             --card-bg: #fdf2f8;
         }
 
-        /* 🌿 민트 그린 */
         [data-theme="mint"] {
             --primary: #059669;
             --primary-light: #10b981;
@@ -41,7 +38,6 @@
             --card-bg: #ecfdf5;
         }
 
-        /* 🌙 다크 나이트 */
         [data-theme="dark"] {
             --primary: #1f1f1f;
             --primary-light: #374151;
@@ -53,7 +49,6 @@
             --header-text: #e4e4e7;
         }
 
-        /* 💜 바이올렛 드림 */
         [data-theme="violet"] {
             --primary: #7c3aed;
             --primary-light: #8b5cf6;
@@ -64,7 +59,6 @@
             --card-bg: #f5f3ff;
         }
 
-        /* 🍊 선셋 오렌지 */
         [data-theme="sunset"] {
             --primary: #ea580c;
             --primary-light: #f97316;
@@ -83,7 +77,6 @@
             overflow: hidden;
         }
 
-        /* 로그인 */
         .login-screen {
             position: fixed;
             inset: 0;
@@ -103,16 +96,8 @@
             text-align: center;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        .login-box h1 { 
-            color: var(--primary); 
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
-        }
-        .login-box .subtitle {
-            color: #888;
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-        }
+        .login-box h1 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.5rem; }
+        .login-box .subtitle { color: #888; font-size: 0.85rem; margin-bottom: 1.5rem; }
         .login-box select {
             width: 100%;
             padding: 1rem;
@@ -121,12 +106,8 @@
             border-radius: 12px;
             font-size: 1rem;
             background: #fafafa;
-            transition: border-color 0.2s;
         }
-        .login-box select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+        .login-box select:focus { outline: none; border-color: var(--accent); }
         .login-box button {
             width: 100%;
             padding: 1rem;
@@ -137,22 +118,11 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .login-box button:active {
-            transform: scale(0.98);
         }
 
-        /* 메인 */
-        .container {
-            display: none;
-            flex-direction: column;
-            height: 100vh;
-            height: 100dvh;
-        }
+        .container { display: none; flex-direction: column; height: 100vh; height: 100dvh; }
         .container.active { display: flex; }
 
-        /* 헤더 */
         .header {
             background: var(--bg-gradient);
             color: var(--header-text, white);
@@ -161,17 +131,10 @@
             justify-content: space-between;
             align-items: center;
         }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .header-left { display: flex; align-items: center; gap: 10px; }
         .mood { font-size: 1.6rem; }
         .name { font-weight: 600; font-size: 1.1rem; }
-        .header-right {
-            display: flex;
-            gap: 8px;
-        }
+        .header-right { display: flex; gap: 8px; }
         .header-btn {
             width: 38px; height: 38px;
             background: rgba(255,255,255,0.15);
@@ -180,13 +143,8 @@
             color: var(--header-text, white);
             font-size: 1rem;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-        .header-btn:hover {
-            background: rgba(255,255,255,0.25);
         }
 
-        /* 주차 바 */
         .week-bar {
             background: white;
             padding: 10px 15px;
@@ -201,20 +159,12 @@
             border: none;
             border-radius: 50%;
             cursor: pointer;
-            transition: background 0.2s;
         }
-        .week-nav:hover { background: #e5e5e5; }
         .week-info { text-align: center; }
         .week-title { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
         .week-range { font-size: 0.75rem; color: #999; margin-top: 2px; }
 
-        /* 테이블 영역 */
-        .table-wrapper {
-            flex: 1;
-            overflow: auto;
-            padding: 10px;
-            padding-bottom: 80px;
-        }
+        .table-wrapper { flex: 1; overflow: auto; padding: 10px; padding-bottom: 80px; }
         .plan-table {
             width: 100%;
             border-collapse: collapse;
@@ -262,12 +212,8 @@
             color: #555;
             padding: 6px 4px;
             cursor: pointer;
-            transition: background 0.2s;
             user-select: none;
             -webkit-user-select: none;
-        }
-        .book-cell:active {
-            background: #e0e0e0;
         }
         .book-cell .book-type {
             font-size: 0.55rem;
@@ -277,18 +223,9 @@
             margin-bottom: 3px;
             font-weight: 700;
         }
-        .book-cell .book-type.lecture {
-            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-            color: #1e40af;
-        }
-        .book-cell .book-type.textbook {
-            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-            color: #166534;
-        }
-        .book-cell .book-name {
-            word-break: keep-all;
-            line-height: 1.3;
-        }
+        .book-cell .book-type.lecture { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af; }
+        .book-cell .book-type.textbook { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #166534; }
+        .book-cell .book-name { word-break: keep-all; line-height: 1.3; }
         .add-btn {
             width: 32px; height: 32px;
             background: linear-gradient(135deg, #e0f2fe, #bae6fd);
@@ -297,15 +234,8 @@
             color: var(--accent);
             font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-        .add-btn:hover {
-            background: var(--accent);
-            color: white;
-            border-style: solid;
         }
 
-        /* 요일 헤더 */
         .day-header { text-align: center; }
         .day-name { font-size: 0.7rem; opacity: 0.9; }
         .day-num { font-size: 1.05rem; font-weight: 700; }
@@ -313,13 +243,8 @@
         .sat .day-num { color: #93c5fd; }
         .sun .day-num { color: #fca5a5; }
 
-        /* 데이 셀 */
-        .day-cell {
-            position: relative;
-            padding: 4px !important;
-        }
+        .day-cell { position: relative; padding: 4px !important; }
 
-        /* + 버튼 (셀 내) */
         .cell-add {
             width: 100%;
             height: 100%;
@@ -333,49 +258,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
         }
-        .cell-add:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--card-bg);
-        }
+        .cell-add:hover { border-color: var(--accent); color: var(--accent); background: var(--card-bg); }
 
-        /* 계획 카드 */
         .plan-card {
             background: white;
             border-radius: 8px;
             overflow: hidden;
             border: 2px solid #e5e5e5;
             margin-bottom: 4px;
-            transition: all 0.2s;
         }
-        .plan-card.completed { 
-            border-color: #86efac; 
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7); 
-        }
-        .plan-card.pending { 
-            border-color: #fcd34d; 
-            background: linear-gradient(135deg, #fefce8, #fef9c3); 
-        }
-        .plan-card.failed { 
-            border-color: #fca5a5; 
-            background: linear-gradient(135deg, #fef2f2, #fee2e2); 
-        }
-        .plan-card.paused { 
-            border-color: #c4b5fd; 
-            background: linear-gradient(135deg, #f5f3ff, #ede9fe); 
-        }
-        .plan-card.running {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-        }
-        .plan-card.done-local {
-            border-color: #86efac;
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-        }
+        .plan-card.completed { border-color: #86efac; background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+        .plan-card.pending { border-color: #fcd34d; background: linear-gradient(135deg, #fefce8, #fef9c3); }
+        .plan-card.failed { border-color: #fca5a5; background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+        .plan-card.paused { border-color: #c4b5fd; background: linear-gradient(135deg, #f5f3ff, #ede9fe); }
+        .plan-card.running { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); }
+        .plan-card.done-local { border-color: #86efac; background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
 
-        /* 카드 상단 */
         .card-top {
             display: flex;
             align-items: center;
@@ -396,7 +295,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .play-btn { background: linear-gradient(135deg, #3b82f6, #2563eb); }
@@ -405,18 +303,15 @@
         .pause-btn:disabled { background: #d1d5db; cursor: not-allowed; box-shadow: none; }
         .stop-btn { background: linear-gradient(135deg, #10b981, #059669); }
         .stop-btn:disabled { background: #d1d5db; cursor: not-allowed; box-shadow: none; }
+        .direct-btn { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .direct-btn:disabled { background: #d1d5db; cursor: not-allowed; box-shadow: none; }
         
-        .play-btn.active {
-            background: linear-gradient(135deg, #10b981, #059669);
-            animation: pulse 1.5s infinite;
-        }
-        .pause-btn.active {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-        }
+        .play-btn.active { background: linear-gradient(135deg, #10b981, #059669); animation: pulse 1.5s infinite; }
+        .pause-btn.active { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
         
         @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
         .card-timer {
@@ -426,12 +321,8 @@
             font-family: 'SF Mono', Monaco, monospace;
             margin-left: 3px;
         }
-        .card-status {
-            margin-left: auto;
-            font-size: 0.9rem;
-        }
+        .card-status { margin-left: auto; font-size: 0.9rem; }
 
-        /* 카드 하단 - 완료 후 범위 표시 */
         .card-bottom {
             padding: 4px 6px;
             font-size: 0.7rem;
@@ -445,7 +336,6 @@
             font-weight: 600;
         }
 
-        /* 하단 검사 바 */
         .check-bar {
             position: fixed;
             bottom: 0;
@@ -459,26 +349,10 @@
             box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
             z-index: 50;
         }
-        .check-bar-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .check-bar-title {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 0.9rem;
-        }
-        .check-bar-status {
-            font-size: 0.75rem;
-            color: #888;
-            margin-top: 2px;
-        }
-        .check-bar-btns {
-            display: flex;
-            gap: 8px;
-        }
+        .check-bar-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .check-bar-title { font-weight: 700; color: var(--primary); font-size: 0.9rem; }
+        .check-bar-status { font-size: 0.75rem; color: #888; margin-top: 2px; }
+        .check-bar-btns { display: flex; gap: 8px; }
         .check-btn {
             padding: 12px 20px;
             border: none;
@@ -486,25 +360,12 @@
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
         }
-        .check-btn.request {
-            background: linear-gradient(135deg, var(--accent), var(--primary));
-            color: white;
-        }
-        .check-btn.request:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
-        .check-btn.cancel {
-            background: #f5f5f5;
-            color: #666;
-        }
-        .check-btn i {
-            margin-right: 5px;
-        }
+        .check-btn.request { background: linear-gradient(135deg, var(--accent), var(--primary)); color: white; }
+        .check-btn.request:disabled { background: #d1d5db; cursor: not-allowed; }
+        .check-btn.cancel { background: #f5f5f5; color: #666; }
+        .check-btn i { margin-right: 5px; }
 
-        /* 통계 패널 */
         .stats-panel {
             display: none;
             position: fixed;
@@ -516,26 +377,12 @@
             z-index: 100;
         }
         .stats-panel.active { display: block; }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        .stat-item {
-            text-align: center;
-            padding: 12px;
-            background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
-            border-radius: 12px;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .stat-item { text-align: center; padding: 12px; background: linear-gradient(135deg, #f8f8f8, #f0f0f0); border-radius: 12px; }
         .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
         .stat-label { font-size: 0.65rem; color: #999; margin-top: 2px; }
-        .close-stats {
-            position: absolute; top: 12px; right: 12px;
-            background: none; border: none; font-size: 1.3rem; color: #999;
-            cursor: pointer;
-        }
+        .close-stats { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 1.3rem; color: #999; cursor: pointer; }
 
-        /* 모달 공통 */
         .modal {
             display: none;
             position: fixed;
@@ -554,12 +401,10 @@
             width: 90%;
             max-width: 340px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
         }
-        .modal-box h3 { 
-            margin-bottom: 1rem; 
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
+        .modal-box h3 { margin-bottom: 1rem; color: var(--primary); font-size: 1.2rem; }
         .modal-box select, .modal-box input[type="text"] {
             width: 100%;
             padding: 12px;
@@ -569,25 +414,11 @@
             font-size: 1rem;
             background: #fafafa;
         }
-        .modal-box select:focus, .modal-box input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+        .modal-box select:focus, .modal-box input:focus { outline: none; border-color: var(--accent); }
         
-        /* 유형 선택 */
-        .type-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .type-option {
-            flex: 1;
-            position: relative;
-        }
-        .type-option input {
-            position: absolute;
-            opacity: 0;
-        }
+        .type-selector { display: flex; gap: 10px; margin-bottom: 15px; }
+        .type-option { flex: 1; position: relative; }
+        .type-option input { position: absolute; opacity: 0; }
         .type-option label {
             display: flex;
             flex-direction: column;
@@ -596,33 +427,14 @@
             border: 2px solid #e5e5e5;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
         }
-        .type-option label i {
-            font-size: 1.8rem;
-            margin-bottom: 6px;
-            color: #888;
-        }
-        .type-option label span {
-            font-weight: 600;
-            color: #666;
-        }
-        .type-option input:checked + label {
-            border-color: var(--accent);
-            background: var(--card-bg);
-        }
-        .type-option input:checked + label i {
-            color: var(--accent);
-        }
-        .type-option input:checked + label span {
-            color: var(--primary);
-        }
+        .type-option label i { font-size: 1.8rem; margin-bottom: 6px; color: #888; }
+        .type-option label span { font-weight: 600; color: #666; }
+        .type-option input:checked + label { border-color: var(--accent); background: var(--card-bg); }
+        .type-option input:checked + label i { color: var(--accent); }
+        .type-option input:checked + label span { color: var(--primary); }
         
-        .modal-btns {
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
+        .modal-btns { display: flex; gap: 10px; margin-top: 5px; }
         .modal-btns button {
             flex: 1;
             padding: 14px;
@@ -631,43 +443,23 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
         }
         .modal-btns .cancel { background: #f0f0f0; color: #666; }
         .modal-btns .confirm { background: var(--accent); color: white; }
         .modal-btns .danger { background: #ef4444; color: white; }
 
-        /* 테마 선택 모달 */
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+        .theme-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
         .theme-option {
             padding: 15px;
             border: 3px solid #e5e5e5;
             border-radius: 14px;
             cursor: pointer;
-            transition: all 0.2s;
             text-align: center;
         }
-        .theme-option.active {
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .theme-option .theme-preview {
-            width: 100%;
-            height: 40px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-        .theme-option .theme-name {
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
+        .theme-option.active { border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .theme-option .theme-preview { width: 100%; height: 40px; border-radius: 8px; margin-bottom: 8px; }
+        .theme-option .theme-name { font-weight: 600; font-size: 0.85rem; }
 
-        /* 수정/삭제 컨텍스트 메뉴 */
         .context-menu {
             display: none;
             position: fixed;
@@ -677,44 +469,22 @@
             overflow: hidden;
             z-index: 600;
             min-width: 150px;
-            transform: scale(0.9);
-            opacity: 0;
-            transition: transform 0.15s, opacity 0.15s;
         }
-        .context-menu.active { 
-            display: block;
-            transform: scale(1);
-            opacity: 1;
-        }
+        .context-menu.active { display: block; }
         .context-menu-item {
             padding: 15px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
             cursor: pointer;
-            transition: background 0.2s;
             font-size: 0.95rem;
             font-weight: 500;
         }
-        .context-menu-item:first-child {
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .context-menu-item:hover {
-            background: #f5f5f5;
-        }
-        .context-menu-item:active {
-            background: #e8e8e8;
-        }
-        .context-menu-item.danger {
-            color: #ef4444;
-        }
-        .context-menu-item i {
-            width: 20px;
-            text-align: center;
-            font-size: 1rem;
-        }
+        .context-menu-item:first-child { border-bottom: 1px solid #f0f0f0; }
+        .context-menu-item:active { background: #e8e8e8; }
+        .context-menu-item.danger { color: #ef4444; }
+        .context-menu-item i { width: 20px; text-align: center; font-size: 1rem; }
 
-        /* 검사 요청 모달 */
         .check-modal .check-summary {
             background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
             border-radius: 12px;
@@ -730,27 +500,81 @@
             padding: 8px 0;
             border-bottom: 1px solid #e5e5e5;
         }
-        .check-modal .check-item:last-child {
-            border-bottom: none;
-        }
-        .check-modal .check-item .subject {
-            font-weight: 600;
-            color: var(--primary);
-        }
-        .check-modal .check-item .time {
-            font-family: monospace;
-            color: var(--accent);
-            font-weight: 600;
-        }
-        .check-modal .check-total {
+        .check-modal .check-item:last-child { border-bottom: none; }
+        .check-modal .check-item .subject { font-weight: 600; color: var(--primary); }
+        .check-modal .check-item .time { font-family: monospace; color: var(--accent); font-weight: 600; }
+        .check-modal .check-total { text-align: center; padding-top: 10px; font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+
+        /* 학습 완료 모달 */
+        .complete-time {
             text-align: center;
-            padding-top: 10px;
-            font-size: 1.3rem;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--card-bg), #f0f0f0);
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        .complete-time span:first-child {
+            display: block;
+            font-size: 2.2rem;
             font-weight: 700;
             color: var(--primary);
+            font-family: 'SF Mono', Monaco, monospace;
         }
+        .complete-time-label { font-size: 0.8rem; color: #888; }
+        .complete-info {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .range-input-section { margin-bottom: 15px; }
+        .range-label { font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 10px; }
+        .range-inputs { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .range-field { display: flex; flex-direction: column; align-items: center; }
+        .range-field label { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
+        .range-field input {
+            width: 70px;
+            padding: 12px 8px;
+            text-align: center;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: #fafafa;
+        }
+        .range-field input:focus { outline: none; border-color: var(--accent); background: white; }
+        .range-unit { font-size: 0.75rem; color: #888; margin-top: 4px; }
+        .range-separator { font-size: 1.2rem; color: #888; margin-top: 15px; }
 
-        /* 토스트 */
+        /* 사진 인증 */
+        .photo-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e5e5; }
+        .photo-label { font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 10px; }
+        .photo-preview {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            background: #fafafa;
+        }
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-preview i { font-size: 2rem; color: #bbb; margin-bottom: 8px; }
+        .photo-preview span { font-size: 0.8rem; color: #888; }
+        .photo-preview.has-photo { border-style: solid; border-color: var(--accent); }
+        #photoInput { display: none; }
+
         .toast {
             position: fixed;
             bottom: 90px;
@@ -769,150 +593,6 @@
         .toast.success { background: linear-gradient(135deg, #10b981, #059669); }
         .toast.warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
 
-        /* 학습 완료 모달 스타일 */
-        .complete-time {
-            text-align: center;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--card-bg), #f0f0f0);
-            border-radius: 12px;
-            margin-bottom: 12px;
-        }
-        .complete-time span:first-child {
-            display: block;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--primary);
-            font-family: 'SF Mono', Monaco, monospace;
-        }
-        .complete-time-label {
-            font-size: 0.8rem;
-            color: #888;
-        }
-        .complete-info {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        
-        .range-input-section {
-            margin-bottom: 15px;
-        }
-        .range-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        .range-inputs {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .range-field {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .range-field label {
-            font-size: 0.7rem;
-            color: #888;
-            margin-bottom: 4px;
-        }
-        .range-field input {
-            width: 70px;
-            padding: 12px 8px;
-            text-align: center;
-            border: 2px solid #e5e5e5;
-            border-radius: 10px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            background: #fafafa;
-        }
-        .range-field input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
-        }
-        .range-unit {
-            font-size: 0.75rem;
-            color: #888;
-            margin-top: 4px;
-        }
-        .range-separator {
-            font-size: 1.2rem;
-            color: #888;
-            margin-top: 15px;
-        }
-        
-        .pencil-memo-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #e5e5e5;
-        }
-        .pencil-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-        .pencil-tools {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
-        .pencil-tool {
-            width: 32px;
-            height: 32px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        .pencil-tool.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-        .pencil-colors {
-            display: flex;
-            gap: 5px;
-            margin-left: auto;
-        }
-        .pencil-color {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-        .pencil-color.active {
-            border-color: #333;
-            transform: scale(1.1);
-        }
-        .pencil-canvas-wrap {
-            border: 2px solid #e5e5e5;
-            border-radius: 10px;
-            overflow: hidden;
-            touch-action: none;
-            background: #fffef5;
-        }
-        #pencilCanvas {
-            width: 100%;
-            height: 120px;
-            display: block;
-        }
-
-        /* 캡처용 */
         .capture-header {
             display: none;
             background: var(--bg-gradient);
@@ -926,47 +606,38 @@
         .capture-info { font-size: 0.9rem; opacity: 0.9; }
         .capture-mode .plan-table { border-radius: 0 0 12px 12px; }
 
-        /* 다크모드 특별 처리 */
+        /* 기록 방식 선택 모달 */
+        .mode-selector { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .mode-option {
+            padding: 18px;
+            border: 2px solid #e5e5e5;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s;
+        }
+        .mode-option:hover { border-color: var(--accent); background: var(--card-bg); }
+        .mode-option i { font-size: 1.8rem; color: var(--accent); width: 40px; text-align: center; }
+        .mode-option .mode-text { flex: 1; }
+        .mode-option .mode-title { font-weight: 700; color: var(--primary); margin-bottom: 3px; }
+        .mode-option .mode-desc { font-size: 0.8rem; color: #888; }
+
         [data-theme="dark"] .login-box,
         [data-theme="dark"] .modal-box,
         [data-theme="dark"] .stats-panel,
-        [data-theme="dark"] .context-menu {
-            background: #27272a;
-            color: #e4e4e7;
-        }
-        [data-theme="dark"] .plan-table {
-            background: #1f1f1f;
-        }
-        [data-theme="dark"] .plan-table td {
-            border-color: #3f3f46;
-        }
-        [data-theme="dark"] .subject-cell {
-            background: linear-gradient(135deg, #27272a, #1f1f1f);
-            color: #e4e4e7;
-        }
-        [data-theme="dark"] .week-bar,
-        [data-theme="dark"] .check-bar {
-            background: #27272a;
-            border-color: #3f3f46;
-        }
-        [data-theme="dark"] .week-title {
-            color: #e4e4e7;
-        }
-        [data-theme="dark"] .plan-card {
-            background: #3f3f46;
-            border-color: #52525b;
-        }
-        [data-theme="dark"] .card-timer {
-            color: #e4e4e7;
-        }
-        [data-theme="dark"] .card-input {
-            background: #27272a;
-            color: #e4e4e7;
-        }
+        [data-theme="dark"] .context-menu { background: #27272a; color: #e4e4e7; }
+        [data-theme="dark"] .plan-table { background: #1f1f1f; }
+        [data-theme="dark"] .plan-table td { border-color: #3f3f46; }
+        [data-theme="dark"] .subject-cell { background: linear-gradient(135deg, #27272a, #1f1f1f); color: #e4e4e7; }
+        [data-theme="dark"] .week-bar, [data-theme="dark"] .check-bar { background: #27272a; border-color: #3f3f46; }
+        [data-theme="dark"] .week-title { color: #e4e4e7; }
+        [data-theme="dark"] .plan-card { background: #3f3f46; border-color: #52525b; }
+        [data-theme="dark"] .card-timer { color: #e4e4e7; }
     </style>
 </head>
 <body data-theme="ocean">
-    <!-- 로그인 -->
     <div class="login-screen" id="loginScreen">
         <div class="login-box">
             <h1>📚 김엄마독서실</h1>
@@ -983,7 +654,6 @@
         </div>
     </div>
 
-    <!-- 메인 -->
     <div class="container" id="container">
         <div class="header">
             <div class="header-left">
@@ -1020,7 +690,6 @@
             </div>
         </div>
 
-        <!-- 하단 검사 바 -->
         <div class="check-bar">
             <div class="check-bar-info">
                 <div class="check-bar-title">오늘의 학습</div>
@@ -1047,19 +716,18 @@
         </div>
     </div>
 
-    <!-- 컨텍스트 메뉴 (교재 수정/삭제) -->
     <div class="context-menu" id="contextMenu">
-        <div class="context-menu-item" onclick="event.stopPropagation(); editBook()">
+        <div class="context-menu-item" onclick="editBook()">
             <i class="fas fa-edit"></i>
             <span>수정</span>
         </div>
-        <div class="context-menu-item danger" onclick="event.stopPropagation(); deleteBook()">
+        <div class="context-menu-item danger" onclick="deleteBook()">
             <i class="fas fa-trash"></i>
             <span>삭제</span>
         </div>
     </div>
 
-    <!-- 교재/인강 추가 모달 -->
+    <!-- 교재 추가 모달 -->
     <div class="modal" id="bookModal">
         <div class="modal-box">
             <h3 id="bookModalTitle">📚 교재/인강 추가</h3>
@@ -1090,6 +758,32 @@
             <div class="modal-btns">
                 <button class="cancel" onclick="closeBookModal()">취소</button>
                 <button class="confirm" onclick="saveBook()">저장</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 기록 방식 선택 모달 -->
+    <div class="modal" id="modeModal">
+        <div class="modal-box">
+            <h3>📝 기록 방식 선택</h3>
+            <div class="mode-selector">
+                <div class="mode-option" onclick="selectMode('timer')">
+                    <i class="fas fa-stopwatch"></i>
+                    <div class="mode-text">
+                        <div class="mode-title">⏱️ 타이머로 측정</div>
+                        <div class="mode-desc">독서실에서 실시간으로 공부할 때</div>
+                    </div>
+                </div>
+                <div class="mode-option" onclick="selectMode('direct')">
+                    <i class="fas fa-edit"></i>
+                    <div class="mode-text">
+                        <div class="mode-title">✏️ 직접 입력</div>
+                        <div class="mode-desc">이미 공부한 것을 기록할 때</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-btns">
+                <button class="cancel" onclick="closeModeModal()">취소</button>
             </div>
         </div>
     </div>
@@ -1134,9 +828,7 @@
     <div class="modal check-modal" id="checkModal">
         <div class="modal-box">
             <h3>📋 검사 요청</h3>
-            <div class="check-summary" id="checkSummary">
-                <!-- 동적 생성 -->
-            </div>
+            <div class="check-summary" id="checkSummary"></div>
             <p style="font-size:0.85rem; color:#888; text-align:center;">위 내용으로 검사를 요청합니다</p>
             <div class="modal-btns">
                 <button class="cancel" onclick="closeCheckModal(false)">취소</button>
@@ -1145,50 +837,52 @@
         </div>
     </div>
 
-    <!-- 학습 완료 입력 모달 (펜슬) -->
+    <!-- 학습 완료 입력 모달 -->
     <div class="modal" id="completeModal">
         <div class="modal-box" style="max-width: 360px;">
-            <h3>✏️ 학습 완료 기록</h3>
-            <div class="complete-time">
+            <h3 id="completeModalTitle">✏️ 학습 완료 기록</h3>
+            <div class="complete-time" id="completeTimeSection">
                 <span id="completeTimeDisplay">00:00</span>
                 <span class="complete-time-label">학습 시간</span>
             </div>
             <div class="complete-info" id="completeInfo">수학 · 수학의정석</div>
             
-            <!-- 범위 입력 -->
             <div class="range-input-section">
                 <div class="range-label" id="rangeLabel">공부한 범위를 입력하세요</div>
                 <div class="range-inputs">
                     <div class="range-field">
-                        <label id="startLabel">시작</label>
-                        <input type="text" id="completeStart" placeholder="예: 10">
+                        <label>시작</label>
+                        <input type="text" id="completeStart" placeholder="예: 10" inputmode="numeric">
                         <span class="range-unit" id="startUnit">p.</span>
                     </div>
                     <span class="range-separator">~</span>
                     <div class="range-field">
-                        <label id="endLabel">끝</label>
-                        <input type="text" id="completeEnd" placeholder="예: 25">
+                        <label>끝</label>
+                        <input type="text" id="completeEnd" placeholder="예: 25" inputmode="numeric">
                         <span class="range-unit" id="endUnit">p.</span>
                     </div>
                 </div>
             </div>
             
-            <!-- 펜슬 메모 영역 -->
-            <div class="pencil-memo-section">
-                <div class="pencil-label">📝 메모 (펜슬로 작성)</div>
-                <div class="pencil-tools">
-                    <button class="pencil-tool active" onclick="setPencilTool('pen')"><i class="fas fa-pen"></i></button>
-                    <button class="pencil-tool" onclick="setPencilTool('eraser')"><i class="fas fa-eraser"></i></button>
-                    <button class="pencil-tool" onclick="clearPencilCanvas()"><i class="fas fa-trash"></i></button>
-                    <div class="pencil-colors">
-                        <span class="pencil-color active" style="background:#333" onclick="setPencilColor('#333')"></span>
-                        <span class="pencil-color" style="background:#ef4444" onclick="setPencilColor('#ef4444')"></span>
-                        <span class="pencil-color" style="background:#3b82f6" onclick="setPencilColor('#3b82f6')"></span>
+            <!-- 직접입력 모드용 시간 입력 -->
+            <div class="range-input-section" id="timeInputSection" style="display:none;">
+                <div class="range-label">공부한 시간 (분)</div>
+                <div class="range-inputs">
+                    <div class="range-field">
+                        <input type="text" id="completeMinutes" placeholder="예: 60" inputmode="numeric" style="width:100px;">
+                        <span class="range-unit">분</span>
                     </div>
                 </div>
-                <div class="pencil-canvas-wrap">
-                    <canvas id="pencilCanvas"></canvas>
+            </div>
+            
+            <!-- 사진 인증 -->
+            <div class="photo-section">
+                <div class="photo-label">📸 인증 사진 (선택)</div>
+                <div class="photo-preview" id="photoPreview" onclick="document.getElementById('photoInput').click()">
+                    <i class="fas fa-camera"></i>
+                    <span>터치하여 사진 촬영</span>
                 </div>
+                <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="handlePhoto(this)">
             </div>
             
             <div class="modal-btns">
@@ -1207,31 +901,32 @@
         let books = [];
         let plans = [];
         let weekStart = getMonday(new Date());
-        let timers = {}; // { key: { state, elapsed, start, interval } }
-        let completedToday = []; // 오늘 완료한 항목들 (검사 전)
+        let timers = {};
+        let completedToday = [];
         
-        // 컨텍스트 메뉴용
         let selectedBook = null;
         let editMode = false;
+        let editingBookData = null;
         let longPressTimer = null;
-        let contextMenuJustOpened = false; // 메뉴가 방금 열렸는지 체크
+        let contextMenuJustOpened = false;
+        
+        let pendingMode = null; // 기록 방식 선택용
+        let pendingComplete = null;
+        let currentPhotoData = null;
+        let isDirectMode = false; // 직접입력 모드인지
 
         const SUBJECTS = ['국어', '수학', '영어', '탐구'];
 
-        // 초기화
         document.addEventListener('DOMContentLoaded', () => {
             loadTheme();
             document.addEventListener('click', (e) => {
-                // 메뉴가 방금 열렸으면 무시
                 if (contextMenuJustOpened) {
                     contextMenuJustOpened = false;
                     return;
                 }
-                // 메뉴 내부 클릭이면 무시
-                if (e.target.closest('.context-menu')) {
-                    return;
+                if (!e.target.closest('.context-menu')) {
+                    hideContextMenu();
                 }
-                hideContextMenu();
             });
         });
 
@@ -1264,33 +959,25 @@
             } catch { return { success: false }; }
         }
 
-        // ============ 테마 ============
+        // 테마
         function loadTheme() {
             const saved = localStorage.getItem('plannerTheme') || 'ocean';
             applyTheme(saved);
         }
-        
         function applyTheme(theme) {
             document.body.setAttribute('data-theme', theme);
             document.querySelectorAll('.theme-option').forEach(opt => {
                 opt.classList.toggle('active', opt.dataset.theme === theme);
             });
         }
-        
         function selectTheme(theme) {
             applyTheme(theme);
             localStorage.setItem('plannerTheme', theme);
         }
-        
-        function openThemeModal() {
-            document.getElementById('themeModal').classList.add('active');
-        }
-        
-        function closeThemeModal() {
-            document.getElementById('themeModal').classList.remove('active');
-        }
+        function openThemeModal() { document.getElementById('themeModal').classList.add('active'); }
+        function closeThemeModal() { document.getElementById('themeModal').classList.remove('active'); }
 
-        // ============ 로그인 ============
+        // 로그인
         async function loadStudents() {
             const floor = document.getElementById('loginFloor').value;
             const sel = document.getElementById('loginName');
@@ -1362,7 +1049,6 @@
             const dates = getWeekDates();
             const today = fmt(new Date());
 
-            // 헤더
             let hHtml = '<tr><th class="subject-col">과목</th><th class="add-col">+</th><th class="book-col">교재</th>';
             for (let i = 0; i < 7; i++) {
                 const d = dates[i];
@@ -1376,7 +1062,6 @@
             hHtml += '</tr>';
             document.getElementById('tableHead').innerHTML = hHtml;
 
-            // 바디
             let bHtml = '';
             SUBJECTS.forEach(subject => {
                 const sBooks = books.filter(b => b.subject === subject);
@@ -1387,7 +1072,7 @@
                         <td class="add-cell"><button class="add-btn" onclick="openBookModal('${subject}')">+</button></td>
                         <td class="book-cell">-</td>`;
                     for (let i = 0; i < 7; i++) {
-                        bHtml += `<td class="day-cell"><button class="cell-add" onclick="quickAdd('${subject}','${subject}','${fmt(dates[i])}','textbook')">+</button></td>`;
+                        bHtml += `<td class="day-cell"><button class="cell-add" onclick="openModeModal('${subject}','${subject}','${fmt(dates[i])}','textbook')">+</button></td>`;
                     }
                     bHtml += '</tr>';
                 } else {
@@ -1403,8 +1088,7 @@
                         bHtml += `<td class="book-cell" 
                             onpointerdown="startLongPress(event, '${subject}', '${book.name}', '${book.type || 'textbook'}')"
                             onpointerup="endLongPress(event)"
-                            onpointerleave="endLongPress(event)"
-                            onclick="event.stopPropagation()">
+                            onpointerleave="endLongPress(event)">
                             <span class="book-type ${typeClass}">${typeLabel}</span>
                             <div class="book-name">${book.name}</div>
                         </td>`;
@@ -1415,29 +1099,24 @@
                             
                             bHtml += `<td class="day-cell">`;
                             if (dayPlans.length > 0) {
-                                const plan = dayPlans[0]; // 하나만!
+                                const plan = dayPlans[0];
                                 const key = `${subject}-${book.name}-${dateStr}`;
                                 const timer = timers[key] || { state: 'idle', elapsed: 0 };
                                 const bookType = book.type || 'textbook';
                                 
-                                // 완료 상태 체크
                                 const isCompletedLocal = completedToday.some(c => c.key === key);
                                 
                                 let cardCls = '';
                                 let statusIcon = '';
                                 
                                 if (plan.status === 'approved' || plan.status === 'O') {
-                                    cardCls = 'completed';
-                                    statusIcon = '✅';
+                                    cardCls = 'completed'; statusIcon = '✅';
                                 } else if (plan.status === 'failed' || plan.status === 'X') {
-                                    cardCls = 'failed';
-                                    statusIcon = '❌';
+                                    cardCls = 'failed'; statusIcon = '❌';
                                 } else if (plan.status === 'requested') {
-                                    cardCls = 'pending';
-                                    statusIcon = '⏳';
+                                    cardCls = 'pending'; statusIcon = '⏳';
                                 } else if (isCompletedLocal) {
-                                    cardCls = 'done-local';
-                                    statusIcon = '✔️';
+                                    cardCls = 'done-local'; statusIcon = '✔️';
                                 }
                                 
                                 if (timer.state === 'running') cardCls = 'running';
@@ -1467,6 +1146,12 @@
                                             ${isServerComplete || isCompletedLocal || isIdle ? 'disabled' : ''}>
                                             <i class="fas fa-check"></i>
                                         </button>
+                                        <button class="timer-btn direct-btn" 
+                                            onclick="openDirectInput('${subject}','${book.name}','${dateStr}','${bookType}')"
+                                            ${isServerComplete || isCompletedLocal || isRunning || isPaused ? 'disabled' : ''}
+                                            title="직접 입력">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
                                         <span class="card-timer" id="timer-${key}">${timerDisplay}</span>
                                         <span class="card-status">${statusIcon}</span>
                                     </div>
@@ -1475,7 +1160,7 @@
                                     </div>
                                 </div>`;
                             } else {
-                                bHtml += `<button class="cell-add" onclick="quickAdd('${subject}','${book.name}','${dateStr}','${book.type || 'textbook'}')">+</button>`;
+                                bHtml += `<button class="cell-add" onclick="openModeModal('${subject}','${book.name}','${dateStr}','${book.type || 'textbook'}')">+</button>`;
                             }
                             bHtml += '</td>';
                         }
@@ -1492,8 +1177,71 @@
             const s = seconds % 60;
             return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
+        
+        function getRangeDisplay(plan, bookType, isCompletedLocal, key) {
+            const completed = completedToday.find(c => c.key === key);
+            const start = completed?.startPage || plan?.startPage;
+            const end = completed?.endPage || plan?.endPage;
+            
+            if (start && end) {
+                const unit = bookType === 'lecture' ? '' : 'p.';
+                const suffix = bookType === 'lecture' ? '강' : '';
+                return `<span class="card-range">${unit}${start}${suffix} ~ ${unit}${end}${suffix}</span>`;
+            }
+            return '<span style="color:#bbb;font-size:0.65rem;">▶ 시작하기</span>';
+        }
 
-        // ============ 타이머 ============
+        // 기록 방식 선택 모달
+        function openModeModal(subject, book, dateStr, bookType) {
+            const exists = plans.some(p => p.date === dateStr && p.subject === subject && p.book === book);
+            if (exists) {
+                toast('⚠️ 이미 계획이 있습니다', 'warning');
+                return;
+            }
+            
+            pendingMode = { subject, book, dateStr, bookType };
+            document.getElementById('modeModal').classList.add('active');
+        }
+        
+        function closeModeModal() {
+            document.getElementById('modeModal').classList.remove('active');
+            pendingMode = null;
+        }
+        
+        async function selectMode(mode) {
+            closeModeModal();
+            if (!pendingMode) return;
+            
+            const { subject, book, dateStr, bookType } = pendingMode;
+            
+            // 계획 추가
+            const res = await api({
+                action: 'addPlan',
+                floor: user.floor,
+                name: user.name,
+                date: dateStr,
+                subject: subject,
+                bookName: book,
+                time: 60,
+                bookType: bookType
+            });
+            
+            if (res.success) {
+                plans.push({ date: dateStr, subject, book, status: 'pending' });
+                renderTable();
+                
+                if (mode === 'direct') {
+                    // 직접 입력 모달 열기
+                    setTimeout(() => openDirectInput(subject, book, dateStr, bookType), 100);
+                } else {
+                    toast('✅ 계획 추가됨 - 타이머를 시작하세요', 'success');
+                }
+            }
+            
+            pendingMode = null;
+        }
+
+        // 타이머
         function timerPlay(subject, book, dateStr) {
             const key = `${subject}-${book}-${dateStr}`;
             
@@ -1542,66 +1290,64 @@
             }
             
             const elapsed = timer.elapsed;
-            if (elapsed < 60) {
-                toast('⚠️ 최소 1분 이상 학습해주세요', 'warning');
-                return;
-            }
-            
-            // 완료 모달 열기
+            isDirectMode = false;
             openCompleteModal(subject, book, dateStr, elapsed, bookType, key);
         }
         
-        // 완료 모달 관련 변수
-        let pendingComplete = null;
-        let pencilCanvas, pencilCtx;
-        let isPencilDrawing = false;
-        let pencilTool = 'pen';
-        let pencilColor = '#333';
+        // 직접 입력 모드
+        function openDirectInput(subject, book, dateStr, bookType) {
+            const key = `${subject}-${book}-${dateStr}`;
+            isDirectMode = true;
+            openCompleteModal(subject, book, dateStr, 0, bookType, key);
+        }
         
         function openCompleteModal(subject, book, dateStr, elapsed, bookType, key) {
             pendingComplete = { subject, book, dateStr, elapsed, bookType, key };
             
-            // 모달 정보 설정
-            document.getElementById('completeTimeDisplay').textContent = formatTime(elapsed);
+            // 모달 제목 & 시간 섹션
+            if (isDirectMode) {
+                document.getElementById('completeModalTitle').textContent = '✏️ 직접 입력';
+                document.getElementById('completeTimeSection').style.display = 'none';
+                document.getElementById('timeInputSection').style.display = 'block';
+                document.getElementById('completeMinutes').value = '';
+            } else {
+                document.getElementById('completeModalTitle').textContent = '✏️ 학습 완료 기록';
+                document.getElementById('completeTimeSection').style.display = 'block';
+                document.getElementById('timeInputSection').style.display = 'none';
+                document.getElementById('completeTimeDisplay').textContent = formatTime(elapsed);
+            }
+            
             document.getElementById('completeInfo').textContent = `${subject} · ${book}`;
             
-            // 범위 입력 레이블 설정
             if (bookType === 'lecture') {
                 document.getElementById('rangeLabel').textContent = '시청한 강의 범위를 입력하세요';
                 document.getElementById('startUnit').textContent = '강';
                 document.getElementById('endUnit').textContent = '강';
-                document.getElementById('completeStart').placeholder = '예: 1';
-                document.getElementById('completeEnd').placeholder = '예: 3';
             } else {
                 document.getElementById('rangeLabel').textContent = '공부한 페이지 범위를 입력하세요';
                 document.getElementById('startUnit').textContent = 'p.';
                 document.getElementById('endUnit').textContent = 'p.';
-                document.getElementById('completeStart').placeholder = '예: 10';
-                document.getElementById('completeEnd').placeholder = '예: 25';
             }
             
-            // 입력 필드 초기화
             document.getElementById('completeStart').value = '';
             document.getElementById('completeEnd').value = '';
+            currentPhotoData = null;
+            document.getElementById('photoPreview').innerHTML = '<i class="fas fa-camera"></i><span>터치하여 사진 촬영</span>';
+            document.getElementById('photoPreview').classList.remove('has-photo');
             
-            // 모달 열기
             document.getElementById('completeModal').classList.add('active');
-            
-            // 펜슬 캔버스 초기화
-            setTimeout(initPencilCanvas, 100);
         }
         
         function closeCompleteModal(confirm) {
-            document.getElementById('completeModal').classList.remove('active');
-            
-            if (!confirm || !pendingComplete) {
-                // 취소 시 타이머 계속 유지 (일시정지 상태로)
-                if (pendingComplete) {
+            if (!confirm) {
+                document.getElementById('completeModal').classList.remove('active');
+                if (pendingComplete && !isDirectMode) {
                     const timer = timers[pendingComplete.key];
                     if (timer) timer.state = 'paused';
                     renderTable();
                 }
                 pendingComplete = null;
+                isDirectMode = false;
                 return;
             }
             
@@ -1609,144 +1355,70 @@
             const startPage = document.getElementById('completeStart').value.trim();
             const endPage = document.getElementById('completeEnd').value.trim();
             
-            // 범위 입력 검증
             if (!startPage || !endPage) {
                 toast('⚠️ 범위를 입력해주세요', 'warning');
-                document.getElementById('completeModal').classList.add('active');
                 return;
             }
             
-            // 메모 이미지 저장
-            const memoImage = pencilCanvas ? pencilCanvas.toDataURL() : null;
+            let finalElapsed = elapsed;
+            if (isDirectMode) {
+                const minutes = parseInt(document.getElementById('completeMinutes').value) || 0;
+                if (minutes <= 0) {
+                    toast('⚠️ 공부 시간을 입력해주세요', 'warning');
+                    return;
+                }
+                finalElapsed = minutes * 60;
+            }
             
-            // 완료 목록에 추가
+            document.getElementById('completeModal').classList.remove('active');
+            
             completedToday.push({
-                key,
-                subject,
-                book,
-                dateStr,
-                elapsed,
-                bookType,
-                startPage,
-                endPage,
-                memoImage
+                key, subject, book, dateStr,
+                elapsed: finalElapsed,
+                bookType, startPage, endPage,
+                photoData: currentPhotoData
             });
             
-            // plans에도 범위 업데이트
             const plan = plans.find(p => p.date === dateStr && p.subject === subject && p.book === book);
             if (plan) {
                 plan.startPage = startPage;
                 plan.endPage = endPage;
             }
             
-            // 서버에 페이지 정보 저장
             api({
                 action: 'updatePlanPage',
                 floor: user.floor,
                 name: user.name,
                 date: dateStr,
-                subject,
-                bookName: book,
-                startPage,
-                endPage
+                subject, bookName: book,
+                startPage, endPage
             });
             
-            // 타이머 리셋
-            timers[key] = { state: 'idle', elapsed: 0, start: null, interval: null };
+            if (timers[key]) {
+                timers[key] = { state: 'idle', elapsed: 0, start: null, interval: null };
+            }
             
             pendingComplete = null;
+            isDirectMode = false;
             renderTable();
             updateCheckBar();
             toast('✅ 학습 완료! 검사 요청 버튼을 눌러주세요', 'success');
         }
         
-        // 범위 표시 함수
-        function getRangeDisplay(plan, bookType, isCompletedLocal, key) {
-            const completed = completedToday.find(c => c.key === key);
-            const start = completed?.startPage || plan?.startPage;
-            const end = completed?.endPage || plan?.endPage;
-            
-            if (start && end) {
-                const unit = bookType === 'lecture' ? '강' : 'p.';
-                return `<span class="card-range">${unit}${start} ~ ${unit}${end}</span>`;
-            }
-            return '<span style="color:#bbb;font-size:0.65rem;">▶ 시작하기</span>';
-        }
-        
-        // 펜슬 캔버스 초기화
-        function initPencilCanvas() {
-            pencilCanvas = document.getElementById('pencilCanvas');
-            if (!pencilCanvas) return;
-            
-            const wrap = pencilCanvas.parentElement;
-            pencilCanvas.width = wrap.clientWidth;
-            pencilCanvas.height = 120;
-            
-            pencilCtx = pencilCanvas.getContext('2d');
-            pencilCtx.fillStyle = '#fffef5';
-            pencilCtx.fillRect(0, 0, pencilCanvas.width, pencilCanvas.height);
-            pencilCtx.lineCap = 'round';
-            pencilCtx.lineJoin = 'round';
-            
-            // 이벤트 리스너
-            pencilCanvas.addEventListener('pointerdown', startPencilDraw);
-            pencilCanvas.addEventListener('pointermove', pencilDraw);
-            pencilCanvas.addEventListener('pointerup', endPencilDraw);
-            pencilCanvas.addEventListener('pointerleave', endPencilDraw);
-        }
-        
-        function startPencilDraw(e) {
-            isPencilDrawing = true;
-            const rect = pencilCanvas.getBoundingClientRect();
-            pencilCtx.beginPath();
-            pencilCtx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-        }
-        
-        function pencilDraw(e) {
-            if (!isPencilDrawing) return;
-            const rect = pencilCanvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            if (pencilTool === 'pen') {
-                pencilCtx.strokeStyle = pencilColor;
-                pencilCtx.lineWidth = 2;
-                pencilCtx.lineTo(x, y);
-                pencilCtx.stroke();
-            } else {
-                pencilCtx.fillStyle = '#fffef5';
-                pencilCtx.beginPath();
-                pencilCtx.arc(x, y, 12, 0, Math.PI * 2);
-                pencilCtx.fill();
-            }
-        }
-        
-        function endPencilDraw() {
-            isPencilDrawing = false;
-        }
-        
-        function setPencilTool(tool) {
-            pencilTool = tool;
-            document.querySelectorAll('.pencil-tool').forEach((btn, i) => {
-                btn.classList.toggle('active', i === (tool === 'pen' ? 0 : 1));
-            });
-        }
-        
-        function setPencilColor(color) {
-            pencilColor = color;
-            document.querySelectorAll('.pencil-color').forEach(dot => {
-                dot.classList.toggle('active', dot.style.background === color);
-            });
-        }
-        
-        function clearPencilCanvas() {
-            if (pencilCtx) {
-                pencilCtx.fillStyle = '#fffef5';
-                pencilCtx.fillRect(0, 0, pencilCanvas.width, pencilCanvas.height);
+        // 사진 처리
+        function handlePhoto(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentPhotoData = e.target.result;
+                    document.getElementById('photoPreview').innerHTML = `<img src="${currentPhotoData}" alt="인증사진">`;
+                    document.getElementById('photoPreview').classList.add('has-photo');
+                };
+                reader.readAsDataURL(input.files[0]);
             }
         }
 
-        // ============ 검사 바 ============
+        // 검사 바
         function updateCheckBar() {
             const count = completedToday.length;
             const totalMin = completedToday.reduce((sum, c) => sum + Math.ceil(c.elapsed / 60), 0);
@@ -1764,15 +1436,16 @@
             
             completedToday.forEach(c => {
                 const range = c.bookType === 'lecture' 
-                    ? `${c.startPage || '?'}강~${c.endPage || '?'}강`
-                    : `p.${c.startPage || '?'}~${c.endPage || '?'}`;
+                    ? `${c.startPage}강~${c.endPage}강`
+                    : `p.${c.startPage}~${c.endPage}`;
+                const hasPhoto = c.photoData ? ' 📷' : '';
                 html += `<div class="check-item">
                     <div>
                         <span class="subject">${c.subject}</span>
-                        <span style="color:#888;font-size:0.8rem;"> · ${c.book}</span>
+                        <span style="color:#888;font-size:0.8rem;"> · ${c.book}${hasPhoto}</span>
                         <div style="font-size:0.75rem;color:#888;">${range}</div>
                     </div>
-                    <span class="time">${formatTime(c.elapsed)}</span>
+                    <span class="time">${Math.ceil(c.elapsed/60)}분</span>
                 </div>`;
                 totalSec += c.elapsed;
             });
@@ -1793,7 +1466,6 @@
             
             if (!confirm || completedToday.length === 0) return;
             
-            // 일괄 검사 요청
             for (const c of completedToday) {
                 await api({
                     action: 'requestCheck',
@@ -1802,7 +1474,10 @@
                     date: c.dateStr,
                     subject: c.subject,
                     bookName: c.book,
-                    actualTime: Math.ceil(c.elapsed / 60)
+                    actualTime: Math.ceil(c.elapsed / 60),
+                    startPage: c.startPage,
+                    endPage: c.endPage,
+                    photoData: c.photoData
                 });
             }
             
@@ -1818,7 +1493,6 @@
             if (completedToday.length === 0) return;
             
             if (confirm('완료된 학습 기록을 모두 취소하시겠습니까?')) {
-                // 타이머 리셋
                 completedToday.forEach(c => {
                     timers[c.key] = { state: 'idle', elapsed: 0, start: null, interval: null };
                 });
@@ -1829,36 +1503,7 @@
             }
         }
 
-        // ============ 빠른 추가 (중복 방지) ============
-        async function quickAdd(subject, book, dateStr, bookType) {
-            // 중복 체크
-            const exists = plans.some(p => p.date === dateStr && p.subject === subject && p.book === book);
-            if (exists) {
-                toast('⚠️ 이미 계획이 있습니다', 'warning');
-                return;
-            }
-            
-            const res = await api({
-                action: 'addPlan',
-                floor: user.floor,
-                name: user.name,
-                date: dateStr,
-                subject: subject,
-                bookName: book,
-                time: 60,
-                bookType: bookType
-            });
-            
-            if (res.success) {
-                plans.push({ date: dateStr, subject, book, status: 'pending' });
-                renderTable();
-                toast('✅ 계획 추가됨', 'success');
-            }
-        }
-
-        // 페이지 업데이트는 completeModal에서 처리
-
-        // ============ 교재 관리 (길게 누르기) ============
+        // 교재 관리 (길게 누르기)
         function startLongPress(e, subject, name, type) {
             longPressTimer = setTimeout(() => {
                 selectedBook = { subject, name, type };
@@ -1872,7 +1517,6 @@
                 clearTimeout(longPressTimer);
                 longPressTimer = null;
             }
-            // 메뉴가 방금 열렸으면 이벤트 전파 중단
             if (contextMenuJustOpened) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1884,14 +1528,8 @@
             menu.style.left = Math.min(x, window.innerWidth - 160) + 'px';
             menu.style.top = Math.min(y, window.innerHeight - 120) + 'px';
             menu.classList.add('active');
-            
-            // 메뉴가 방금 열렸음을 표시 (클릭으로 바로 닫히지 않도록)
             contextMenuJustOpened = true;
-            
-            // 진동 피드백 (모바일)
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
-            }
+            if (navigator.vibrate) navigator.vibrate(50);
         }
         
         function hideContextMenu() {
@@ -1904,11 +1542,18 @@
             if (!selectedBook) return;
             
             editMode = true;
+            editingBookData = { ...selectedBook };
+            
             document.getElementById('bookModalTitle').textContent = '✏️ 교재 수정';
             document.getElementById('bookSubject').value = selectedBook.subject;
             document.getElementById('bookSubject').disabled = true;
             document.getElementById('bookName').value = selectedBook.name;
-            document.querySelector(`input[name="bookType"][value="${selectedBook.type}"]`).checked = true;
+            
+            if (selectedBook.type === 'lecture') {
+                document.getElementById('typeLecture').checked = true;
+            } else {
+                document.getElementById('typeTextbook').checked = true;
+            }
             
             document.getElementById('bookModal').classList.add('active');
         }
@@ -1939,6 +1584,7 @@
 
         function openBookModal(subject) {
             editMode = false;
+            editingBookData = null;
             document.getElementById('bookModalTitle').textContent = '📚 교재/인강 추가';
             document.getElementById('bookSubject').value = subject || '';
             document.getElementById('bookSubject').disabled = false;
@@ -1950,7 +1596,9 @@
         function closeBookModal() {
             document.getElementById('bookModal').classList.remove('active');
             editMode = false;
+            editingBookData = null;
             selectedBook = null;
+            document.getElementById('bookSubject').disabled = false;
         }
 
         async function saveBook() {
@@ -1960,20 +1608,20 @@
             
             if (!subject || !name) return toast('과목과 이름을 입력하세요', 'warning');
             
-            if (editMode && selectedBook) {
+            if (editMode && editingBookData) {
                 // 수정
                 const res = await api({
                     action: 'updateBook',
                     floor: user.floor,
                     name: user.name,
-                    subject: selectedBook.subject,
-                    oldBookName: selectedBook.name,
+                    subject: editingBookData.subject,
+                    oldBookName: editingBookData.name,
                     newBookName: name,
                     bookType: type
                 });
                 
                 if (res.success) {
-                    const idx = books.findIndex(b => b.subject === selectedBook.subject && b.name === selectedBook.name);
+                    const idx = books.findIndex(b => b.subject === editingBookData.subject && b.name === editingBookData.name);
                     if (idx >= 0) {
                         books[idx].name = name;
                         books[idx].type = type;
@@ -1981,6 +1629,8 @@
                     closeBookModal();
                     renderTable();
                     toast('✏️ 수정됨', 'success');
+                } else {
+                    toast('수정 실패');
                 }
             } else {
                 // 추가
@@ -2002,7 +1652,7 @@
             }
         }
 
-        // ============ 기타 ============
+        // 기타
         async function updateMood() {
             const res = await api({
                 action: 'getRecords',
@@ -2034,12 +1684,7 @@
         }
 
         async function loadStats() {
-            const res = await api({
-                action: 'getStats',
-                floor: user.floor,
-                name: user.name
-            });
-            
+            const res = await api({ action: 'getStats', floor: user.floor, name: user.name });
             if (res.success) {
                 const s = res.stats;
                 document.getElementById('statTotal').textContent = s.totalPlans || 0;
@@ -2052,7 +1697,6 @@
         async function captureShare() {
             try {
                 toast('📸 캡처 중...');
-                
                 const captureArea = document.getElementById('captureArea');
                 const captureHeader = document.getElementById('captureHeader');
                 const wrapper = document.querySelector('.table-wrapper');
@@ -2061,14 +1705,13 @@
                 const m = dates[0].getMonth() + 1;
                 const w = Math.ceil(dates[0].getDate() / 7);
                 document.getElementById('captureInfo').textContent = 
-                    `${user.name} · ${user.floor} · ${m}월 ${w}주차 (${fmtKR(dates[0])}~${fmtKR(dates[6])})`;
+                    `${user.name} · ${user.floor} · ${m}월 ${w}주차`;
                 
                 captureHeader.classList.add('visible');
                 captureArea.classList.add('capture-mode');
                 
                 const originalOverflow = wrapper.style.overflow;
                 const originalHeight = wrapper.style.height;
-                
                 wrapper.style.overflow = 'visible';
                 wrapper.style.height = 'auto';
                 
@@ -2077,8 +1720,7 @@
                 const canvas = await html2canvas(captureArea, {
                     backgroundColor: '#ffffff',
                     scale: 2,
-                    useCORS: true,
-                    logging: false
+                    useCORS: true
                 });
                 
                 captureHeader.classList.remove('visible');

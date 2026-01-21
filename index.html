@@ -673,30 +673,45 @@
             position: fixed;
             background: white;
             border-radius: 14px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
             overflow: hidden;
             z-index: 600;
-            min-width: 140px;
+            min-width: 150px;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: transform 0.15s, opacity 0.15s;
         }
-        .context-menu.active { display: block; }
+        .context-menu.active { 
+            display: block;
+            transform: scale(1);
+            opacity: 1;
+        }
         .context-menu-item {
-            padding: 14px 18px;
+            padding: 15px 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             cursor: pointer;
             transition: background 0.2s;
             font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .context-menu-item:first-child {
+            border-bottom: 1px solid #f0f0f0;
         }
         .context-menu-item:hover {
             background: #f5f5f5;
+        }
+        .context-menu-item:active {
+            background: #e8e8e8;
         }
         .context-menu-item.danger {
             color: #ef4444;
         }
         .context-menu-item i {
-            width: 18px;
+            width: 20px;
             text-align: center;
+            font-size: 1rem;
         }
 
         /* 검사 요청 모달 */
@@ -1034,11 +1049,11 @@
 
     <!-- 컨텍스트 메뉴 (교재 수정/삭제) -->
     <div class="context-menu" id="contextMenu">
-        <div class="context-menu-item" onclick="editBook()">
+        <div class="context-menu-item" onclick="event.stopPropagation(); editBook()">
             <i class="fas fa-edit"></i>
             <span>수정</span>
         </div>
-        <div class="context-menu-item danger" onclick="deleteBook()">
+        <div class="context-menu-item danger" onclick="event.stopPropagation(); deleteBook()">
             <i class="fas fa-trash"></i>
             <span>삭제</span>
         </div>
@@ -1199,13 +1214,25 @@
         let selectedBook = null;
         let editMode = false;
         let longPressTimer = null;
+        let contextMenuJustOpened = false; // 메뉴가 방금 열렸는지 체크
 
         const SUBJECTS = ['국어', '수학', '영어', '탐구'];
 
         // 초기화
         document.addEventListener('DOMContentLoaded', () => {
             loadTheme();
-            document.addEventListener('click', hideContextMenu);
+            document.addEventListener('click', (e) => {
+                // 메뉴가 방금 열렸으면 무시
+                if (contextMenuJustOpened) {
+                    contextMenuJustOpened = false;
+                    return;
+                }
+                // 메뉴 내부 클릭이면 무시
+                if (e.target.closest('.context-menu')) {
+                    return;
+                }
+                hideContextMenu();
+            });
         });
 
         function getMonday(d) {
@@ -1375,8 +1402,9 @@
                         const typeClass = book.type === 'lecture' ? 'lecture' : 'textbook';
                         bHtml += `<td class="book-cell" 
                             onpointerdown="startLongPress(event, '${subject}', '${book.name}', '${book.type || 'textbook'}')"
-                            onpointerup="endLongPress()"
-                            onpointerleave="endLongPress()">
+                            onpointerup="endLongPress(event)"
+                            onpointerleave="endLongPress(event)"
+                            onclick="event.stopPropagation()">
                             <span class="book-type ${typeClass}">${typeLabel}</span>
                             <div class="book-name">${book.name}</div>
                         </td>`;
@@ -1832,17 +1860,22 @@
 
         // ============ 교재 관리 (길게 누르기) ============
         function startLongPress(e, subject, name, type) {
-            e.preventDefault();
             longPressTimer = setTimeout(() => {
                 selectedBook = { subject, name, type };
                 showContextMenu(e.clientX, e.clientY);
+                longPressTimer = null;
             }, 500);
         }
         
-        function endLongPress() {
+        function endLongPress(e) {
             if (longPressTimer) {
                 clearTimeout(longPressTimer);
                 longPressTimer = null;
+            }
+            // 메뉴가 방금 열렸으면 이벤트 전파 중단
+            if (contextMenuJustOpened) {
+                e.preventDefault();
+                e.stopPropagation();
             }
         }
         
@@ -1851,10 +1884,19 @@
             menu.style.left = Math.min(x, window.innerWidth - 160) + 'px';
             menu.style.top = Math.min(y, window.innerHeight - 120) + 'px';
             menu.classList.add('active');
+            
+            // 메뉴가 방금 열렸음을 표시 (클릭으로 바로 닫히지 않도록)
+            contextMenuJustOpened = true;
+            
+            // 진동 피드백 (모바일)
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
         }
         
         function hideContextMenu() {
             document.getElementById('contextMenu').classList.remove('active');
+            contextMenuJustOpened = false;
         }
         
         function editBook() {

@@ -3,333 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>김엄마독서실 | 선생님 대시보드</title>
+    <title>선생님 대시보드</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { 
-            height: 100%; 
+        body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f5f5f5;
+            background: #f0f2f5;
+            min-height: 100vh;
         }
 
+        /* 헤더 */
         .header {
-            background: linear-gradient(135deg, #1e3a5f, #0f1f33);
+            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
             color: white;
-            padding: 15px 20px;
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-        .header h1 { font-size: 1.2rem; }
-        .header-right { display: flex; gap: 10px; align-items: center; }
+        .header h1 { font-size: 1.1rem; font-weight: 700; }
+        .header-controls { display: flex; gap: 10px; align-items: center; }
+        
         .floor-select {
             padding: 8px 12px;
             border: none;
             border-radius: 8px;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.2);
             color: white;
             font-size: 0.9rem;
+            font-weight: 600;
         }
         .floor-select option { color: #333; }
-        .refresh-btn {
-            padding: 8px 15px;
-            background: rgba(255,255,255,0.15);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .refresh-btn:hover { background: rgba(255,255,255,0.25); }
-
-        .container { padding: 15px; max-width: 800px; margin: 0 auto; }
-
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .stat-card .value { font-size: 1.8rem; font-weight: 700; color: #1e3a5f; }
-        .stat-card .label { font-size: 0.75rem; color: #888; margin-top: 3px; }
-        .stat-card.waiting .value { color: #f59e0b; }
-        .stat-card.approved .value { color: #10b981; }
-        .stat-card.failed .value { color: #ef4444; }
-
-        .section { margin-bottom: 25px; }
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1e3a5f;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .section-title .badge {
-            background: #f59e0b;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        .check-list { display: flex; flex-direction: column; gap: 12px; }
         
+        .refresh-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .refresh-btn:active { background: #2563eb; }
+        .refresh-btn.spinning i { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* 컨테이너 */
+        .container { padding: 16px; max-width: 600px; margin: 0 auto; }
+
+        /* 타이틀 */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #333;
+        }
+        .count-badge {
+            background: #ef4444;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .count-badge.zero { background: #10b981; }
+
+        /* 카드 리스트 */
+        .card-list { display: flex; flex-direction: column; gap: 16px; }
+
+        /* 검사 카드 */
         .check-card {
             background: white;
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border-left: 4px solid #f59e0b;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
         
-        .check-header {
+        .card-header {
+            background: #f8fafc;
+            padding: 14px 16px;
+            border-bottom: 1px solid #e5e7eb;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 12px;
         }
-        .check-info { flex: 1; }
-        .check-name {
+        .student-name {
+            font-size: 1.15rem;
             font-weight: 700;
-            font-size: 1.1rem;
             color: #1e3a5f;
-            margin-bottom: 5px;
         }
-        .check-subject {
-            display: inline-block;
-            padding: 3px 10px;
-            background: #e0f2fe;
-            color: #0369a1;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
+        .student-floor {
+            font-size: 0.8rem;
+            color: #888;
+            margin-left: 6px;
         }
-        .check-book {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 5px;
-        }
-        
-        /* 페이지 범위 박스 - 크고 눈에 띄게 */
-        .check-page-box {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border: 3px solid #f59e0b;
-            border-radius: 12px;
-            padding: 12px 16px;
-            text-align: center;
-            min-width: 140px;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-        }
-        .check-page-box .page-label {
-            font-size: 0.7rem;
-            color: #92400e;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-        .check-page-box .page-range {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #92400e;
-        }
-        
-        .check-time-box {
-            text-align: center;
-            min-width: 50px;
-        }
-        .check-time-box .time-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #3b82f6;
-        }
-        .check-time-box .time-label {
-            font-size: 0.7rem;
+        .card-date {
+            font-size: 0.8rem;
             color: #888;
         }
-
-        .check-actions {
+        
+        .card-body { padding: 16px; }
+        
+        .subject-row {
             display: flex;
+            align-items: center;
             gap: 10px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #eee;
+            margin-bottom: 12px;
+        }
+        .subject-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .book-name {
+            font-size: 0.95rem;
+            color: #555;
+            flex: 1;
+        }
+        .time-badge {
+            background: #f0f9ff;
+            color: #0369a1;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* 페이지 박스 - 핵심! 크고 눈에 띄게 */
+        .page-box {
+            background: linear-gradient(135deg, #fef9c3, #fde047);
+            border: 3px solid #eab308;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            margin: 14px 0;
+        }
+        .page-label {
+            font-size: 0.8rem;
+            color: #854d0e;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .page-range {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #713f12;
+            letter-spacing: 1px;
+        }
+
+        /* 버튼 */
+        .card-actions {
+            display: flex;
+            gap: 12px;
+            padding: 0 16px 16px;
         }
         .action-btn {
             flex: 1;
-            padding: 12px;
+            padding: 14px;
             border: none;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
+            transition: transform 0.1s, opacity 0.2s;
         }
-        .action-btn.approve {
-            background: linear-gradient(135deg, #10b981, #059669);
+        .action-btn:active { transform: scale(0.97); }
+        .action-btn:disabled { opacity: 0.5; }
+        
+        .btn-approve {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             color: white;
         }
-        .action-btn.reject {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+        .btn-reject {
+            background: linear-gradient(135deg, #f87171, #ef4444);
             color: white;
         }
 
+        /* 빈 상태 */
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
-            color: #888;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 16px;
         }
         .empty-state i {
-            font-size: 3rem;
-            color: #ddd;
-            margin-bottom: 15px;
+            font-size: 4rem;
+            color: #d1d5db;
+            margin-bottom: 16px;
         }
-        .empty-state p { font-size: 0.95rem; }
+        .empty-state p {
+            font-size: 1rem;
+            color: #888;
+        }
 
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .tab {
-            flex: 1;
-            padding: 12px;
+        /* 로딩 */
+        .loading {
             text-align: center;
-            background: white;
-            border: 2px solid #e5e5e5;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
+            padding: 60px 20px;
         }
-        .tab.active {
-            background: #1e3a5f;
-            color: white;
-            border-color: #1e3a5f;
-        }
+        .loading i { font-size: 2.5rem; color: #3b82f6; }
+        .loading p { margin-top: 12px; color: #888; }
 
-        .history-card {
-            background: white;
-            border-radius: 12px;
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .history-card.approved { border-left: 4px solid #10b981; }
-        .history-card.failed { border-left: 4px solid #ef4444; }
-        .history-info { flex: 1; }
-        .history-name { font-weight: 600; color: #333; }
-        .history-detail { font-size: 0.8rem; color: #888; margin-top: 2px; }
-        .history-status {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .history-status.approved { background: #dcfce7; color: #166534; }
-        .history-status.failed { background: #fee2e2; color: #991b1b; }
-
+        /* 토스트 */
         .toast {
             position: fixed;
             bottom: 30px;
             left: 50%;
-            transform: translateX(-50%) translateY(20px);
+            transform: translateX(-50%) translateY(100px);
             background: #333;
             color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
             opacity: 0;
-            transition: all 0.3s;
-            z-index: 500;
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .toast.success { background: #10b981; }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success { background: #16a34a; }
+        .toast.error { background: #dc2626; }
 
-        @media (max-width: 500px) {
-            .stats-bar { grid-template-columns: repeat(2, 1fr); }
-            .check-header { flex-wrap: wrap; }
-            .check-page-box { min-width: 100%; margin-top: 10px; }
+        /* 마지막 업데이트 */
+        .last-update {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 20px;
+            padding-bottom: 30px;
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>👩‍🏫 선생님 대시보드</h1>
-        <div class="header-right">
+        <div class="header-controls">
             <select class="floor-select" id="floorSelect" onchange="loadData()">
+                <option value="">전체</option>
                 <option value="7층">7층</option>
                 <option value="8층">8층</option>
             </select>
-            <button class="refresh-btn" onclick="loadData()">
+            <button class="refresh-btn" id="refreshBtn" onclick="loadData()">
                 <i class="fas fa-sync-alt"></i>
-                새로고침
             </button>
         </div>
     </div>
 
     <div class="container">
-        <!-- 통계 -->
-        <div class="stats-bar">
-            <div class="stat-card">
-                <div class="value" id="statTotal">0</div>
-                <div class="label">오늘 전체</div>
-            </div>
-            <div class="stat-card waiting">
-                <div class="value" id="statWaiting">0</div>
-                <div class="label">검사 대기</div>
-            </div>
-            <div class="stat-card approved">
-                <div class="value" id="statApproved">0</div>
-                <div class="label">승인</div>
-            </div>
-            <div class="stat-card failed">
-                <div class="value" id="statFailed">0</div>
-                <div class="label">실패</div>
+        <div class="section-title">
+            <i class="fas fa-clipboard-check"></i>
+            검사 대기
+            <span class="count-badge" id="countBadge">0</span>
+        </div>
+        
+        <div class="card-list" id="cardList">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>불러오는 중...</p>
             </div>
         </div>
-
-        <!-- 검사 대기 -->
-        <div class="section">
-            <div class="section-title">
-                <i class="fas fa-clock"></i>
-                검사 대기
-                <span class="badge" id="waitingBadge">0</span>
-            </div>
-            <div class="check-list" id="waitingList">
-                <div class="empty-state">
-                    <i class="fas fa-check-circle"></i>
-                    <p>검사 대기중인 학생이 없습니다</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 탭 -->
-        <div class="tabs">
-            <div class="tab active" id="tabApproved" onclick="switchTab('approved')">✅ 승인 목록</div>
-            <div class="tab" id="tabFailed" onclick="switchTab('failed')">❌ 실패 목록</div>
-        </div>
-
-        <!-- 승인/실패 목록 -->
-        <div class="section">
-            <div id="historyList"></div>
-        </div>
+        
+        <div class="last-update" id="lastUpdate"></div>
     </div>
 
     <div class="toast" id="toast"></div>
@@ -337,196 +290,195 @@
     <script>
         const API = 'https://script.google.com/macros/s/AKfycbwGFbsj8FgFIuF-iFkJ4ekyS76MWQf9UrUysJ-Fs12vuVByJwenoYRgOJeOZiPOa6gzkg/exec';
         
-        let records = [];
-        let currentTab = 'approved';
-        
+        let requests = [];
+
+        // 페이지 로드시
         document.addEventListener('DOMContentLoaded', () => {
             loadData();
             // 30초마다 자동 새로고침
             setInterval(loadData, 30000);
         });
-        
-        async function api(data) {
+
+        // API 호출
+        async function api(params) {
             try {
                 const res = await fetch(API, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(params)
                 });
                 return await res.json();
-            } catch (e) {
-                console.error('API Error:', e);
-                return { success: false, error: e.toString() };
+            } catch (err) {
+                console.error('API Error:', err);
+                return { success: false, error: err.toString() };
             }
         }
-        
-        function getToday() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-        
+
+        // 데이터 로드
         async function loadData() {
+            const btn = document.getElementById('refreshBtn');
+            btn.classList.add('spinning');
+            
             const floor = document.getElementById('floorSelect').value;
-            const today = getToday();
             
-            // 검사 대기 목록 로드
-            const pendingRes = await api({
-                action: 'getPendingChecks',
-                floor: floor,
-                date: today
-            });
-            
-            // 오늘 전체 기록 로드
-            const todayRes = await api({
-                action: 'getTodayRecords',
-                floor: floor,
-                date: today
-            });
-            
-            if (pendingRes.success && todayRes.success) {
-                records = todayRes.records || [];
-                renderStats();
-                renderWaitingList(pendingRes.records || []);
-                renderHistoryList();
+            try {
+                const res = await api({
+                    action: 'getPendingRequests',
+                    floor: floor
+                });
+                
+                console.log('API 응답:', res);
+                
+                if (res.success) {
+                    requests = res.requests || [];
+                    renderCards();
+                    updateTime();
+                } else {
+                    showError(res.error || '데이터 로드 실패');
+                }
+            } catch (err) {
+                console.error(err);
+                showError('네트워크 오류');
             }
-        }
-        
-        function renderStats() {
-            const waiting = records.filter(r => r.status === 'requested');
-            const approved = records.filter(r => r.status === 'approved' || r.status === 'O');
-            const failed = records.filter(r => r.status === 'failed' || r.status === 'X');
             
-            document.getElementById('statTotal').textContent = records.length;
-            document.getElementById('statWaiting').textContent = waiting.length;
-            document.getElementById('statApproved').textContent = approved.length;
-            document.getElementById('statFailed').textContent = failed.length;
-            document.getElementById('waitingBadge').textContent = waiting.length;
+            btn.classList.remove('spinning');
         }
-        
-        function renderWaitingList(waitingRecords) {
-            const container = document.getElementById('waitingList');
+
+        // 카드 렌더링
+        function renderCards() {
+            const container = document.getElementById('cardList');
+            const badge = document.getElementById('countBadge');
             
-            if (!waitingRecords || waitingRecords.length === 0) {
+            badge.textContent = requests.length;
+            badge.className = 'count-badge' + (requests.length === 0 ? ' zero' : '');
+            
+            if (requests.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-check-circle"></i>
-                        <p>검사 대기중인 학생이 없습니다</p>
+                        <p>검사 대기 중인 학생이 없습니다</p>
                     </div>`;
                 return;
             }
             
-            container.innerHTML = waitingRecords.map(r => {
-                const isLecture = r.bookType === 'lecture';
-                const rangeText = isLecture 
-                    ? `${r.startPage || '?'}강 ~ ${r.endPage || '?'}강`
-                    : `p.${r.startPage || '?'} ~ p.${r.endPage || '?'}`;
-                const rangeLabel = isLecture ? '강의 범위' : '페이지 범위';
+            container.innerHTML = requests.map((r, idx) => {
+                const startP = r.startPage || '?';
+                const endP = r.endPage || '?';
+                const pageText = `p.${startP} ~ p.${endP}`;
+                
+                // 날짜 포맷
+                let dateDisplay = r.date || '';
+                if (dateDisplay.includes('-')) {
+                    const parts = dateDisplay.split('-');
+                    dateDisplay = `${parts[1]}월 ${parts[2]}일`;
+                }
                 
                 return `
-                    <div class="check-card">
-                        <div class="check-header">
-                            <div class="check-info">
-                                <div class="check-name">${r.name} <span style="font-size:0.8rem;color:#888;">(${r.floor})</span></div>
-                                <span class="check-subject">${r.subject}</span>
-                                <div class="check-book">📚 ${r.bookName || r.book}</div>
-                            </div>
-                            <div class="check-page-box">
-                                <div class="page-label">${rangeLabel}</div>
-                                <div class="page-range">${rangeText}</div>
-                            </div>
-                            <div class="check-time-box">
-                                <div class="time-value">${r.actualTime || r.time || 0}</div>
-                                <div class="time-label">분</div>
-                            </div>
+                <div class="check-card" id="card-${idx}">
+                    <div class="card-header">
+                        <div>
+                            <span class="student-name">${r.name}</span>
+                            <span class="student-floor">${r.floor}</span>
                         </div>
-                        <div class="check-actions">
-                            <button class="action-btn approve" onclick="approveCheck('${r.floor}', '${r.name}', '${r.date}', '${r.subject}', '${r.bookName || r.book}')">
-                                <i class="fas fa-check"></i> 승인
-                            </button>
-                            <button class="action-btn reject" onclick="rejectCheck('${r.floor}', '${r.name}', '${r.date}', '${r.subject}', '${r.bookName || r.book}')">
-                                <i class="fas fa-times"></i> 실패
-                            </button>
+                        <span class="card-date">📅 ${dateDisplay}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="subject-row">
+                            <span class="subject-badge">${r.subject}</span>
+                            <span class="book-name">${r.book}</span>
+                            <span class="time-badge">${r.actualTime || 0}분</span>
                         </div>
-                    </div>`;
+                        <div class="page-box">
+                            <div class="page-label">📖 검사할 페이지 범위</div>
+                            <div class="page-range">${pageText}</div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn btn-approve" onclick="approve(${r.row}, ${idx})">
+                            <i class="fas fa-check"></i> 승인
+                        </button>
+                        <button class="action-btn btn-reject" onclick="reject(${r.row}, ${idx})">
+                            <i class="fas fa-times"></i> 실패
+                        </button>
+                    </div>
+                </div>`;
             }).join('');
         }
-        
-        function switchTab(tab) {
-            currentTab = tab;
-            document.getElementById('tabApproved').classList.toggle('active', tab === 'approved');
-            document.getElementById('tabFailed').classList.toggle('active', tab === 'failed');
-            renderHistoryList();
-        }
-        
-        function renderHistoryList() {
-            const container = document.getElementById('historyList');
+
+        // 승인
+        async function approve(row, idx) {
+            const btns = document.querySelectorAll(`#card-${idx} .action-btn`);
+            btns.forEach(b => b.disabled = true);
             
-            let filtered;
-            if (currentTab === 'approved') {
-                filtered = records.filter(r => r.status === 'approved' || r.status === 'O');
-            } else {
-                filtered = records.filter(r => r.status === 'failed' || r.status === 'X');
-            }
-            
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-inbox"></i>
-                        <p>${currentTab === 'approved' ? '승인된' : '실패한'} 기록이 없습니다</p>
-                    </div>`;
-                return;
-            }
-            
-            container.innerHTML = filtered.map(r => `
-                <div class="history-card ${currentTab}">
-                    <div class="history-info">
-                        <div class="history-name">${r.name}</div>
-                        <div class="history-detail">${r.subject} · ${r.bookName || r.book} · ${r.actualTime || r.time || 0}분</div>
-                    </div>
-                    <div class="history-status ${currentTab}">
-                        ${currentTab === 'approved' ? '✅ 승인' : '❌ 실패'}
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        async function approveCheck(floor, name, date, subject, bookName) {
             const res = await api({
-                action: 'approveCheck',
-                floor, name, date, subject, bookName
+                action: 'approveRecord',
+                row: row
             });
             
             if (res.success) {
-                toast('✅ 승인되었습니다!', 'success');
-                loadData();
+                toast('✅ 승인 완료!', 'success');
+                // 카드 제거 애니메이션
+                const card = document.getElementById(`card-${idx}`);
+                card.style.transition = 'all 0.3s';
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(100px)';
+                setTimeout(() => loadData(), 300);
             } else {
-                toast('승인 실패: ' + (res.error || ''));
+                toast('오류: ' + (res.error || '승인 실패'), 'error');
+                btns.forEach(b => b.disabled = false);
             }
         }
-        
-        async function rejectCheck(floor, name, date, subject, bookName) {
+
+        // 실패
+        async function reject(row, idx) {
+            const btns = document.querySelectorAll(`#card-${idx} .action-btn`);
+            btns.forEach(b => b.disabled = true);
+            
             const res = await api({
-                action: 'rejectCheck',
-                floor, name, date, subject, bookName
+                action: 'rejectRecord',
+                row: row
             });
             
             if (res.success) {
-                toast('❌ 실패 처리되었습니다', 'success');
-                loadData();
+                toast('❌ 실패 처리됨', 'success');
+                const card = document.getElementById(`card-${idx}`);
+                card.style.transition = 'all 0.3s';
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(-100px)';
+                setTimeout(() => loadData(), 300);
             } else {
-                toast('처리 실패: ' + (res.error || ''));
+                toast('오류: ' + (res.error || '처리 실패'), 'error');
+                btns.forEach(b => b.disabled = false);
             }
         }
-        
+
+        // 에러 표시
+        function showError(msg) {
+            document.getElementById('cardList').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>${msg}</p>
+                </div>`;
+        }
+
+        // 시간 업데이트
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('ko-KR', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('lastUpdate').textContent = `마지막 업데이트: ${timeStr}`;
+        }
+
+        // 토스트
         function toast(msg, type = '') {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.className = 'toast' + (type ? ` ${type}` : '');
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2500);
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = 'toast' + (type ? ` ${type}` : '');
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 2500);
         }
     </script>
 </body>

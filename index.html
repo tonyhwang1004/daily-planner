@@ -321,6 +321,12 @@
             font-family: 'SF Mono', Monaco, monospace;
             margin-left: 3px;
         }
+        .card-timer.done {
+            color: #10b981;
+            background: #dcfce7;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
         .card-status { margin-left: auto; font-size: 0.9rem; }
 
         .card-bottom {
@@ -1105,6 +1111,7 @@
                                 const bookType = book.type || 'textbook';
                                 
                                 const isCompletedLocal = completedToday.some(c => c.key === key);
+                                const completedData = completedToday.find(c => c.key === key);
                                 
                                 let cardCls = '';
                                 let statusIcon = '';
@@ -1127,7 +1134,14 @@
                                 const isPaused = timer.state === 'paused';
                                 const isIdle = timer.state === 'idle';
                                 
-                                const timerDisplay = formatTime(timer.elapsed || 0);
+                                // 시간 표시: 완료된 시간 > 서버 시간 > 타이머 시간
+                                let displaySeconds = timer.elapsed || 0;
+                                if (completedData) {
+                                    displaySeconds = completedData.elapsed;
+                                } else if (plan.actualTime) {
+                                    displaySeconds = plan.actualTime * 60;
+                                }
+                                const timerDisplay = formatTime(displaySeconds);
                                 
                                 bHtml += `<div class="plan-card ${cardCls}">
                                     <div class="card-top">
@@ -1152,7 +1166,7 @@
                                             title="직접 입력">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <span class="card-timer" id="timer-${key}">${timerDisplay}</span>
+                                        <span class="card-timer ${isCompletedLocal || isServerComplete ? 'done' : ''}" id="timer-${key}">${timerDisplay}</span>
                                         <span class="card-status">${statusIcon}</span>
                                     </div>
                                     <div class="card-bottom">

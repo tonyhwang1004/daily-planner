@@ -188,7 +188,7 @@
             border: 1px solid #e5e5e5;
             padding: 4px;
             vertical-align: top;
-            height: 80px;
+            height: 85px;
         }
         .subject-cell {
             background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
@@ -248,7 +248,7 @@
         .cell-add {
             width: 100%;
             height: 100%;
-            min-height: 70px;
+            min-height: 75px;
             background: transparent;
             border: 2px dashed #d5d5d5;
             border-radius: 8px;
@@ -266,7 +266,6 @@
             border-radius: 8px;
             overflow: hidden;
             border: 2px solid #e5e5e5;
-            margin-bottom: 4px;
         }
         .plan-card.completed { border-color: #86efac; background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
         .plan-card.pending { border-color: #fcd34d; background: linear-gradient(135deg, #fefce8, #fef9c3); }
@@ -285,11 +284,11 @@
         }
         
         .timer-btn {
-            width: 26px; height: 26px;
+            width: 24px; height: 24px;
             border: none;
             border-radius: 50%;
             color: white;
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             cursor: pointer;
             flex-shrink: 0;
             display: flex;
@@ -303,8 +302,6 @@
         .pause-btn:disabled { background: #d1d5db; cursor: not-allowed; box-shadow: none; }
         .stop-btn { background: linear-gradient(135deg, #10b981, #059669); }
         .stop-btn:disabled { background: #d1d5db; cursor: not-allowed; box-shadow: none; }
-        .direct-btn { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
-        .direct-btn:disabled { background: #d1d5db; cursor: not-allowed; box-shadow: none; }
         
         .play-btn.active { background: linear-gradient(135deg, #10b981, #059669); animation: pulse 1.5s infinite; }
         .pause-btn.active { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
@@ -315,38 +312,39 @@
         }
         
         .card-timer {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             color: var(--primary);
             font-family: 'SF Mono', Monaco, monospace;
-            margin-left: 3px;
+            margin-left: 2px;
         }
-        .card-timer.done {
-            color: #10b981;
-            background: #dcfce7;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-        .card-status { margin-left: auto; font-size: 0.9rem; }
+        .card-timer.done { color: #10b981; }
+        .card-status { margin-left: auto; font-size: 0.85rem; }
 
-        .card-bottom {
-            padding: 4px 6px;
-            font-size: 0.7rem;
-            color: #666;
+        .card-bottom { padding: 4px 5px; }
+        .card-inputs {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-wrap: wrap;
+        }
+        .card-input {
+            width: 32px;
+            padding: 3px 2px;
             text-align: center;
-        }
-        .card-range {
-            background: rgba(0,0,0,0.05);
-            padding: 3px 6px;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            font-weight: 600;
+            font-size: 0.65rem;
+            background: white;
         }
+        .card-input:focus { outline: none; border-color: var(--accent); }
+        .card-input.time-input { width: 28px; background: #fef3c7; }
+        .input-label { font-size: 0.55rem; color: #888; }
+        .input-sep { font-size: 0.6rem; color: #999; }
 
         .check-bar {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background: white;
             padding: 12px 15px;
             border-top: 1px solid #e5e5e5;
@@ -452,7 +450,6 @@
         }
         .modal-btns .cancel { background: #f0f0f0; color: #666; }
         .modal-btns .confirm { background: var(--accent); color: white; }
-        .modal-btns .danger { background: #ef4444; color: white; }
 
         .theme-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
         .theme-option {
@@ -511,51 +508,6 @@
         .check-modal .check-item .time { font-family: monospace; color: var(--accent); font-weight: 600; }
         .check-modal .check-total { text-align: center; padding-top: 10px; font-size: 1.3rem; font-weight: 700; color: var(--primary); }
 
-        /* 학습 완료 모달 */
-        .complete-time {
-            text-align: center;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--card-bg), #f0f0f0);
-            border-radius: 12px;
-            margin-bottom: 12px;
-        }
-        .complete-time span:first-child {
-            display: block;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--primary);
-            font-family: 'SF Mono', Monaco, monospace;
-        }
-        .complete-time-label { font-size: 0.8rem; color: #888; }
-        .complete-info {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        
-        .range-input-section { margin-bottom: 15px; }
-        .range-label { font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 10px; }
-        .range-inputs { display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .range-field { display: flex; flex-direction: column; align-items: center; }
-        .range-field label { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
-        .range-field input {
-            width: 70px;
-            padding: 12px 8px;
-            text-align: center;
-            border: 2px solid #e5e5e5;
-            border-radius: 10px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            background: #fafafa;
-        }
-        .range-field input:focus { outline: none; border-color: var(--accent); background: white; }
-        .range-unit { font-size: 0.75rem; color: #888; margin-top: 4px; }
-        .range-separator { font-size: 1.2rem; color: #888; margin-top: 15px; }
-
-        /* 사진 인증 */
         .photo-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e5e5; }
         .photo-label { font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 10px; }
         .photo-preview {
@@ -571,11 +523,7 @@
             overflow: hidden;
             background: #fafafa;
         }
-        .photo-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
         .photo-preview i { font-size: 2rem; color: #bbb; margin-bottom: 8px; }
         .photo-preview span { font-size: 0.8rem; color: #888; }
         .photo-preview.has-photo { border-style: solid; border-color: var(--accent); }
@@ -612,24 +560,6 @@
         .capture-info { font-size: 0.9rem; opacity: 0.9; }
         .capture-mode .plan-table { border-radius: 0 0 12px 12px; }
 
-        /* 기록 방식 선택 모달 */
-        .mode-selector { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        .mode-option {
-            padding: 18px;
-            border: 2px solid #e5e5e5;
-            border-radius: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.2s;
-        }
-        .mode-option:hover { border-color: var(--accent); background: var(--card-bg); }
-        .mode-option i { font-size: 1.8rem; color: var(--accent); width: 40px; text-align: center; }
-        .mode-option .mode-text { flex: 1; }
-        .mode-option .mode-title { font-weight: 700; color: var(--primary); margin-bottom: 3px; }
-        .mode-option .mode-desc { font-size: 0.8rem; color: #888; }
-
         [data-theme="dark"] .login-box,
         [data-theme="dark"] .modal-box,
         [data-theme="dark"] .stats-panel,
@@ -641,6 +571,7 @@
         [data-theme="dark"] .week-title { color: #e4e4e7; }
         [data-theme="dark"] .plan-card { background: #3f3f46; border-color: #52525b; }
         [data-theme="dark"] .card-timer { color: #e4e4e7; }
+        [data-theme="dark"] .card-input { background: #27272a; color: #e4e4e7; border-color: #52525b; }
     </style>
 </head>
 <body data-theme="ocean">
@@ -733,7 +664,6 @@
         </div>
     </div>
 
-    <!-- 교재 추가 모달 -->
     <div class="modal" id="bookModal">
         <div class="modal-box">
             <h3 id="bookModalTitle">📚 교재/인강 추가</h3>
@@ -747,17 +677,11 @@
             <div class="type-selector">
                 <div class="type-option">
                     <input type="radio" name="bookType" id="typeTextbook" value="textbook" checked>
-                    <label for="typeTextbook">
-                        <i class="fas fa-book"></i>
-                        <span>교재</span>
-                    </label>
+                    <label for="typeTextbook"><i class="fas fa-book"></i><span>교재</span></label>
                 </div>
                 <div class="type-option">
                     <input type="radio" name="bookType" id="typeLecture" value="lecture">
-                    <label for="typeLecture">
-                        <i class="fas fa-video"></i>
-                        <span>인강</span>
-                    </label>
+                    <label for="typeLecture"><i class="fas fa-video"></i><span>인강</span></label>
                 </div>
             </div>
             <input type="text" id="bookName" placeholder="교재명 또는 강의명">
@@ -768,33 +692,6 @@
         </div>
     </div>
 
-    <!-- 기록 방식 선택 모달 -->
-    <div class="modal" id="modeModal">
-        <div class="modal-box">
-            <h3>📝 기록 방식 선택</h3>
-            <div class="mode-selector">
-                <div class="mode-option" onclick="selectMode('timer')">
-                    <i class="fas fa-stopwatch"></i>
-                    <div class="mode-text">
-                        <div class="mode-title">⏱️ 타이머로 측정</div>
-                        <div class="mode-desc">독서실에서 실시간으로 공부할 때</div>
-                    </div>
-                </div>
-                <div class="mode-option" onclick="selectMode('direct')">
-                    <i class="fas fa-edit"></i>
-                    <div class="mode-text">
-                        <div class="mode-title">✏️ 직접 입력</div>
-                        <div class="mode-desc">이미 공부한 것을 기록할 때</div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-btns">
-                <button class="cancel" onclick="closeModeModal()">취소</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 테마 선택 모달 -->
     <div class="modal" id="themeModal">
         <div class="modal-box">
             <h3>🎨 플래너 테마</h3>
@@ -830,58 +727,10 @@
         </div>
     </div>
 
-    <!-- 검사 요청 모달 -->
     <div class="modal check-modal" id="checkModal">
         <div class="modal-box">
             <h3>📋 검사 요청</h3>
             <div class="check-summary" id="checkSummary"></div>
-            <p style="font-size:0.85rem; color:#888; text-align:center;">위 내용으로 검사를 요청합니다</p>
-            <div class="modal-btns">
-                <button class="cancel" onclick="closeCheckModal(false)">취소</button>
-                <button class="confirm" onclick="closeCheckModal(true)">요청하기</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 학습 완료 입력 모달 -->
-    <div class="modal" id="completeModal">
-        <div class="modal-box" style="max-width: 360px;">
-            <h3 id="completeModalTitle">✏️ 학습 완료 기록</h3>
-            <div class="complete-time" id="completeTimeSection">
-                <span id="completeTimeDisplay">00:00</span>
-                <span class="complete-time-label">학습 시간</span>
-            </div>
-            <div class="complete-info" id="completeInfo">수학 · 수학의정석</div>
-            
-            <div class="range-input-section">
-                <div class="range-label" id="rangeLabel">공부한 범위를 입력하세요</div>
-                <div class="range-inputs">
-                    <div class="range-field">
-                        <label>시작</label>
-                        <input type="text" id="completeStart" placeholder="예: 10" inputmode="numeric">
-                        <span class="range-unit" id="startUnit">p.</span>
-                    </div>
-                    <span class="range-separator">~</span>
-                    <div class="range-field">
-                        <label>끝</label>
-                        <input type="text" id="completeEnd" placeholder="예: 25" inputmode="numeric">
-                        <span class="range-unit" id="endUnit">p.</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 직접입력 모드용 시간 입력 -->
-            <div class="range-input-section" id="timeInputSection" style="display:none;">
-                <div class="range-label">공부한 시간 (분)</div>
-                <div class="range-inputs">
-                    <div class="range-field">
-                        <input type="text" id="completeMinutes" placeholder="예: 60" inputmode="numeric" style="width:100px;">
-                        <span class="range-unit">분</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 사진 인증 -->
             <div class="photo-section">
                 <div class="photo-label">📸 인증 사진 (선택)</div>
                 <div class="photo-preview" id="photoPreview" onclick="document.getElementById('photoInput').click()">
@@ -890,10 +739,9 @@
                 </div>
                 <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="handlePhoto(this)">
             </div>
-            
             <div class="modal-btns">
-                <button class="cancel" onclick="closeCompleteModal(false)">취소</button>
-                <button class="confirm" onclick="closeCompleteModal(true)">완료</button>
+                <button class="cancel" onclick="closeCheckModal(false)">취소</button>
+                <button class="confirm" onclick="closeCheckModal(true)">요청하기</button>
             </div>
         </div>
     </div>
@@ -915,24 +763,15 @@
         let editingBookData = null;
         let longPressTimer = null;
         let contextMenuJustOpened = false;
-        
-        let pendingMode = null; // 기록 방식 선택용
-        let pendingComplete = null;
         let currentPhotoData = null;
-        let isDirectMode = false; // 직접입력 모드인지
 
         const SUBJECTS = ['국어', '수학', '영어', '탐구'];
 
         document.addEventListener('DOMContentLoaded', () => {
             loadTheme();
             document.addEventListener('click', (e) => {
-                if (contextMenuJustOpened) {
-                    contextMenuJustOpened = false;
-                    return;
-                }
-                if (!e.target.closest('.context-menu')) {
-                    hideContextMenu();
-                }
+                if (contextMenuJustOpened) { contextMenuJustOpened = false; return; }
+                if (!e.target.closest('.context-menu')) hideContextMenu();
             });
         });
 
@@ -956,51 +795,33 @@
 
         async function api(data) {
             try {
-                const res = await fetch(API, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(data)
-                });
+                const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
                 return await res.json();
             } catch { return { success: false }; }
         }
 
-        // 테마
-        function loadTheme() {
-            const saved = localStorage.getItem('plannerTheme') || 'ocean';
-            applyTheme(saved);
-        }
+        function loadTheme() { applyTheme(localStorage.getItem('plannerTheme') || 'ocean'); }
         function applyTheme(theme) {
             document.body.setAttribute('data-theme', theme);
-            document.querySelectorAll('.theme-option').forEach(opt => {
-                opt.classList.toggle('active', opt.dataset.theme === theme);
-            });
+            document.querySelectorAll('.theme-option').forEach(opt => opt.classList.toggle('active', opt.dataset.theme === theme));
         }
-        function selectTheme(theme) {
-            applyTheme(theme);
-            localStorage.setItem('plannerTheme', theme);
-        }
+        function selectTheme(theme) { applyTheme(theme); localStorage.setItem('plannerTheme', theme); }
         function openThemeModal() { document.getElementById('themeModal').classList.add('active'); }
         function closeThemeModal() { document.getElementById('themeModal').classList.remove('active'); }
 
-        // 로그인
         async function loadStudents() {
             const floor = document.getElementById('loginFloor').value;
             const sel = document.getElementById('loginName');
             if (!floor) return;
             sel.innerHTML = '<option>로딩중...</option>';
             const res = await api({ action: 'getStudents', floor });
-            if (res.success) {
-                sel.innerHTML = '<option value="">이름 선택</option>' +
-                    res.students.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
-            }
+            if (res.success) sel.innerHTML = '<option value="">이름 선택</option>' + res.students.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
         }
 
         async function login() {
             const floor = document.getElementById('loginFloor').value;
             const name = document.getElementById('loginName').value;
             if (!floor || !name) return toast('층과 이름을 선택하세요', 'warning');
-            
             user = { floor, name };
             document.getElementById('userName').textContent = name;
             document.getElementById('loginScreen').classList.add('hidden');
@@ -1009,9 +830,7 @@
         }
 
         function logout() {
-            user = null;
-            timers = {};
-            completedToday = [];
+            user = null; timers = {}; completedToday = [];
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('container').classList.remove('active');
         }
@@ -1020,21 +839,12 @@
             const bRes = await api({ action: 'getBooks', floor: user.floor, name: user.name });
             if (bRes.success) books = bRes.books || [];
             await loadPlans();
-            renderWeek();
-            renderTable();
-            updateMood();
-            updateCheckBar();
+            renderWeek(); renderTable(); updateMood(); updateCheckBar();
         }
 
         async function loadPlans() {
             const dates = getWeekDates();
-            const res = await api({
-                action: 'getWeekPlans',
-                floor: user.floor,
-                name: user.name,
-                startDate: fmt(dates[0]),
-                endDate: fmt(dates[6])
-            });
+            const res = await api({ action: 'getWeekPlans', floor: user.floor, name: user.name, startDate: fmt(dates[0]), endDate: fmt(dates[6]) });
             if (res.success) plans = res.plans || [];
         }
 
@@ -1058,12 +868,8 @@
             let hHtml = '<tr><th class="subject-col">과목</th><th class="add-col">+</th><th class="book-col">교재</th>';
             for (let i = 0; i < 7; i++) {
                 const d = dates[i];
-                const isToday = fmt(d) === today;
-                const cls = isToday ? 'today' : (i === 5 ? 'sat' : (i === 6 ? 'sun' : ''));
-                hHtml += `<th class="${cls}"><div class="day-header ${cls}">
-                    <div class="day-name">${dayName(i)}</div>
-                    <div class="day-num">${d.getDate()}</div>
-                </div></th>`;
+                const cls = fmt(d) === today ? 'today' : (i === 5 ? 'sat' : (i === 6 ? 'sun' : ''));
+                hHtml += `<th class="${cls}"><div class="day-header ${cls}"><div class="day-name">${dayName(i)}</div><div class="day-num">${d.getDate()}</div></div></th>`;
             }
             hHtml += '</tr>';
             document.getElementById('tableHead').innerHTML = hHtml;
@@ -1073,13 +879,8 @@
                 const sBooks = books.filter(b => b.subject === subject);
                 
                 if (sBooks.length === 0) {
-                    bHtml += `<tr>
-                        <td class="subject-cell">${subject}</td>
-                        <td class="add-cell"><button class="add-btn" onclick="openBookModal('${subject}')">+</button></td>
-                        <td class="book-cell">-</td>`;
-                    for (let i = 0; i < 7; i++) {
-                        bHtml += `<td class="day-cell"><button class="cell-add" onclick="openModeModal('${subject}','${subject}','${fmt(dates[i])}','textbook')">+</button></td>`;
-                    }
+                    bHtml += `<tr><td class="subject-cell">${subject}</td><td class="add-cell"><button class="add-btn" onclick="openBookModal('${subject}')">+</button></td><td class="book-cell">-</td>`;
+                    for (let i = 0; i < 7; i++) bHtml += `<td class="day-cell"><button class="cell-add" onclick="quickAdd('${subject}','${subject}','${fmt(dates[i])}','textbook')">+</button></td>`;
                     bHtml += '</tr>';
                 } else {
                     sBooks.forEach((book, idx) => {
@@ -1091,19 +892,14 @@
                         
                         const typeLabel = book.type === 'lecture' ? '🎬 인강' : '📖 교재';
                         const typeClass = book.type === 'lecture' ? 'lecture' : 'textbook';
-                        bHtml += `<td class="book-cell" 
-                            onpointerdown="startLongPress(event, '${subject}', '${book.name}', '${book.type || 'textbook'}')"
-                            onpointerup="endLongPress(event)"
-                            onpointerleave="endLongPress(event)">
-                            <span class="book-type ${typeClass}">${typeLabel}</span>
-                            <div class="book-name">${book.name}</div>
-                        </td>`;
+                        bHtml += `<td class="book-cell" onpointerdown="startLongPress(event,'${subject}','${book.name}','${book.type||'textbook'}')" onpointerup="endLongPress(event)" onpointerleave="endLongPress(event)">
+                            <span class="book-type ${typeClass}">${typeLabel}</span><div class="book-name">${book.name}</div></td>`;
                         
                         for (let i = 0; i < 7; i++) {
                             const dateStr = fmt(dates[i]);
                             const dayPlans = plans.filter(p => p.date === dateStr && p.subject === subject && p.book === book.name);
                             
-                            bHtml += `<td class="day-cell">`;
+                            bHtml += '<td class="day-cell">';
                             if (dayPlans.length > 0) {
                                 const plan = dayPlans[0];
                                 const key = `${subject}-${book.name}-${dateStr}`;
@@ -1113,18 +909,11 @@
                                 const isCompletedLocal = completedToday.some(c => c.key === key);
                                 const completedData = completedToday.find(c => c.key === key);
                                 
-                                let cardCls = '';
-                                let statusIcon = '';
-                                
-                                if (plan.status === 'approved' || plan.status === 'O') {
-                                    cardCls = 'completed'; statusIcon = '✅';
-                                } else if (plan.status === 'failed' || plan.status === 'X') {
-                                    cardCls = 'failed'; statusIcon = '❌';
-                                } else if (plan.status === 'requested') {
-                                    cardCls = 'pending'; statusIcon = '⏳';
-                                } else if (isCompletedLocal) {
-                                    cardCls = 'done-local'; statusIcon = '✔️';
-                                }
+                                let cardCls = '', statusIcon = '';
+                                if (plan.status === 'approved' || plan.status === 'O') { cardCls = 'completed'; statusIcon = '✅'; }
+                                else if (plan.status === 'failed' || plan.status === 'X') { cardCls = 'failed'; statusIcon = '❌'; }
+                                else if (plan.status === 'requested') { cardCls = 'pending'; statusIcon = '⏳'; }
+                                else if (isCompletedLocal) { cardCls = 'done-local'; statusIcon = '✔️'; }
                                 
                                 if (timer.state === 'running') cardCls = 'running';
                                 if (timer.state === 'paused') cardCls = 'paused';
@@ -1132,49 +921,42 @@
                                 const isServerComplete = ['approved', 'O', 'requested'].includes(plan.status);
                                 const isRunning = timer.state === 'running';
                                 const isPaused = timer.state === 'paused';
-                                const isIdle = timer.state === 'idle';
                                 
-                                // 시간 표시: 완료된 시간 > 서버 시간 > 타이머 시간
                                 let displaySeconds = timer.elapsed || 0;
-                                if (completedData) {
-                                    displaySeconds = completedData.elapsed;
-                                } else if (plan.actualTime) {
-                                    displaySeconds = plan.actualTime * 60;
-                                }
+                                if (completedData) displaySeconds = completedData.elapsed;
+                                else if (plan.actualTime) displaySeconds = plan.actualTime * 60;
                                 const timerDisplay = formatTime(displaySeconds);
+                                const timerDone = isCompletedLocal || isServerComplete;
+                                
+                                const startVal = completedData?.startPage || plan.startPage || '';
+                                const endVal = completedData?.endPage || plan.endPage || '';
+                                const timeVal = completedData ? Math.ceil(completedData.elapsed / 60) : (plan.actualTime || '');
+                                
+                                const unit = bookType === 'lecture' ? '강' : 'p';
+                                const inputDisabled = isServerComplete ? 'disabled' : '';
                                 
                                 bHtml += `<div class="plan-card ${cardCls}">
                                     <div class="card-top">
-                                        <button class="timer-btn play-btn ${isRunning ? 'active' : ''}" 
-                                            onclick="timerPlay('${subject}','${book.name}','${dateStr}')" 
-                                            ${isServerComplete || isCompletedLocal || isRunning ? 'disabled' : ''}>
-                                            <i class="fas fa-play"></i>
-                                        </button>
-                                        <button class="timer-btn pause-btn ${isPaused ? 'active' : ''}" 
-                                            onclick="timerPause('${subject}','${book.name}','${dateStr}')"
-                                            ${isServerComplete || isCompletedLocal || isIdle ? 'disabled' : ''}>
-                                            <i class="fas fa-pause"></i>
-                                        </button>
-                                        <button class="timer-btn stop-btn" 
-                                            onclick="timerStop('${subject}','${book.name}','${dateStr}','${bookType}')"
-                                            ${isServerComplete || isCompletedLocal || isIdle ? 'disabled' : ''}>
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                        <button class="timer-btn direct-btn" 
-                                            onclick="openDirectInput('${subject}','${book.name}','${dateStr}','${bookType}')"
-                                            ${isServerComplete || isCompletedLocal || isRunning || isPaused ? 'disabled' : ''}
-                                            title="직접 입력">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <span class="card-timer ${isCompletedLocal || isServerComplete ? 'done' : ''}" id="timer-${key}">${timerDisplay}</span>
+                                        <button class="timer-btn play-btn ${isRunning ? 'active' : ''}" onclick="timerPlay('${subject}','${book.name}','${dateStr}')" ${isServerComplete || isCompletedLocal || isRunning ? 'disabled' : ''}><i class="fas fa-play"></i></button>
+                                        <button class="timer-btn pause-btn ${isPaused ? 'active' : ''}" onclick="timerPause('${subject}','${book.name}','${dateStr}')" ${isServerComplete || isCompletedLocal || timer.state === 'idle' ? 'disabled' : ''}><i class="fas fa-pause"></i></button>
+                                        <button class="timer-btn stop-btn" onclick="timerStop('${subject}','${book.name}','${dateStr}','${bookType}')" ${isServerComplete || isCompletedLocal ? 'disabled' : ''}><i class="fas fa-check"></i></button>
+                                        <span class="card-timer ${timerDone ? 'done' : ''}" id="timer-${key}">${timerDisplay}</span>
                                         <span class="card-status">${statusIcon}</span>
                                     </div>
                                     <div class="card-bottom">
-                                        ${getRangeDisplay(plan, bookType, isCompletedLocal, key)}
+                                        <div class="card-inputs">
+                                            <span class="input-label">${unit}</span>
+                                            <input class="card-input" value="${startVal}" placeholder="-" ${inputDisabled} onchange="updateInput('${key}','${dateStr}','${subject}','${book.name}','start',this.value)">
+                                            <span class="input-sep">~</span>
+                                            <input class="card-input" value="${endVal}" placeholder="-" ${inputDisabled} onchange="updateInput('${key}','${dateStr}','${subject}','${book.name}','end',this.value)">
+                                            <span class="input-sep">|</span>
+                                            <input class="card-input time-input" value="${timeVal}" placeholder="분" ${inputDisabled} onchange="updateInput('${key}','${dateStr}','${subject}','${book.name}','time',this.value)">
+                                            <span class="input-label">분</span>
+                                        </div>
                                     </div>
                                 </div>`;
                             } else {
-                                bHtml += `<button class="cell-add" onclick="openModeModal('${subject}','${book.name}','${dateStr}','${book.type || 'textbook'}')">+</button>`;
+                                bHtml += `<button class="cell-add" onclick="quickAdd('${subject}','${book.name}','${dateStr}','${book.type||'textbook'}')">+</button>`;
                             }
                             bHtml += '</td>';
                         }
@@ -1182,87 +964,44 @@
                     });
                 }
             });
-            
             document.getElementById('tableBody').innerHTML = bHtml;
         }
 
         function formatTime(seconds) {
-            const m = Math.floor(seconds / 60);
-            const s = seconds % 60;
+            const m = Math.floor(seconds / 60), s = seconds % 60;
             return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
-        
-        function getRangeDisplay(plan, bookType, isCompletedLocal, key) {
+
+        function updateInput(key, dateStr, subject, book, type, value) {
+            const plan = plans.find(p => p.date === dateStr && p.subject === subject && p.book === book);
+            if (!plan) return;
+            
+            if (type === 'start') plan.startPage = value;
+            else if (type === 'end') plan.endPage = value;
+            else if (type === 'time') plan.actualTime = parseInt(value) || 0;
+            
             const completed = completedToday.find(c => c.key === key);
-            const start = completed?.startPage || plan?.startPage;
-            const end = completed?.endPage || plan?.endPage;
-            
-            if (start && end) {
-                const unit = bookType === 'lecture' ? '' : 'p.';
-                const suffix = bookType === 'lecture' ? '강' : '';
-                return `<span class="card-range">${unit}${start}${suffix} ~ ${unit}${end}${suffix}</span>`;
+            if (completed) {
+                if (type === 'start') completed.startPage = value;
+                else if (type === 'end') completed.endPage = value;
+                else if (type === 'time') completed.elapsed = (parseInt(value) || 0) * 60;
             }
-            return '<span style="color:#bbb;font-size:0.65rem;">▶ 시작하기</span>';
+            
+            api({ action: 'updatePlanPage', floor: user.floor, name: user.name, date: dateStr, subject, bookName: book, startPage: plan.startPage, endPage: plan.endPage, actualTime: plan.actualTime });
+            updateCheckBar();
         }
 
-        // 기록 방식 선택 모달
-        function openModeModal(subject, book, dateStr, bookType) {
-            const exists = plans.some(p => p.date === dateStr && p.subject === subject && p.book === book);
-            if (exists) {
-                toast('⚠️ 이미 계획이 있습니다', 'warning');
-                return;
+        async function quickAdd(subject, book, dateStr, bookType) {
+            if (plans.some(p => p.date === dateStr && p.subject === subject && p.book === book)) {
+                toast('⚠️ 이미 계획이 있습니다', 'warning'); return;
             }
-            
-            pendingMode = { subject, book, dateStr, bookType };
-            document.getElementById('modeModal').classList.add('active');
-        }
-        
-        function closeModeModal() {
-            document.getElementById('modeModal').classList.remove('active');
-            pendingMode = null;
-        }
-        
-        async function selectMode(mode) {
-            closeModeModal();
-            if (!pendingMode) return;
-            
-            const { subject, book, dateStr, bookType } = pendingMode;
-            
-            // 계획 추가
-            const res = await api({
-                action: 'addPlan',
-                floor: user.floor,
-                name: user.name,
-                date: dateStr,
-                subject: subject,
-                bookName: book,
-                time: 60,
-                bookType: bookType
-            });
-            
-            if (res.success) {
-                plans.push({ date: dateStr, subject, book, status: 'pending' });
-                renderTable();
-                
-                if (mode === 'direct') {
-                    // 직접 입력 모달 열기
-                    setTimeout(() => openDirectInput(subject, book, dateStr, bookType), 100);
-                } else {
-                    toast('✅ 계획 추가됨 - 타이머를 시작하세요', 'success');
-                }
-            }
-            
-            pendingMode = null;
+            const res = await api({ action: 'addPlan', floor: user.floor, name: user.name, date: dateStr, subject, bookName: book, time: 60, bookType });
+            if (res.success) { plans.push({ date: dateStr, subject, book, status: 'pending' }); renderTable(); toast('✅ 계획 추가됨', 'success'); }
         }
 
-        // 타이머
         function timerPlay(subject, book, dateStr) {
             const key = `${subject}-${book}-${dateStr}`;
-            
-            if (!timers[key]) {
-                timers[key] = { state: 'idle', elapsed: 0, start: null, interval: null };
-            }
-            
+            if (!timers[key]) timers[key] = { state: 'idle', elapsed: 0, start: null, interval: null };
             const timer = timers[key];
             if (timer.state === 'running') return;
             
@@ -1273,157 +1012,45 @@
                 const el = document.getElementById(`timer-${key}`);
                 if (el) el.textContent = formatTime(timer.elapsed);
             }, 1000);
-            
-            renderTable();
-            toast('⏱️ 학습 시작!');
+            renderTable(); toast('⏱️ 학습 시작!');
         }
         
         function timerPause(subject, book, dateStr) {
             const key = `${subject}-${book}-${dateStr}`;
             const timer = timers[key];
-            
             if (!timer || timer.state !== 'running') return;
-            
-            clearInterval(timer.interval);
-            timer.interval = null;
-            timer.state = 'paused';
-            
-            renderTable();
-            toast('⏸️ 일시정지');
+            clearInterval(timer.interval); timer.interval = null; timer.state = 'paused';
+            renderTable(); toast('⏸️ 일시정지');
         }
         
         function timerStop(subject, book, dateStr, bookType) {
             const key = `${subject}-${book}-${dateStr}`;
-            const timer = timers[key];
-            
-            if (!timer || timer.state === 'idle') return;
-            
-            if (timer.interval) {
-                clearInterval(timer.interval);
-                timer.interval = null;
-            }
-            
-            const elapsed = timer.elapsed;
-            isDirectMode = false;
-            openCompleteModal(subject, book, dateStr, elapsed, bookType, key);
-        }
-        
-        // 직접 입력 모드
-        function openDirectInput(subject, book, dateStr, bookType) {
-            const key = `${subject}-${book}-${dateStr}`;
-            isDirectMode = true;
-            openCompleteModal(subject, book, dateStr, 0, bookType, key);
-        }
-        
-        function openCompleteModal(subject, book, dateStr, elapsed, bookType, key) {
-            pendingComplete = { subject, book, dateStr, elapsed, bookType, key };
-            
-            // 모달 제목 & 시간 섹션
-            if (isDirectMode) {
-                document.getElementById('completeModalTitle').textContent = '✏️ 직접 입력';
-                document.getElementById('completeTimeSection').style.display = 'none';
-                document.getElementById('timeInputSection').style.display = 'block';
-                document.getElementById('completeMinutes').value = '';
-            } else {
-                document.getElementById('completeModalTitle').textContent = '✏️ 학습 완료 기록';
-                document.getElementById('completeTimeSection').style.display = 'block';
-                document.getElementById('timeInputSection').style.display = 'none';
-                document.getElementById('completeTimeDisplay').textContent = formatTime(elapsed);
-            }
-            
-            document.getElementById('completeInfo').textContent = `${subject} · ${book}`;
-            
-            if (bookType === 'lecture') {
-                document.getElementById('rangeLabel').textContent = '시청한 강의 범위를 입력하세요';
-                document.getElementById('startUnit').textContent = '강';
-                document.getElementById('endUnit').textContent = '강';
-            } else {
-                document.getElementById('rangeLabel').textContent = '공부한 페이지 범위를 입력하세요';
-                document.getElementById('startUnit').textContent = 'p.';
-                document.getElementById('endUnit').textContent = 'p.';
-            }
-            
-            document.getElementById('completeStart').value = '';
-            document.getElementById('completeEnd').value = '';
-            currentPhotoData = null;
-            document.getElementById('photoPreview').innerHTML = '<i class="fas fa-camera"></i><span>터치하여 사진 촬영</span>';
-            document.getElementById('photoPreview').classList.remove('has-photo');
-            
-            document.getElementById('completeModal').classList.add('active');
-        }
-        
-        function closeCompleteModal(confirm) {
-            if (!confirm) {
-                document.getElementById('completeModal').classList.remove('active');
-                if (pendingComplete && !isDirectMode) {
-                    const timer = timers[pendingComplete.key];
-                    if (timer) timer.state = 'paused';
-                    renderTable();
-                }
-                pendingComplete = null;
-                isDirectMode = false;
-                return;
-            }
-            
-            const { subject, book, dateStr, elapsed, bookType, key } = pendingComplete;
-            const startPage = document.getElementById('completeStart').value.trim();
-            const endPage = document.getElementById('completeEnd').value.trim();
-            
-            if (!startPage || !endPage) {
-                toast('⚠️ 범위를 입력해주세요', 'warning');
-                return;
-            }
-            
-            let finalElapsed = elapsed;
-            if (isDirectMode) {
-                const minutes = parseInt(document.getElementById('completeMinutes').value) || 0;
-                if (minutes <= 0) {
-                    toast('⚠️ 공부 시간을 입력해주세요', 'warning');
-                    return;
-                }
-                finalElapsed = minutes * 60;
-            }
-            
-            document.getElementById('completeModal').classList.remove('active');
-            
-            completedToday.push({
-                key, subject, book, dateStr,
-                elapsed: finalElapsed,
-                bookType, startPage, endPage,
-                photoData: currentPhotoData
-            });
-            
+            const timer = timers[key] || { state: 'idle', elapsed: 0 };
             const plan = plans.find(p => p.date === dateStr && p.subject === subject && p.book === book);
-            if (plan) {
-                plan.startPage = startPage;
-                plan.endPage = endPage;
-            }
             
-            api({
-                action: 'updatePlanPage',
-                floor: user.floor,
-                name: user.name,
-                date: dateStr,
-                subject, bookName: book,
-                startPage, endPage
-            });
+            if (timer.interval) { clearInterval(timer.interval); timer.interval = null; }
             
-            if (timers[key]) {
-                timers[key] = { state: 'idle', elapsed: 0, start: null, interval: null };
-            }
+            let elapsed = timer.elapsed || 0;
+            if (elapsed === 0 && plan?.actualTime) elapsed = plan.actualTime * 60;
             
-            pendingComplete = null;
-            isDirectMode = false;
-            renderTable();
-            updateCheckBar();
-            toast('✅ 학습 완료! 검사 요청 버튼을 눌러주세요', 'success');
+            const startPage = plan?.startPage || '';
+            const endPage = plan?.endPage || '';
+            
+            if (!startPage || !endPage) { toast('⚠️ 페이지/강의 범위를 입력해주세요', 'warning'); return; }
+            if (elapsed === 0) { toast('⚠️ 시간을 입력하거나 타이머를 사용해주세요', 'warning'); return; }
+            
+            const existing = completedToday.findIndex(c => c.key === key);
+            if (existing >= 0) completedToday[existing] = { key, subject, book, dateStr, elapsed, bookType, startPage, endPage };
+            else completedToday.push({ key, subject, book, dateStr, elapsed, bookType, startPage, endPage });
+            
+            timers[key] = { state: 'idle', elapsed: elapsed, start: null, interval: null };
+            renderTable(); updateCheckBar(); toast('✅ 학습 완료! 검사 요청 버튼을 눌러주세요', 'success');
         }
-        
-        // 사진 처리
+
         function handlePhoto(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = (e) => {
                     currentPhotoData = e.target.result;
                     document.getElementById('photoPreview').innerHTML = `<img src="${currentPhotoData}" alt="인증사진">`;
                     document.getElementById('photoPreview').classList.add('has-photo');
@@ -1432,11 +1059,9 @@
             }
         }
 
-        // 검사 바
         function updateCheckBar() {
             const count = completedToday.length;
             const totalMin = completedToday.reduce((sum, c) => sum + Math.ceil(c.elapsed / 60), 0);
-            
             document.getElementById('checkBarStatus').textContent = `완료: ${count}개 · ${totalMin}분`;
             document.getElementById('requestCheckBtn').disabled = count === 0;
             document.getElementById('cancelCheckBtn').style.display = count > 0 ? 'inline-flex' : 'none';
@@ -1444,161 +1069,76 @@
 
         function openCheckModal() {
             if (completedToday.length === 0) return;
-            
-            let html = '';
-            let totalSec = 0;
-            
+            let html = '', totalSec = 0;
             completedToday.forEach(c => {
-                const range = c.bookType === 'lecture' 
-                    ? `${c.startPage}강~${c.endPage}강`
-                    : `p.${c.startPage}~${c.endPage}`;
-                const hasPhoto = c.photoData ? ' 📷' : '';
-                html += `<div class="check-item">
-                    <div>
-                        <span class="subject">${c.subject}</span>
-                        <span style="color:#888;font-size:0.8rem;"> · ${c.book}${hasPhoto}</span>
-                        <div style="font-size:0.75rem;color:#888;">${range}</div>
-                    </div>
-                    <span class="time">${Math.ceil(c.elapsed/60)}분</span>
-                </div>`;
+                const range = c.bookType === 'lecture' ? `${c.startPage}강~${c.endPage}강` : `p.${c.startPage}~${c.endPage}`;
+                html += `<div class="check-item"><div><span class="subject">${c.subject}</span><span style="color:#888;font-size:0.8rem;"> · ${c.book}</span><div style="font-size:0.75rem;color:#888;">${range}</div></div><span class="time">${Math.ceil(c.elapsed/60)}분</span></div>`;
                 totalSec += c.elapsed;
             });
-            
             const totalMin = Math.ceil(totalSec / 60);
-            const h = Math.floor(totalMin / 60);
-            const m = totalMin % 60;
-            const totalStr = h > 0 ? `${h}시간 ${m}분` : `${m}분`;
-            
-            html += `<div class="check-total">총 ${totalStr}</div>`;
-            
+            const h = Math.floor(totalMin / 60), m = totalMin % 60;
+            html += `<div class="check-total">총 ${h > 0 ? h + '시간 ' : ''}${m}분</div>`;
             document.getElementById('checkSummary').innerHTML = html;
+            currentPhotoData = null;
+            document.getElementById('photoPreview').innerHTML = '<i class="fas fa-camera"></i><span>터치하여 사진 촬영</span>';
+            document.getElementById('photoPreview').classList.remove('has-photo');
             document.getElementById('checkModal').classList.add('active');
         }
 
         async function closeCheckModal(confirm) {
             document.getElementById('checkModal').classList.remove('active');
-            
             if (!confirm || completedToday.length === 0) return;
-            
             for (const c of completedToday) {
-                await api({
-                    action: 'requestCheck',
-                    floor: user.floor,
-                    name: user.name,
-                    date: c.dateStr,
-                    subject: c.subject,
-                    bookName: c.book,
-                    actualTime: Math.ceil(c.elapsed / 60),
-                    startPage: c.startPage,
-                    endPage: c.endPage,
-                    photoData: c.photoData
-                });
+                await api({ action: 'requestCheck', floor: user.floor, name: user.name, date: c.dateStr, subject: c.subject, bookName: c.book, actualTime: Math.ceil(c.elapsed / 60), startPage: c.startPage, endPage: c.endPage, photoData: currentPhotoData });
             }
-            
-            completedToday = [];
-            await loadPlans();
-            renderTable();
-            updateMood();
-            updateCheckBar();
+            completedToday = []; currentPhotoData = null;
+            await loadPlans(); renderTable(); updateMood(); updateCheckBar();
             toast('🔔 검사 요청 완료!', 'success');
         }
 
         function cancelAllChecks() {
             if (completedToday.length === 0) return;
-            
             if (confirm('완료된 학습 기록을 모두 취소하시겠습니까?')) {
-                completedToday.forEach(c => {
-                    timers[c.key] = { state: 'idle', elapsed: 0, start: null, interval: null };
-                });
-                completedToday = [];
-                renderTable();
-                updateCheckBar();
-                toast('학습 기록이 취소되었습니다');
+                completedToday.forEach(c => { timers[c.key] = { state: 'idle', elapsed: 0, start: null, interval: null }; });
+                completedToday = []; renderTable(); updateCheckBar(); toast('학습 기록이 취소되었습니다');
             }
         }
 
-        // 교재 관리 (길게 누르기)
         function startLongPress(e, subject, name, type) {
-            longPressTimer = setTimeout(() => {
-                selectedBook = { subject, name, type };
-                showContextMenu(e.clientX, e.clientY);
-                longPressTimer = null;
-            }, 500);
+            longPressTimer = setTimeout(() => { selectedBook = { subject, name, type }; showContextMenu(e.clientX, e.clientY); longPressTimer = null; }, 500);
         }
-        
-        function endLongPress(e) {
-            if (longPressTimer) {
-                clearTimeout(longPressTimer);
-                longPressTimer = null;
-            }
-            if (contextMenuJustOpened) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        }
-        
+        function endLongPress(e) { if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; } if (contextMenuJustOpened) { e.preventDefault(); e.stopPropagation(); } }
         function showContextMenu(x, y) {
             const menu = document.getElementById('contextMenu');
             menu.style.left = Math.min(x, window.innerWidth - 160) + 'px';
             menu.style.top = Math.min(y, window.innerHeight - 120) + 'px';
-            menu.classList.add('active');
-            contextMenuJustOpened = true;
+            menu.classList.add('active'); contextMenuJustOpened = true;
             if (navigator.vibrate) navigator.vibrate(50);
         }
-        
-        function hideContextMenu() {
-            document.getElementById('contextMenu').classList.remove('active');
-            contextMenuJustOpened = false;
-        }
+        function hideContextMenu() { document.getElementById('contextMenu').classList.remove('active'); contextMenuJustOpened = false; }
         
         function editBook() {
-            hideContextMenu();
-            if (!selectedBook) return;
-            
-            editMode = true;
-            editingBookData = { ...selectedBook };
-            
+            hideContextMenu(); if (!selectedBook) return;
+            editMode = true; editingBookData = { ...selectedBook };
             document.getElementById('bookModalTitle').textContent = '✏️ 교재 수정';
             document.getElementById('bookSubject').value = selectedBook.subject;
             document.getElementById('bookSubject').disabled = true;
             document.getElementById('bookName').value = selectedBook.name;
-            
-            if (selectedBook.type === 'lecture') {
-                document.getElementById('typeLecture').checked = true;
-            } else {
-                document.getElementById('typeTextbook').checked = true;
-            }
-            
+            document.getElementById(selectedBook.type === 'lecture' ? 'typeLecture' : 'typeTextbook').checked = true;
             document.getElementById('bookModal').classList.add('active');
         }
         
         async function deleteBook() {
-            hideContextMenu();
-            if (!selectedBook) return;
-            
+            hideContextMenu(); if (!selectedBook) return;
             if (!confirm(`"${selectedBook.name}" 교재를 삭제하시겠습니까?`)) return;
-            
-            const res = await api({
-                action: 'deleteBook',
-                floor: user.floor,
-                name: user.name,
-                subject: selectedBook.subject,
-                bookName: selectedBook.name
-            });
-            
-            if (res.success) {
-                books = books.filter(b => !(b.subject === selectedBook.subject && b.name === selectedBook.name));
-                renderTable();
-                toast('🗑️ 삭제됨', 'success');
-            } else {
-                toast('삭제 실패');
-            }
+            const res = await api({ action: 'deleteBook', floor: user.floor, name: user.name, subject: selectedBook.subject, bookName: selectedBook.name });
+            if (res.success) { books = books.filter(b => !(b.subject === selectedBook.subject && b.name === selectedBook.name)); renderTable(); toast('🗑️ 삭제됨', 'success'); }
+            else toast('삭제 실패');
             selectedBook = null;
         }
 
         function openBookModal(subject) {
-            editMode = false;
-            editingBookData = null;
+            editMode = false; editingBookData = null;
             document.getElementById('bookModalTitle').textContent = '📚 교재/인강 추가';
             document.getElementById('bookSubject').value = subject || '';
             document.getElementById('bookSubject').disabled = false;
@@ -1609,9 +1149,7 @@
 
         function closeBookModal() {
             document.getElementById('bookModal').classList.remove('active');
-            editMode = false;
-            editingBookData = null;
-            selectedBook = null;
+            editMode = false; editingBookData = null; selectedBook = null;
             document.getElementById('bookSubject').disabled = false;
         }
 
@@ -1619,75 +1157,26 @@
             const subject = document.getElementById('bookSubject').value;
             const name = document.getElementById('bookName').value.trim();
             const type = document.querySelector('input[name="bookType"]:checked').value;
-            
             if (!subject || !name) return toast('과목과 이름을 입력하세요', 'warning');
             
             if (editMode && editingBookData) {
-                // 수정
-                const res = await api({
-                    action: 'updateBook',
-                    floor: user.floor,
-                    name: user.name,
-                    subject: editingBookData.subject,
-                    oldBookName: editingBookData.name,
-                    newBookName: name,
-                    bookType: type
-                });
-                
+                const res = await api({ action: 'updateBook', floor: user.floor, name: user.name, subject: editingBookData.subject, oldBookName: editingBookData.name, newBookName: name, bookType: type });
                 if (res.success) {
                     const idx = books.findIndex(b => b.subject === editingBookData.subject && b.name === editingBookData.name);
-                    if (idx >= 0) {
-                        books[idx].name = name;
-                        books[idx].type = type;
-                    }
-                    closeBookModal();
-                    renderTable();
-                    toast('✏️ 수정됨', 'success');
-                } else {
-                    toast('수정 실패');
-                }
+                    if (idx >= 0) { books[idx].name = name; books[idx].type = type; }
+                    closeBookModal(); renderTable(); toast('✏️ 수정됨', 'success');
+                } else toast('수정 실패');
             } else {
-                // 추가
-                const res = await api({
-                    action: 'addBook',
-                    floor: user.floor,
-                    name: user.name,
-                    subject,
-                    bookName: name,
-                    bookType: type
-                });
-                
-                if (res.success) {
-                    books.push({ subject, name, type });
-                    closeBookModal();
-                    renderTable();
-                    toast(type === 'lecture' ? '🎬 인강 추가됨' : '📚 교재 추가됨', 'success');
-                }
+                const res = await api({ action: 'addBook', floor: user.floor, name: user.name, subject, bookName: name, bookType: type });
+                if (res.success) { books.push({ subject, name, type }); closeBookModal(); renderTable(); toast(type === 'lecture' ? '🎬 인강 추가됨' : '📚 교재 추가됨', 'success'); }
             }
         }
 
-        // 기타
         async function updateMood() {
-            const res = await api({
-                action: 'getRecords',
-                floor: user.floor,
-                name: user.name,
-                date: fmt(new Date())
-            });
-            
+            const res = await api({ action: 'getRecords', floor: user.floor, name: user.name, date: fmt(new Date()) });
             if (res.success) {
-                const records = res.records || [];
-                const totalTime = records
-                    .filter(r => ['approved', 'O', 'requested'].includes(r.status))
-                    .reduce((sum, r) => sum + (r.actualTime || 0), 0);
-                
-                let emoji = '😴';
-                if (totalTime >= 480) emoji = '🔥';
-                else if (totalTime >= 240) emoji = '😊';
-                else if (totalTime >= 60) emoji = '🙂';
-                else if (totalTime > 0) emoji = '💪';
-                
-                document.getElementById('mood').textContent = emoji;
+                const totalTime = (res.records || []).filter(r => ['approved', 'O', 'requested'].includes(r.status)).reduce((sum, r) => sum + (r.actualTime || 0), 0);
+                document.getElementById('mood').textContent = totalTime >= 480 ? '🔥' : totalTime >= 240 ? '😊' : totalTime >= 60 ? '🙂' : totalTime > 0 ? '💪' : '😴';
             }
         }
 
@@ -1714,59 +1203,26 @@
                 const captureArea = document.getElementById('captureArea');
                 const captureHeader = document.getElementById('captureHeader');
                 const wrapper = document.querySelector('.table-wrapper');
-                
                 const dates = getWeekDates();
-                const m = dates[0].getMonth() + 1;
-                const w = Math.ceil(dates[0].getDate() / 7);
-                document.getElementById('captureInfo').textContent = 
-                    `${user.name} · ${user.floor} · ${m}월 ${w}주차`;
-                
-                captureHeader.classList.add('visible');
-                captureArea.classList.add('capture-mode');
-                
-                const originalOverflow = wrapper.style.overflow;
-                const originalHeight = wrapper.style.height;
-                wrapper.style.overflow = 'visible';
-                wrapper.style.height = 'auto';
-                
+                document.getElementById('captureInfo').textContent = `${user.name} · ${user.floor} · ${dates[0].getMonth()+1}월 ${Math.ceil(dates[0].getDate()/7)}주차`;
+                captureHeader.classList.add('visible'); captureArea.classList.add('capture-mode');
+                const origOverflow = wrapper.style.overflow, origHeight = wrapper.style.height;
+                wrapper.style.overflow = 'visible'; wrapper.style.height = 'auto';
                 await new Promise(r => setTimeout(r, 150));
-                
-                const canvas = await html2canvas(captureArea, {
-                    backgroundColor: '#ffffff',
-                    scale: 2,
-                    useCORS: true
-                });
-                
-                captureHeader.classList.remove('visible');
-                captureArea.classList.remove('capture-mode');
-                wrapper.style.overflow = originalOverflow;
-                wrapper.style.height = originalHeight;
-                
-                canvas.toBlob(async (blob) => {
-                    try {
-                        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-                        toast('📋 복사됨! 카톡에 붙여넣기', 'success');
-                    } catch {
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `${user.name}_계획표.png`;
-                        a.click();
-                        toast('📥 저장됨', 'success');
-                    }
+                const canvas = await html2canvas(captureArea, { backgroundColor: '#fff', scale: 2, useCORS: true });
+                captureHeader.classList.remove('visible'); captureArea.classList.remove('capture-mode');
+                wrapper.style.overflow = origOverflow; wrapper.style.height = origHeight;
+                canvas.toBlob(async blob => {
+                    try { await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]); toast('📋 복사됨! 카톡에 붙여넣기', 'success'); }
+                    catch { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${user.name}_계획표.png`; a.click(); toast('📥 저장됨', 'success'); }
                 }, 'image/png');
-            } catch (e) {
-                console.error(e);
-                toast('캡처 실패');
-            }
+            } catch (e) { console.error(e); toast('캡처 실패'); }
         }
 
         function toast(msg, type = '') {
             const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.className = 'toast' + (type ? ` ${type}` : '');
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2500);
+            t.textContent = msg; t.className = 'toast' + (type ? ` ${type}` : '');
+            t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500);
         }
     </script>
 </body>

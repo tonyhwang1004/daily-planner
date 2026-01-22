@@ -570,6 +570,43 @@
         [data-theme="dark"] .plan-table td { border-color: #3f3f46; }
         [data-theme="dark"] .subject-cell { background: linear-gradient(135deg, #27272a, #1f1f1f); color: #e4e4e7; }
         [data-theme="dark"] .week-bar, [data-theme="dark"] .check-bar { background: #27272a; border-color: #3f3f46; }
+
+        /* ========== 연속 학습일 & 누적 시간 바 ========== */
+        .streak-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 10px 15px;
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-bottom: 1px solid #fcd34d;
+        }
+        .streak-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .streak-icon {
+            font-size: 1.2rem;
+        }
+        .streak-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #92400e;
+        }
+        .streak-label {
+            font-size: 0.8rem;
+            color: #a16207;
+            font-weight: 600;
+        }
+        .streak-divider {
+            width: 1px;
+            height: 24px;
+            background: #fcd34d;
+        }
+        [data-theme="dark"] .streak-bar { background: linear-gradient(135deg, #78350f, #92400e); border-color: #a16207; }
+        [data-theme="dark"] .streak-value { color: #fef3c7; }
+        [data-theme="dark"] .streak-label { color: #fde68a; }
         [data-theme="dark"] .week-title { color: #e4e4e7; }
         [data-theme="dark"] .plan-card { background: #3f3f46; border-color: #52525b; }
         [data-theme="dark"] .card-timer { color: #e4e4e7; }
@@ -868,6 +905,21 @@
             <button class="week-nav" onclick="changeWeek(1)"><i class="fas fa-chevron-right"></i></button>
         </div>
 
+        <!-- 연속 학습일 & 누적 시간 -->
+        <div class="streak-bar">
+            <div class="streak-item">
+                <span class="streak-icon">🔥</span>
+                <span class="streak-value" id="streakDays">0</span>
+                <span class="streak-label">일 연속</span>
+            </div>
+            <div class="streak-divider"></div>
+            <div class="streak-item">
+                <span class="streak-icon">⏱️</span>
+                <span class="streak-value" id="totalStudyTime">0h</span>
+                <span class="streak-label">누적</span>
+            </div>
+        </div>
+
         <div class="table-wrapper">
             <div id="captureArea">
                 <div class="capture-header" id="captureHeader">
@@ -1054,6 +1106,19 @@
             <button class="fm-close" onclick="closeModal('mystatsModal')"><i class="fas fa-times"></i></button>
         </div>
         <div class="fm-body">
+            <!-- 연속 학습일 & 누적 시간 -->
+            <div class="my-stats-card" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
+                <div class="stats-summary-row" style="grid-template-columns: 1fr 1fr;">
+                    <div class="summary-box" style="background: rgba(255,255,255,0.7);">
+                        <div class="value" style="color:#92400e;">🔥 <span id="myStreakDays">0</span></div>
+                        <div class="label" style="color:#a16207;">일 연속 학습</div>
+                    </div>
+                    <div class="summary-box" style="background: rgba(255,255,255,0.7);">
+                        <div class="value" style="color:#92400e;">⏱️ <span id="myTotalTime">0h</span></div>
+                        <div class="label" style="color:#a16207;">누적 학습시간</div>
+                    </div>
+                </div>
+            </div>
             <div class="my-stats-card">
                 <div class="my-stats-title"><i class="fas fa-calendar-week"></i> 이번 주 요약</div>
                 <div class="stats-summary-row">
@@ -1182,6 +1247,10 @@
         }
 
         function logout() {
+            // 로그아웃 전 실시간 상태 idle로 업데이트
+            if (user) {
+                updateLiveStatusAPI('idle', '');
+            }
             user = null; timers = {}; completedToday = [];
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('container').classList.remove('active');
@@ -1197,6 +1266,7 @@
             if (bRes.success) books = bRes.books || [];
             await loadPlans();
             renderWeek(); renderTable(); updateMood(); updateCheckBar();
+            updateStreakAndTotal(); // 연속 학습일 & 누적 시간 업데이트
         }
 
         async function loadPlans() {
@@ -1296,8 +1366,8 @@
                                 const unit = bookType === 'lecture' ? '강' : 'p';
                                 const inputDisabled = isServerComplete ? 'disabled' : '';
                                 
-                                // 삭제 가능 여부 (완료되지 않은 계획 + 당일만 가능)
-                                const canDelete = !isServerComplete && !isCompletedLocal && !isPastDate;
+                                // 삭제 가능 여부 (오늘 날짜 + 서버에서 완료/요청 안 된 계획)
+                                const canDelete = !isServerComplete && !isPastDate;
                                 
                                 bHtml += `<div class="plan-card ${cardCls}" 
                                     oncontextmenu="event.preventDefault(); ${canDelete ? `showPlanMenu(event,'${subject}','${book.name}','${dateStr}')` : ''}"
@@ -1381,6 +1451,9 @@
                 if (el) el.textContent = formatTime(timer.elapsed);
             }, 1000);
             renderTable(); toast('⏱️ 학습 시작!');
+            
+            // 실시간 상태 업데이트
+            updateLiveStatusAPI('studying', subject);
         }
         
         function timerPause(subject, book, dateStr) {
@@ -1389,6 +1462,9 @@
             if (!timer || timer.state !== 'running') return;
             clearInterval(timer.interval); timer.interval = null; timer.state = 'paused';
             renderTable(); toast('⏸️ 일시정지');
+            
+            // 실시간 상태 업데이트
+            updateLiveStatusAPI('idle', '');
         }
         
         function timerStop(subject, book, dateStr, bookType) {
@@ -1415,6 +1491,26 @@
             timers[key] = { state: 'idle', elapsed: elapsed, start: null, interval: null };
             renderTable(); updateCheckBar(); 
             toast('✔️ 완료! 검사 요청 버튼을 눌러주세요', 'success');
+            
+            // 실시간 상태 업데이트 (오늘 총 시간 계산)
+            const todayTotalMin = completedToday.reduce((sum, c) => sum + Math.ceil(c.elapsed / 60), 0);
+            updateLiveStatusAPI('idle', '', todayTotalMin);
+        }
+        
+        // 실시간 상태 업데이트 API (비동기)
+        async function updateLiveStatusAPI(status, subject, todayTime = 0) {
+            try {
+                await api({
+                    action: 'updateLiveStatus',
+                    floor: user.floor,
+                    name: user.name,
+                    status: status,
+                    subject: subject,
+                    todayTime: todayTime
+                });
+            } catch (e) {
+                console.log('Live status update failed:', e);
+            }
         }
 
         function handlePhoto(input) {
@@ -1753,6 +1849,60 @@
             }
         }
 
+        // ========== 연속 학습일 & 누적 시간 ==========
+        async function updateStreakAndTotal() {
+            try {
+                const res = await api({ 
+                    action: 'getStreakAndTotal', 
+                    floor: user.floor, 
+                    name: user.name 
+                });
+                
+                if (res.success) {
+                    document.getElementById('streakDays').textContent = res.streak || 0;
+                    const totalHours = ((res.totalTime || 0) / 60).toFixed(1);
+                    document.getElementById('totalStudyTime').textContent = totalHours + 'h';
+                } else {
+                    // API 없으면 현재 데이터로 계산
+                    calculateStreakFromPlans();
+                }
+            } catch (e) {
+                console.log('Streak API failed, using local calculation');
+                calculateStreakFromPlans();
+            }
+        }
+        
+        function calculateStreakFromPlans() {
+            // 현재 plans 데이터로 간단히 계산
+            const completed = plans.filter(p => ['approved', 'O'].includes(p.status));
+            
+            // 누적 시간
+            const totalMin = completed.reduce((sum, p) => sum + (p.actualTime || 0), 0);
+            document.getElementById('totalStudyTime').textContent = (totalMin / 60).toFixed(1) + 'h';
+            
+            // 연속 학습일 (간단 버전: 오늘부터 거꾸로)
+            const today = new Date();
+            let streak = 0;
+            let checkDate = new Date(today);
+            
+            const completedDates = new Set(completed.map(p => p.date));
+            
+            for (let i = 0; i < 365; i++) {
+                const dateStr = fmt(checkDate);
+                if (completedDates.has(dateStr)) {
+                    streak++;
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else if (i === 0) {
+                    // 오늘 아직 안 했으면 어제부터 체크
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+            
+            document.getElementById('streakDays').textContent = streak;
+        }
+
         // ========== 하단 네비게이션 ==========
         function switchNav(tab) {
             document.querySelectorAll('.nav-item').forEach((item, idx) => {
@@ -1847,6 +1997,10 @@
         // ========== 내 통계 로드 ==========
         async function loadMyStats() {
             const subjectBars = document.getElementById('subjectBars');
+            
+            // 연속 학습일 & 누적 시간 표시 (상단 바에서 이미 계산됨)
+            document.getElementById('myStreakDays').textContent = document.getElementById('streakDays').textContent;
+            document.getElementById('myTotalTime').textContent = document.getElementById('totalStudyTime').textContent;
             
             try {
                 // 이번 주 내 기록 가져오기

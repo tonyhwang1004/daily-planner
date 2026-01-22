@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>선생님 대시보드</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #f0f2f5;
             min-height: 100vh;
-            padding-bottom: 80px;
+            padding-bottom: 100px;
         }
 
-        /* 헤더 */
         .header {
             background: linear-gradient(135deg, #1e3a5f, #2d5a87);
             color: white;
@@ -25,11 +25,9 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         .header h1 { font-size: 1.1rem; font-weight: 700; }
         .header-controls { display: flex; gap: 10px; align-items: center; }
-        
         .floor-select {
             padding: 8px 12px;
             border: none;
@@ -40,7 +38,6 @@
             font-weight: 600;
         }
         .floor-select option { color: #333; }
-        
         .refresh-btn {
             width: 40px;
             height: 40px;
@@ -51,14 +48,50 @@
             font-size: 1rem;
             cursor: pointer;
         }
-        .refresh-btn:active { background: #2563eb; }
         .refresh-btn.spinning i { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* 컨테이너 */
-        .container { padding: 16px; max-width: 600px; margin: 0 auto; }
+        .main-tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 72px;
+            z-index: 99;
+        }
+        .main-tab {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            background: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .main-tab.active {
+            color: #1e3a5f;
+            border-bottom-color: #1e3a5f;
+            background: #f8fafc;
+        }
+        .main-tab .badge {
+            background: #ef4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
 
-        /* 통계 카드 */
+        .container { padding: 16px; max-width: 1200px; margin: 0 auto; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ========== 검사 대기 탭 ========== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -72,75 +105,40 @@
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 800;
-        }
+        .stat-value { font-size: 1.5rem; font-weight: 800; }
         .stat-value.blue { color: #3b82f6; }
         .stat-value.orange { color: #f59e0b; }
         .stat-value.green { color: #10b981; }
         .stat-value.red { color: #ef4444; }
-        .stat-label {
-            font-size: 0.7rem;
-            color: #888;
-            margin-top: 4px;
-        }
+        .stat-label { font-size: 0.7rem; color: #888; margin-top: 4px; }
 
-        /* 탭 */
-        .tabs {
+        .sub-tabs {
             display: flex;
             gap: 8px;
             margin-bottom: 16px;
         }
-        .tab-btn {
+        .sub-tab {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             border: none;
             border-radius: 10px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            transition: all 0.2s;
+            gap: 5px;
         }
-        .tab-btn.waiting {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        .tab-btn.waiting.active {
-            background: #f59e0b;
-            color: white;
-        }
-        .tab-btn.approved {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        .tab-btn.approved.active {
-            background: #10b981;
-            color: white;
-        }
-        .tab-btn.failed {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        .tab-btn.failed.active {
-            background: #ef4444;
-            color: white;
-        }
-        .tab-badge {
-            background: rgba(0,0,0,0.15);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-        }
+        .sub-tab.waiting { background: #fef3c7; color: #92400e; }
+        .sub-tab.waiting.active { background: #f59e0b; color: white; }
+        .sub-tab.approved { background: #d1fae5; color: #065f46; }
+        .sub-tab.approved.active { background: #10b981; color: white; }
+        .sub-tab.failed { background: #fee2e2; color: #991b1b; }
+        .sub-tab.failed.active { background: #ef4444; color: white; }
 
-        /* 카드 리스트 */
         .card-list { display: flex; flex-direction: column; gap: 16px; }
 
-        /* 검사 카드 */
         .check-card {
             background: white;
             border-radius: 16px;
@@ -159,21 +157,9 @@
             justify-content: space-between;
             align-items: center;
         }
-        .student-name {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #1e3a5f;
-        }
-        .student-floor {
-            font-size: 0.8rem;
-            color: #888;
-            margin-left: 6px;
-        }
-        .card-date {
-            font-size: 0.8rem;
-            color: #888;
-        }
-        
+        .student-name { font-size: 1.15rem; font-weight: 700; color: #1e3a5f; }
+        .student-floor { font-size: 0.8rem; color: #888; margin-left: 6px; }
+        .card-date { font-size: 0.8rem; color: #888; }
         .card-body { padding: 16px; }
         
         .subject-row {
@@ -184,7 +170,6 @@
             flex-wrap: wrap;
         }
         .subject-badge {
-            display: inline-block;
             padding: 5px 14px;
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
@@ -192,12 +177,7 @@
             font-size: 0.85rem;
             font-weight: 600;
         }
-        .book-name {
-            font-size: 0.95rem;
-            color: #555;
-            flex: 1;
-            min-width: 100px;
-        }
+        .book-name { font-size: 0.95rem; color: #555; flex: 1; min-width: 100px; }
         .time-badge {
             background: #f0f9ff;
             color: #0369a1;
@@ -207,7 +187,6 @@
             font-size: 0.9rem;
         }
 
-        /* 페이지 박스 */
         .page-box {
             background: linear-gradient(135deg, #fef9c3, #fde047);
             border: 3px solid #eab308;
@@ -220,49 +199,12 @@
             background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
             border-color: #6366f1;
         }
-        .page-label {
-            font-size: 0.8rem;
-            color: #854d0e;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
+        .page-label { font-size: 0.8rem; color: #854d0e; font-weight: 600; margin-bottom: 6px; }
         .page-box.lecture .page-label { color: #4338ca; }
-        .page-range {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #713f12;
-            letter-spacing: 1px;
-        }
+        .page-range { font-size: 1.6rem; font-weight: 800; color: #713f12; }
         .page-box.lecture .page-range { color: #3730a3; }
 
-        /* 사진 버튼 */
-        .photo-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px;
-            background: #f3f4f6;
-            border: 2px dashed #d1d5db;
-            border-radius: 10px;
-            color: #6b7280;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-bottom: 12px;
-        }
-        .photo-btn:hover { background: #e5e7eb; }
-        .photo-btn.has-photo {
-            background: #dbeafe;
-            border: 2px solid #3b82f6;
-            color: #1d4ed8;
-        }
-
-        /* 버튼 */
-        .card-actions {
-            display: flex;
-            gap: 12px;
-            padding: 0 16px 16px;
-        }
+        .card-actions { display: flex; gap: 12px; padding: 0 16px 16px; }
         .action-btn {
             flex: 1;
             padding: 14px;
@@ -275,93 +217,248 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: transform 0.1s, opacity 0.2s;
         }
-        .action-btn:active { transform: scale(0.97); }
         .action-btn:disabled { opacity: 0.5; }
-        
-        .btn-approve {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-        }
-        .btn-reject {
-            background: linear-gradient(135deg, #f87171, #ef4444);
-            color: white;
-        }
+        .btn-approve { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
+        .btn-reject { background: linear-gradient(135deg, #f87171, #ef4444); color: white; }
 
-        /* 상태 뱃지 */
-        .status-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+        /* ========== 통계 탭 ========== */
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e3a5f;
+            margin: 20px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .status-badge.approved {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        .status-badge.failed {
-            background: #fee2e2;
-            color: #991b1b;
-        }
+        .section-title:first-child { margin-top: 0; }
 
-        /* 빈 상태 */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            .stats-summary { grid-template-columns: repeat(2, 1fr); }
+        }
+        .summary-card {
             background: white;
             border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
         }
-        .empty-state i {
-            font-size: 4rem;
-            color: #d1d5db;
-            margin-bottom: 16px;
+        .summary-card.highlight {
+            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
+            color: white;
         }
-        .empty-state p {
+        .summary-value { font-size: 2rem; font-weight: 800; }
+        .summary-label { font-size: 0.85rem; opacity: 0.8; margin-top: 5px; }
+
+        .ranking-list {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .ranking-item:last-child { border-bottom: none; }
+        .rank-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-right: 12px;
+        }
+        .rank-1 { background: #fef3c7; color: #b45309; }
+        .rank-2 { background: #e5e7eb; color: #4b5563; }
+        .rank-3 { background: #fed7aa; color: #c2410c; }
+        .rank-other { background: #f3f4f6; color: #6b7280; }
+        .rank-info { flex: 1; }
+        .rank-name { font-weight: 600; color: #333; }
+        .rank-floor { font-size: 0.8rem; color: #888; }
+        .rank-value { font-weight: 700; color: #1e3a5f; }
+
+        /* ========== 학부모 리포트 탭 - 학생 그리드 ========== */
+        .week-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+        }
+        .week-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #f0f0f0;
+            color: #666;
             font-size: 1rem;
+            cursor: pointer;
+        }
+        .week-btn:hover { background: #e0e0e0; }
+        .week-display { font-size: 1rem; font-weight: 600; color: #333; }
+
+        .select-all-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        .select-all-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .select-all-left input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .selected-count {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .selected-count strong {
+            color: #3b82f6;
+        }
+        .bulk-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .bulk-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .bulk-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .bulk-btn.primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        .bulk-btn.secondary {
+            background: #10b981;
+            color: white;
+        }
+
+        /* 학생 그리드 */
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .student-card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 3px solid transparent;
+            position: relative;
+        }
+        .student-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .student-card.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .student-card .checkbox {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+        }
+        .student-card.selected .checkbox {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+        .student-card .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin: 0 auto 10px;
+        }
+        .student-card .name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1e3a5f;
+            margin-bottom: 4px;
+        }
+        .student-card .floor-badge {
+            font-size: 0.75rem;
+            color: #666;
+            background: #f3f4f6;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .student-card .mini-stats {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            font-size: 0.8rem;
+        }
+        .student-card .mini-stat {
+            text-align: center;
+        }
+        .student-card .mini-stat-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .student-card .mini-stat-value.green { color: #10b981; }
+        .student-card .mini-stat-value.blue { color: #3b82f6; }
+        .student-card .mini-stat-label {
+            font-size: 0.65rem;
             color: #888;
         }
 
-        /* 로딩 */
-        .loading {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .loading i { font-size: 2.5rem; color: #3b82f6; }
-        .loading p { margin-top: 12px; color: #888; }
-
-        /* 토스트 */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #333;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-        .toast.success { background: #16a34a; }
-        .toast.error { background: #dc2626; }
-
-        /* 마지막 업데이트 */
-        .last-update {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #999;
-            margin-top: 20px;
-        }
-
-        /* 사진 모달 */
+        /* 리포트 미리보기 모달 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -369,24 +466,25 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.7);
             z-index: 200;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             padding: 20px;
+            overflow-y: auto;
         }
         .modal-overlay.show { display: flex; }
         .modal-content {
-            background: white;
-            border-radius: 16px;
-            max-width: 500px;
+            background: #f0f2f5;
+            border-radius: 20px;
+            max-width: 450px;
             width: 100%;
-            max-height: 90vh;
-            overflow: auto;
+            margin: 20px auto;
         }
         .modal-header {
+            background: white;
             padding: 16px;
-            border-bottom: 1px solid #e5e7eb;
+            border-radius: 20px 20px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -403,95 +501,326 @@
             cursor: pointer;
         }
         .modal-body { padding: 16px; }
-        .modal-body img {
-            width: 100%;
+
+        /* 학부모 리포트 카드 */
+        .report-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .report-header {
+            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .report-header h3 { font-size: 1.3rem; margin-bottom: 5px; }
+        .report-header .period { font-size: 0.9rem; opacity: 0.9; }
+        .report-body { padding: 20px; }
+        
+        .report-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .report-stat {
+            text-align: center;
+            padding: 15px;
+            background: #f8fafc;
             border-radius: 12px;
         }
-        .no-photo {
-            text-align: center;
-            padding: 40px;
-            color: #888;
+        .report-stat-value { font-size: 1.8rem; font-weight: 800; color: #1e3a5f; }
+        .report-stat-label { font-size: 0.8rem; color: #666; margin-top: 5px; }
+
+        .report-subjects h4, .report-daily h4 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
         }
-        .no-photo i { font-size: 3rem; color: #ddd; margin-bottom: 12px; }
+        .subject-bars { display: flex; flex-direction: column; gap: 10px; }
+        .subject-bar-item { display: flex; align-items: center; gap: 10px; }
+        .subject-bar-name { width: 60px; font-size: 0.85rem; font-weight: 600; color: #333; }
+        .subject-bar-container {
+            flex: 1;
+            height: 24px;
+            background: #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .subject-bar-fill {
+            height: 100%;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            min-width: 40px;
+        }
+
+        .report-daily { margin-top: 20px; }
+        .daily-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        .daily-item {
+            text-align: center;
+            padding: 10px 5px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+        .daily-day { font-size: 0.75rem; color: #888; margin-bottom: 5px; }
+        .daily-value { font-size: 1rem; font-weight: 700; color: #1e3a5f; }
+
+        .report-footer {
+            background: #f8fafc;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .report-card-actions {
+            display: flex;
+            gap: 10px;
+            padding: 16px;
+            background: white;
+            border-radius: 0 0 20px 20px;
+        }
+        .copy-btn, .download-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .copy-btn { background: #10b981; color: white; }
+        .download-btn { background: #3b82f6; color: white; }
+
+        /* 빈 상태 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 16px;
+        }
+        .empty-state i { font-size: 4rem; color: #d1d5db; margin-bottom: 16px; }
+        .empty-state p { font-size: 1rem; color: #888; }
+
+        .loading { text-align: center; padding: 60px 20px; }
+        .loading i { font-size: 2.5rem; color: #3b82f6; }
+        .loading p { margin-top: 12px; color: #888; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { background: #16a34a; }
+        .toast.error { background: #dc2626; }
+
+        .last-update {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 20px;
+        }
+
+        .generating-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 300;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+        }
+        .generating-overlay.show { display: flex; }
+        .generating-overlay i { font-size: 3rem; margin-bottom: 15px; }
+        .generating-overlay p { font-size: 1.1rem; }
+        .generating-overlay .progress {
+            width: 200px;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+        .generating-overlay .progress-bar {
+            height: 100%;
+            background: #3b82f6;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>👩‍🏫 선생님 대시보드</h1>
         <div class="header-controls">
-            <select class="floor-select" id="floorSelect" onchange="loadData()">
+            <select class="floor-select" id="floorSelect" onchange="loadAllData()">
                 <option value="">전체</option>
                 <option value="7층">7층</option>
                 <option value="8층">8층</option>
             </select>
-            <button class="refresh-btn" id="refreshBtn" onclick="loadData()">
+            <button class="refresh-btn" id="refreshBtn" onclick="loadAllData()">
                 <i class="fas fa-sync-alt"></i>
             </button>
         </div>
     </div>
 
+    <div class="main-tabs">
+        <button class="main-tab active" onclick="switchMainTab('check')">
+            <i class="fas fa-clipboard-check"></i>
+            검사
+            <span class="badge" id="checkBadge">0</span>
+        </button>
+        <button class="main-tab" onclick="switchMainTab('stats')">
+            <i class="fas fa-chart-bar"></i>
+            통계
+        </button>
+        <button class="main-tab" onclick="switchMainTab('report')">
+            <i class="fas fa-file-image"></i>
+            학부모 리포트
+        </button>
+    </div>
+
     <div class="container">
-        <!-- 통계 카드 -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value blue" id="statTotal">0</div>
-                <div class="stat-label">오늘 전체</div>
+        <!-- ========== 검사 탭 ========== -->
+        <div class="tab-content active" id="checkTab">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value blue" id="statTotal">0</div>
+                    <div class="stat-label">오늘 전체</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value orange" id="statWaiting">0</div>
+                    <div class="stat-label">검사 대기</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value green" id="statApproved">0</div>
+                    <div class="stat-label">승인</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value red" id="statFailed">0</div>
+                    <div class="stat-label">실패</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value orange" id="statWaiting">0</div>
-                <div class="stat-label">검사 대기</div>
+
+            <div class="sub-tabs">
+                <button class="sub-tab waiting active" onclick="switchSubTab('waiting')">
+                    <i class="fas fa-clock"></i> 대기 <span id="tabWaiting">0</span>
+                </button>
+                <button class="sub-tab approved" onclick="switchSubTab('approved')">
+                    <i class="fas fa-check"></i> 승인 <span id="tabApproved">0</span>
+                </button>
+                <button class="sub-tab failed" onclick="switchSubTab('failed')">
+                    <i class="fas fa-times"></i> 실패 <span id="tabFailed">0</span>
+                </button>
             </div>
-            <div class="stat-card">
-                <div class="stat-value green" id="statApproved">0</div>
-                <div class="stat-label">승인</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value red" id="statFailed">0</div>
-                <div class="stat-label">실패</div>
-            </div>
+            
+            <div class="card-list" id="cardList"></div>
         </div>
 
-        <!-- 탭 -->
-        <div class="tabs">
-            <button class="tab-btn waiting active" onclick="switchTab('waiting')">
-                <i class="fas fa-clock"></i>
-                대기
-                <span class="tab-badge" id="tabWaiting">0</span>
-            </button>
-            <button class="tab-btn approved" onclick="switchTab('approved')">
-                <i class="fas fa-check"></i>
-                승인
-                <span class="tab-badge" id="tabApproved">0</span>
-            </button>
-            <button class="tab-btn failed" onclick="switchTab('failed')">
-                <i class="fas fa-times"></i>
-                실패
-                <span class="tab-badge" id="tabFailed">0</span>
-            </button>
-        </div>
-        
-        <!-- 카드 리스트 -->
-        <div class="card-list" id="cardList">
-            <div class="loading">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>불러오는 중...</p>
+        <!-- ========== 통계 탭 ========== -->
+        <div class="tab-content" id="statsTab">
+            <div class="section-title"><i class="fas fa-calendar-week"></i> 이번 주 요약</div>
+            <div class="stats-summary">
+                <div class="summary-card highlight">
+                    <div class="summary-value" id="weekTotal">0</div>
+                    <div class="summary-label">총 학습 완료</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="weekTime">0h</div>
+                    <div class="summary-label">총 학습 시간</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="weekRate">0%</div>
+                    <div class="summary-label">평균 실천율</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="weekStudents">0</div>
+                    <div class="summary-label">참여 학생</div>
+                </div>
             </div>
+
+            <div class="section-title"><i class="fas fa-trophy"></i> 학습시간 TOP 5</div>
+            <div class="ranking-list" id="rankingList"></div>
         </div>
-        
+
+        <!-- ========== 학부모 리포트 탭 ========== -->
+        <div class="tab-content" id="reportTab">
+            <div class="week-selector">
+                <button class="week-btn" onclick="changeWeek(-1)"><i class="fas fa-chevron-left"></i></button>
+                <div class="week-display" id="weekDisplay">1월 3주차</div>
+                <button class="week-btn" onclick="changeWeek(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <div class="select-all-bar">
+                <div class="select-all-left">
+                    <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll()">
+                    <span class="selected-count">선택: <strong id="selectedCount">0</strong>명</span>
+                </div>
+                <div class="bulk-actions">
+                    <button class="bulk-btn secondary" id="bulkCopyBtn" onclick="bulkCopyReports()" disabled>
+                        <i class="fas fa-copy"></i> 복사
+                    </button>
+                    <button class="bulk-btn primary" id="bulkDownloadBtn" onclick="bulkDownloadReports()" disabled>
+                        <i class="fas fa-download"></i> 다운로드
+                    </button>
+                </div>
+            </div>
+
+            <div class="student-grid" id="studentGrid"></div>
+        </div>
+
         <div class="last-update" id="lastUpdate"></div>
     </div>
 
-    <!-- 사진 모달 -->
-    <div class="modal-overlay" id="photoModal" onclick="closePhotoModal(event)">
+    <!-- 리포트 미리보기 모달 -->
+    <div class="modal-overlay" id="reportModal" onclick="closeReportModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3>📸 인증 사진</h3>
-                <button class="modal-close" onclick="closePhotoModal()">
+                <h3 id="modalTitle">📊 주간 리포트</h3>
+                <button class="modal-close" onclick="closeReportModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="modal-body" id="photoModalBody">
-            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <div class="generating-overlay" id="generatingOverlay">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p id="generatingText">리포트 생성 중...</p>
+        <div class="progress">
+            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
         </div>
     </div>
 
@@ -500,20 +829,22 @@
     <script>
         const API = 'https://script.google.com/macros/s/AKfycbwGFbsj8FgFIuF-iFkJ4ekyS76MWQf9UrUysJ-Fs12vuVByJwenoYRgOJeOZiPOa6gzkg/exec';
         
-        let allRecords = [];
         let waitingList = [];
         let approvedList = [];
         let failedList = [];
-        let currentTab = 'waiting';
+        let allStudents = [];
+        let weeklyData = {};
+        let selectedStudents = new Set();
+        let currentSubTab = 'waiting';
+        let currentWeekOffset = 0;
 
-        // 페이지 로드시
+        const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+
         document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            // 30초마다 자동 새로고침
-            setInterval(loadData, 30000);
+            loadAllData();
+            setInterval(loadAllData, 30000);
         });
 
-        // API 호출
         async function api(params) {
             try {
                 const res = await fetch(API, {
@@ -528,17 +859,25 @@
             }
         }
 
-        // 오늘 날짜
         function getToday() {
             const now = new Date();
-            const y = now.getFullYear();
-            const m = String(now.getMonth() + 1).padStart(2, '0');
-            const d = String(now.getDate()).padStart(2, '0');
-            return `${y}-${m}-${d}`;
+            return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
         }
 
-        // 데이터 로드
-        async function loadData() {
+        function getWeekRange(offset = 0) {
+            const now = new Date();
+            now.setDate(now.getDate() + (offset * 7));
+            const day = now.getDay();
+            const monday = new Date(now);
+            monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+            const format = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+            return { start: format(monday), end: format(sunday), monday, sunday };
+        }
+
+        // ========== 데이터 로드 ==========
+        async function loadAllData() {
             const btn = document.getElementById('refreshBtn');
             btn.classList.add('spinning');
             
@@ -546,179 +885,109 @@
             const today = getToday();
             
             try {
-                // 모든 대기 요청 (날짜 무관)
-                const pendingRes = await api({
-                    action: 'getPendingRequests',
-                    floor: floor
-                });
-                
-                // 오늘 기록 (승인/실패 포함)
-                const todayRes = await api({
-                    action: 'getTodayRecords',
-                    floor: floor,
-                    date: today
-                });
-                
-                console.log('Pending:', pendingRes);
-                console.log('Today:', todayRes);
-                
-                // 대기 목록 (날짜 상관없이)
+                const pendingRes = await api({ action: 'getPendingRequests', floor });
                 waitingList = pendingRes.success ? (pendingRes.requests || []) : [];
                 
-                // 오늘 승인/실패 목록
+                const todayRes = await api({ action: 'getTodayRecords', floor, date: today });
                 const todayRecords = todayRes.success ? (todayRes.records || []) : [];
                 approvedList = todayRecords.filter(r => r.status === 'approved');
                 failedList = todayRecords.filter(r => r.status === 'failed');
                 
-                // 통계 업데이트
-                updateStats();
+                // 학생 목록 로드
+                const students7Res = await api({ action: 'getStudents', floor: '7층' });
+                const students8Res = await api({ action: 'getStudents', floor: '8층' });
+                const students7 = students7Res.success ? students7Res.students.map(s => ({...s, floor: '7층'})) : [];
+                const students8 = students8Res.success ? students8Res.students.map(s => ({...s, floor: '8층'})) : [];
                 
-                // 현재 탭 렌더링
-                renderCurrentTab();
+                if (floor === '7층') allStudents = students7;
+                else if (floor === '8층') allStudents = students8;
+                else allStudents = [...students7, ...students8];
                 
+                // 랭킹
+                const rankRes = await api({ action: 'getRanking' });
+                if (rankRes.success) renderRanking(rankRes.rankings || []);
+                
+                updateCheckStats();
+                renderCheckCards();
+                updateWeekDisplay();
+                renderStudentGrid();
                 updateTime();
                 
             } catch (err) {
                 console.error(err);
-                showError('네트워크 오류');
             }
             
             btn.classList.remove('spinning');
         }
 
-        // 통계 업데이트
-        function updateStats() {
+        // ========== 검사 탭 ==========
+        function updateCheckStats() {
             const total = waitingList.length + approvedList.length + failedList.length;
-            
             document.getElementById('statTotal').textContent = total;
             document.getElementById('statWaiting').textContent = waitingList.length;
             document.getElementById('statApproved').textContent = approvedList.length;
             document.getElementById('statFailed').textContent = failedList.length;
-            
             document.getElementById('tabWaiting').textContent = waitingList.length;
             document.getElementById('tabApproved').textContent = approvedList.length;
             document.getElementById('tabFailed').textContent = failedList.length;
+            document.getElementById('checkBadge').textContent = waitingList.length;
         }
 
-        // 탭 전환
-        function switchTab(tab) {
-            currentTab = tab;
+        function switchMainTab(tab) {
+            document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.main-tab:nth-child(${tab === 'check' ? 1 : tab === 'stats' ? 2 : 3})`).classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
             
-            // 탭 버튼 스타일
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`.tab-btn.${tab}`).classList.add('active');
-            
-            renderCurrentTab();
-        }
-
-        // 현재 탭 렌더링
-        function renderCurrentTab() {
-            const container = document.getElementById('cardList');
-            
-            let list = [];
-            let cardClass = '';
-            let showActions = false;
-            
-            switch(currentTab) {
-                case 'waiting':
-                    list = waitingList;
-                    cardClass = 'waiting-card';
-                    showActions = true;
-                    break;
-                case 'approved':
-                    list = approvedList;
-                    cardClass = 'approved-card';
-                    break;
-                case 'failed':
-                    list = failedList;
-                    cardClass = 'failed-card';
-                    break;
+            if (tab === 'report') {
+                loadStudentWeeklyData();
             }
+        }
+
+        function switchSubTab(tab) {
+            currentSubTab = tab;
+            document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.sub-tab.${tab}`).classList.add('active');
+            renderCheckCards();
+        }
+
+        function renderCheckCards() {
+            const container = document.getElementById('cardList');
+            let list = currentSubTab === 'waiting' ? waitingList : 
+                       currentSubTab === 'approved' ? approvedList : failedList;
+            const cardClass = currentSubTab + '-card';
+            const showActions = currentSubTab === 'waiting';
             
             if (list.length === 0) {
-                const emptyMsg = {
-                    'waiting': '검사 대기 중인 학생이 없습니다',
-                    'approved': '오늘 승인된 기록이 없습니다',
-                    'failed': '오늘 실패 처리된 기록이 없습니다'
-                };
-                const emptyIcon = {
-                    'waiting': 'fa-check-circle',
-                    'approved': 'fa-folder-open',
-                    'failed': 'fa-folder-open'
-                };
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas ${emptyIcon[currentTab]}"></i>
-                        <p>${emptyMsg[currentTab]}</p>
-                    </div>`;
+                const msgs = { waiting: '검사 대기 중인 학생이 없습니다', approved: '오늘 승인된 기록이 없습니다', failed: '오늘 실패 처리된 기록이 없습니다' };
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-check-circle"></i><p>${msgs[currentSubTab]}</p></div>`;
                 return;
             }
             
             container.innerHTML = list.map((r, idx) => {
-                // bookType에 따른 범위 표시
                 const bookType = r.bookType || 'textbook';
                 const isLecture = bookType === 'lecture';
-                const startP = r.startPage || '?';
-                const endP = r.endPage || '?';
-                const pageText = isLecture 
-                    ? `${startP}강 ~ ${endP}강` 
-                    : `p.${startP} ~ p.${endP}`;
+                const pageText = isLecture ? `${r.startPage || '?'}강 ~ ${r.endPage || '?'}강` : `p.${r.startPage || '?'} ~ p.${r.endPage || '?'}`;
                 const pageLabel = isLecture ? '🎬 검사할 강의 범위' : '📖 검사할 페이지 범위';
                 const pageBoxClass = isLecture ? 'page-box lecture' : 'page-box';
                 
-                // 날짜 포맷
                 let dateDisplay = r.date || '';
                 if (dateDisplay.includes('-')) {
-                    const parts = dateDisplay.split('-');
-                    dateDisplay = `${parts[1]}월 ${parts[2]}일`;
+                    const p = dateDisplay.split('-');
+                    dateDisplay = `${p[1]}월 ${p[2]}일`;
                 }
                 
-                // 시간
                 const time = r.actualTime || r.time || 0;
-                
-                // 사진 있는지 확인
-                const hasPhoto = r.photoData && r.photoData.length > 100;
-                
-                // 상태 뱃지 (승인/실패 탭)
-                let statusBadge = '';
-                if (currentTab === 'approved') {
-                    statusBadge = '<span class="status-badge approved">✅ 승인됨</span>';
-                } else if (currentTab === 'failed') {
-                    statusBadge = '<span class="status-badge failed">❌ 실패</span>';
-                }
-                
-                // 액션 버튼 (대기 탭만)
-                let actionButtons = '';
-                if (showActions) {
-                    actionButtons = `
-                        <div class="card-actions">
-                            <button class="action-btn btn-approve" onclick="approve(${r.row}, ${idx})">
-                                <i class="fas fa-check"></i> 승인
-                            </button>
-                            <button class="action-btn btn-reject" onclick="reject(${r.row}, ${idx})">
-                                <i class="fas fa-times"></i> 실패
-                            </button>
-                        </div>`;
-                }
-                
-                // 사진 버튼
-                let photoButton = '';
-                if (hasPhoto) {
-                    photoButton = `
-                        <div class="photo-btn has-photo" onclick="showPhoto(${idx})">
-                            <i class="fas fa-camera"></i> 인증 사진 보기
-                        </div>`;
-                }
+                const actions = showActions ? `
+                    <div class="card-actions">
+                        <button class="action-btn btn-approve" onclick="approve(${r.row}, ${idx})"><i class="fas fa-check"></i> 승인</button>
+                        <button class="action-btn btn-reject" onclick="reject(${r.row}, ${idx})"><i class="fas fa-times"></i> 실패</button>
+                    </div>` : '';
                 
                 return `
                 <div class="check-card ${cardClass}" id="card-${idx}">
                     <div class="card-header">
-                        <div>
-                            <span class="student-name">${r.name}</span>
-                            <span class="student-floor">${r.floor}</span>
-                        </div>
+                        <div><span class="student-name">${r.name}</span><span class="student-floor">${r.floor}</span></div>
                         <span class="card-date">📅 ${dateDisplay}</span>
                     </div>
                     <div class="card-body">
@@ -731,111 +1000,369 @@
                             <div class="page-label">${pageLabel}</div>
                             <div class="page-range">${pageText}</div>
                         </div>
-                        ${photoButton}
-                        ${statusBadge ? `<div style="text-align:center;margin-top:10px;">${statusBadge}</div>` : ''}
                     </div>
-                    ${actionButtons}
+                    ${actions}
                 </div>`;
             }).join('');
         }
 
-        // 승인
         async function approve(row, idx) {
             const btns = document.querySelectorAll(`#card-${idx} .action-btn`);
             btns.forEach(b => b.disabled = true);
-            
-            const res = await api({
-                action: 'approveRecord',
-                row: row
-            });
-            
+            const res = await api({ action: 'approveRecord', row });
             if (res.success) {
                 toast('✅ 승인 완료!', 'success');
-                // 카드 제거 애니메이션
-                const card = document.getElementById(`card-${idx}`);
-                card.style.transition = 'all 0.3s';
-                card.style.opacity = '0';
-                card.style.transform = 'translateX(100px)';
-                setTimeout(() => loadData(), 300);
+                document.getElementById(`card-${idx}`).style.cssText = 'transition:all 0.3s;opacity:0;transform:translateX(100px)';
+                setTimeout(() => loadAllData(), 300);
             } else {
                 toast('오류: ' + (res.error || '승인 실패'), 'error');
                 btns.forEach(b => b.disabled = false);
             }
         }
 
-        // 실패
         async function reject(row, idx) {
             const btns = document.querySelectorAll(`#card-${idx} .action-btn`);
             btns.forEach(b => b.disabled = true);
-            
-            const res = await api({
-                action: 'rejectRecord',
-                row: row
-            });
-            
+            const res = await api({ action: 'rejectRecord', row });
             if (res.success) {
                 toast('❌ 실패 처리됨', 'success');
-                const card = document.getElementById(`card-${idx}`);
-                card.style.transition = 'all 0.3s';
-                card.style.opacity = '0';
-                card.style.transform = 'translateX(-100px)';
-                setTimeout(() => loadData(), 300);
+                document.getElementById(`card-${idx}`).style.cssText = 'transition:all 0.3s;opacity:0;transform:translateX(-100px)';
+                setTimeout(() => loadAllData(), 300);
             } else {
                 toast('오류: ' + (res.error || '처리 실패'), 'error');
                 btns.forEach(b => b.disabled = false);
             }
         }
 
-        // 사진 보기
-        function showPhoto(idx) {
-            let list = currentTab === 'waiting' ? waitingList : 
-                       currentTab === 'approved' ? approvedList : failedList;
-            const record = list[idx];
+        // ========== 통계 탭 ==========
+        function renderRanking(rankings) {
+            const container = document.getElementById('rankingList');
+            const top5 = rankings.slice(0, 5);
             
-            const modal = document.getElementById('photoModal');
-            const body = document.getElementById('photoModalBody');
-            
-            if (record && record.photoData && record.photoData.length > 100) {
-                body.innerHTML = `<img src="${record.photoData}" alt="인증 사진">`;
-            } else {
-                body.innerHTML = `
-                    <div class="no-photo">
-                        <i class="fas fa-image"></i>
-                        <p>사진이 없습니다</p>
-                    </div>`;
+            if (top5.length === 0) {
+                container.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">랭킹 데이터가 없습니다</div>';
+                return;
             }
             
-            modal.classList.add('show');
+            container.innerHTML = top5.map((r, i) => `
+                <div class="ranking-item">
+                    <div class="rank-number ${i < 3 ? 'rank-' + (i+1) : 'rank-other'}">${i + 1}</div>
+                    <div class="rank-info">
+                        <div class="rank-name">${r.name}</div>
+                        <div class="rank-floor">${r.floor}</div>
+                    </div>
+                    <div class="rank-value">${r.totalTime}시간</div>
+                </div>
+            `).join('');
+            
+            const totalTime = rankings.reduce((sum, r) => sum + parseFloat(r.totalTime), 0);
+            const totalCompleted = rankings.reduce((sum, r) => sum + r.completed, 0);
+            document.getElementById('weekTotal').textContent = totalCompleted;
+            document.getElementById('weekTime').textContent = totalTime.toFixed(1) + 'h';
+            document.getElementById('weekStudents').textContent = rankings.length;
+            document.getElementById('weekRate').textContent = rankings.length > 0 ? 
+                Math.round(rankings.reduce((s,r) => s + (r.rate || 0), 0) / rankings.length) + '%' : '0%';
         }
 
-        // 사진 모달 닫기
-        function closePhotoModal(event) {
-            if (!event || event.target.id === 'photoModal') {
-                document.getElementById('photoModal').classList.remove('show');
+        // ========== 학부모 리포트 탭 ==========
+        function changeWeek(delta) {
+            currentWeekOffset += delta;
+            updateWeekDisplay();
+            loadStudentWeeklyData();
+        }
+
+        function updateWeekDisplay() {
+            const { monday, sunday } = getWeekRange(currentWeekOffset);
+            const month = monday.getMonth() + 1;
+            const weekNum = Math.ceil(monday.getDate() / 7);
+            document.getElementById('weekDisplay').textContent = `${month}월 ${weekNum}주차 (${monday.getDate()}일~${sunday.getDate()}일)`;
+        }
+
+        async function loadStudentWeeklyData() {
+            const { start, end } = getWeekRange(currentWeekOffset);
+            weeklyData = {};
+            
+            showGenerating('학생 데이터 로딩 중...', 0);
+            
+            for (let i = 0; i < allStudents.length; i++) {
+                const student = allStudents[i];
+                updateProgress((i + 1) / allStudents.length * 100);
+                
+                const res = await api({
+                    action: 'getWeeklyReport',
+                    floor: student.floor,
+                    name: student.name,
+                    weekStart: start
+                });
+                
+                if (res.success && res.report) {
+                    weeklyData[`${student.floor}|${student.name}`] = res.report;
+                }
             }
+            
+            hideGenerating();
+            renderStudentGrid();
         }
 
-        // 에러 표시
-        function showError(msg) {
-            document.getElementById('cardList').innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>${msg}</p>
+        function renderStudentGrid() {
+            const container = document.getElementById('studentGrid');
+            
+            if (allStudents.length === 0) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><p>학생이 없습니다</p></div>';
+                return;
+            }
+            
+            container.innerHTML = allStudents.map((s, idx) => {
+                const key = `${s.floor}|${s.name}`;
+                const report = weeklyData[key];
+                const completed = report?.thisWeek?.completed || 0;
+                const rate = report?.thisWeek?.rate || 0;
+                const isSelected = selectedStudents.has(key);
+                
+                return `
+                <div class="student-card ${isSelected ? 'selected' : ''}" onclick="toggleStudent('${key}', ${idx})">
+                    <div class="checkbox">
+                        ${isSelected ? '<i class="fas fa-check"></i>' : ''}
+                    </div>
+                    <div class="avatar">👤</div>
+                    <div class="name">${s.name}</div>
+                    <div class="floor-badge">${s.floor}</div>
+                    <div class="mini-stats">
+                        <div class="mini-stat">
+                            <div class="mini-stat-value green">${completed}</div>
+                            <div class="mini-stat-label">완료</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-value blue">${rate}%</div>
+                            <div class="mini-stat-label">실천율</div>
+                        </div>
+                    </div>
                 </div>`;
+            }).join('');
+            
+            updateSelectedCount();
         }
 
-        // 시간 업데이트
+        function toggleStudent(key, idx) {
+            if (selectedStudents.has(key)) {
+                selectedStudents.delete(key);
+            } else {
+                selectedStudents.add(key);
+            }
+            renderStudentGrid();
+        }
+
+        function toggleSelectAll() {
+            const checkbox = document.getElementById('selectAllCheckbox');
+            if (checkbox.checked) {
+                allStudents.forEach(s => selectedStudents.add(`${s.floor}|${s.name}`));
+            } else {
+                selectedStudents.clear();
+            }
+            renderStudentGrid();
+        }
+
+        function updateSelectedCount() {
+            document.getElementById('selectedCount').textContent = selectedStudents.size;
+            const hasSel = selectedStudents.size > 0;
+            document.getElementById('bulkCopyBtn').disabled = !hasSel;
+            document.getElementById('bulkDownloadBtn').disabled = !hasSel;
+            document.getElementById('selectAllCheckbox').checked = selectedStudents.size === allStudents.length;
+        }
+
+        // 리포트 카드 HTML 생성
+        function createReportCardHTML(report, idx) {
+            const { student, period, thisWeek, daily } = report;
+            const subjectTime = thisWeek.subjectTime || {};
+            const maxTime = Math.max(...Object.values(subjectTime), 1);
+            
+            return `
+            <div class="report-card" id="report-card-${idx}">
+                <div class="report-header">
+                    <h3>📚 ${student.name} 학습 리포트</h3>
+                    <div class="period">${period.start} ~ ${period.end}</div>
+                </div>
+                <div class="report-body">
+                    <div class="report-stats">
+                        <div class="report-stat">
+                            <div class="report-stat-value">${thisWeek.completed || 0}</div>
+                            <div class="report-stat-label">완료</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="report-stat-value">${thisWeek.totalTimeHours || 0}h</div>
+                            <div class="report-stat-label">학습시간</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="report-stat-value">${thisWeek.rate || 0}%</div>
+                            <div class="report-stat-label">실천율</div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-subjects">
+                        <h4>📊 과목별 학습시간</h4>
+                        <div class="subject-bars">
+                            ${Object.entries(subjectTime).length > 0 ? 
+                                Object.entries(subjectTime).map(([subj, time], i) => `
+                                    <div class="subject-bar-item">
+                                        <div class="subject-bar-name">${subj}</div>
+                                        <div class="subject-bar-container">
+                                            <div class="subject-bar-fill" style="width:${Math.round(time/maxTime*100)}%;background:${COLORS[i % COLORS.length]}">${Math.round(time)}분</div>
+                                        </div>
+                                    </div>
+                                `).join('') : 
+                                '<div style="text-align:center;color:#888;padding:10px;">학습 기록이 없습니다</div>'
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="report-daily">
+                        <h4>📅 요일별 학습시간</h4>
+                        <div class="daily-grid">
+                            ${['월','화','수','목','금','토','일'].map(d => `
+                                <div class="daily-item">
+                                    <div class="daily-day">${d}</div>
+                                    <div class="daily-value">${Math.round((daily && daily[d]) || 0)}분</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                <div class="report-footer">
+                    김엄마독서실 | ${student.floor}
+                </div>
+            </div>`;
+        }
+
+        // 선택한 학생들 리포트 복사
+        async function bulkCopyReports() {
+            if (selectedStudents.size === 0) return;
+            
+            const keys = Array.from(selectedStudents);
+            showGenerating(`리포트 이미지 생성 중...`, 0);
+            
+            // 임시 컨테이너 생성
+            const tempContainer = document.createElement('div');
+            tempContainer.style.cssText = 'position:fixed;left:-9999px;top:0;width:400px;';
+            document.body.appendChild(tempContainer);
+            
+            const images = [];
+            
+            for (let i = 0; i < keys.length; i++) {
+                const report = weeklyData[keys[i]];
+                if (!report) continue;
+                
+                updateProgress((i + 1) / keys.length * 100);
+                document.getElementById('generatingText').textContent = `${i + 1}/${keys.length} 생성 중...`;
+                
+                tempContainer.innerHTML = createReportCardHTML(report, i);
+                const card = tempContainer.querySelector('.report-card');
+                
+                try {
+                    const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#ffffff' });
+                    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                    images.push({ name: report.student.name, blob });
+                } catch (e) {
+                    console.error(e);
+                }
+                
+                await new Promise(r => setTimeout(r, 100));
+            }
+            
+            document.body.removeChild(tempContainer);
+            hideGenerating();
+            
+            // 첫 번째 이미지 클립보드 복사 시도
+            if (images.length > 0) {
+                try {
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': images[0].blob })
+                    ]);
+                    toast(`✅ ${images[0].name} 리포트 복사됨! (${images.length}명 중 1명)`, 'success');
+                    
+                    if (images.length > 1) {
+                        toast('💡 여러 명은 다운로드를 이용하세요', '');
+                    }
+                } catch (e) {
+                    // 클립보드 미지원 시 다운로드
+                    downloadBlob(images[0].blob, `${images[0].name}_리포트.png`);
+                    toast('📥 클립보드 미지원 - 파일 다운로드됨', 'success');
+                }
+            }
+        }
+
+        // 선택한 학생들 리포트 다운로드
+        async function bulkDownloadReports() {
+            if (selectedStudents.size === 0) return;
+            
+            const keys = Array.from(selectedStudents);
+            showGenerating(`리포트 다운로드 중...`, 0);
+            
+            const tempContainer = document.createElement('div');
+            tempContainer.style.cssText = 'position:fixed;left:-9999px;top:0;width:400px;';
+            document.body.appendChild(tempContainer);
+            
+            for (let i = 0; i < keys.length; i++) {
+                const report = weeklyData[keys[i]];
+                if (!report) continue;
+                
+                updateProgress((i + 1) / keys.length * 100);
+                document.getElementById('generatingText').textContent = `${i + 1}/${keys.length} 다운로드 중...`;
+                
+                tempContainer.innerHTML = createReportCardHTML(report, i);
+                const card = tempContainer.querySelector('.report-card');
+                
+                try {
+                    const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#ffffff' });
+                    const link = document.createElement('a');
+                    link.download = `${report.student.name}_주간리포트.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                } catch (e) {
+                    console.error(e);
+                }
+                
+                await new Promise(r => setTimeout(r, 300));
+            }
+            
+            document.body.removeChild(tempContainer);
+            hideGenerating();
+            toast(`✅ ${keys.length}명 리포트 다운로드 완료!`, 'success');
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function showGenerating(text, progress = 0) {
+            document.getElementById('generatingText').textContent = text;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('generatingOverlay').classList.add('show');
+        }
+
+        function updateProgress(progress) {
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function hideGenerating() {
+            document.getElementById('generatingOverlay').classList.remove('show');
+        }
+
+        function closeReportModal(event) {
+            if (!event || event.target.id === 'reportModal') {
+                document.getElementById('reportModal').classList.remove('show');
+            }
+        }
+
         function updateTime() {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('ko-KR', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            document.getElementById('lastUpdate').textContent = `마지막 업데이트: ${timeStr}`;
+            document.getElementById('lastUpdate').textContent = `마지막 업데이트: ${now.toLocaleTimeString('ko-KR')}`;
         }
 
-        // 토스트
         function toast(msg, type = '') {
             const el = document.getElementById('toast');
             el.textContent = msg;

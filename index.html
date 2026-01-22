@@ -164,7 +164,7 @@
         .week-title { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
         .week-range { font-size: 0.75rem; color: #999; margin-top: 2px; }
 
-        .table-wrapper { flex: 1; overflow: auto; padding: 10px; padding-bottom: 80px; }
+        .table-wrapper { flex: 1; overflow: auto; padding: 10px; padding-bottom: 140px; }
         .plan-table {
             width: 100%;
             border-collapse: collapse;
@@ -270,6 +270,7 @@
         .plan-card.completed { border-color: #86efac; background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
         .plan-card.pending { border-color: #fcd34d; background: linear-gradient(135deg, #fefce8, #fef9c3); }
         .plan-card.failed { border-color: #fca5a5; background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+        .plan-card.missed { border-color: #fdba74; background: linear-gradient(135deg, #fff7ed, #ffedd5); } /* 날짜 지남 미완료 - 주황색 */
         .plan-card.paused { border-color: #c4b5fd; background: linear-gradient(135deg, #f5f3ff, #ede9fe); }
         .plan-card.running { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); }
         .plan-card.done-local { border-color: #86efac; background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
@@ -573,6 +574,258 @@
         [data-theme="dark"] .plan-card { background: #3f3f46; border-color: #52525b; }
         [data-theme="dark"] .card-timer { color: #e4e4e7; }
         [data-theme="dark"] .card-input { background: #27272a; color: #e4e4e7; border-color: #52525b; }
+
+        /* ========== 하단 탭 네비게이션 ========== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+            padding: 8px 0;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            z-index: 90;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 4px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #888;
+            font-size: 0.7rem;
+            transition: all 0.2s;
+        }
+        .nav-item i { font-size: 1.2rem; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item .nav-badge {
+            position: absolute;
+            top: 2px;
+            right: calc(50% - 20px);
+            background: #ef4444;
+            color: white;
+            font-size: 0.6rem;
+            padding: 1px 5px;
+            border-radius: 8px;
+        }
+        [data-theme="dark"] .bottom-nav { background: #1f1f1f; border-color: #3f3f46; }
+        [data-theme="dark"] .nav-item { color: #888; }
+        [data-theme="dark"] .nav-item.active { color: var(--accent); }
+
+        /* ========== 전체화면 모달 (랭킹, 통계, 실시간) ========== */
+        .fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #f5f5f5;
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+        }
+        .fullscreen-modal.show { display: flex; }
+        .fm-header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .fm-header h2 { font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        .fm-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .fm-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            padding-bottom: 100px;
+        }
+        [data-theme="dark"] .fullscreen-modal { background: #0a0a0a; }
+
+        /* 랭킹 리스트 */
+        .ranking-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .ranking-card-title {
+            padding: 12px 16px;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ranking-list { list-style: none; }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f8f8f8;
+        }
+        .ranking-item:last-child { border-bottom: none; }
+        .rank-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 12px;
+        }
+        .rank-1 { background: linear-gradient(135deg, #fef3c7, #fde047); color: #92400e; }
+        .rank-2 { background: linear-gradient(135deg, #e5e7eb, #d1d5db); color: #4b5563; }
+        .rank-3 { background: linear-gradient(135deg, #fed7aa, #fdba74); color: #c2410c; }
+        .rank-other { background: #f3f4f6; color: #6b7280; }
+        .rank-info { flex: 1; }
+        .rank-name { font-weight: 600; color: #333; }
+        .rank-name.me { color: var(--primary); }
+        .rank-floor { font-size: 0.75rem; color: #888; }
+        .rank-value { font-weight: 700; color: var(--primary); }
+        .rank-value small { font-size: 0.75rem; font-weight: 400; color: #888; }
+        [data-theme="dark"] .ranking-card { background: #27272a; }
+        [data-theme="dark"] .rank-name { color: #e4e4e7; }
+
+        /* 내 통계 그래프 */
+        .my-stats-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .my-stats-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .stats-summary-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .summary-box {
+            text-align: center;
+            padding: 16px;
+            background: var(--card-bg);
+            border-radius: 12px;
+        }
+        .summary-box .value { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        .summary-box .label { font-size: 0.75rem; color: #888; margin-top: 4px; }
+        .subject-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .subject-bar-name {
+            width: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #555;
+        }
+        .subject-bar-track {
+            flex: 1;
+            height: 24px;
+            background: #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+        .subject-bar-fill {
+            height: 100%;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            min-width: 30px;
+        }
+        .subject-bar-time {
+            width: 50px;
+            text-align: right;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        [data-theme="dark"] .my-stats-card { background: #27272a; }
+        [data-theme="dark"] .summary-box { background: #3f3f46; }
+
+        /* 실시간 현황 */
+        .live-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .live-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d5db;
+        }
+        .live-status.studying {
+            background: #10b981;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .live-info { flex: 1; }
+        .live-name { font-weight: 600; color: #333; }
+        .live-detail { font-size: 0.8rem; color: #888; margin-top: 2px; }
+        .live-time {
+            font-weight: 700;
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 1rem;
+        }
+        .live-time.active { color: #10b981; }
+        .live-count {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+        .live-count .number { font-size: 3rem; font-weight: 800; }
+        .live-count .label { font-size: 0.9rem; opacity: 0.9; }
+        [data-theme="dark"] .live-card { background: #27272a; }
+        [data-theme="dark"] .live-name { color: #e4e4e7; }
     </style>
 </head>
 <body data-theme="ocean">
@@ -665,6 +918,14 @@
         </div>
     </div>
 
+    <!-- 계획 삭제 메뉴 -->
+    <div class="context-menu" id="planMenu">
+        <div class="context-menu-item danger" onclick="deletePlan()">
+            <i class="fas fa-trash"></i>
+            <span>계획 삭제</span>
+        </div>
+    </div>
+
     <div class="modal" id="bookModal">
         <div class="modal-box">
             <h3 id="bookModalTitle">📚 교재/인강 추가</h3>
@@ -747,6 +1008,91 @@
         </div>
     </div>
 
+    <!-- 하단 네비게이션 -->
+    <nav class="bottom-nav" id="bottomNav" style="display:none;">
+        <button class="nav-item active" onclick="switchNav('planner')">
+            <i class="fas fa-calendar-alt"></i>
+            <span>플래너</span>
+        </button>
+        <button class="nav-item" onclick="switchNav('ranking')">
+            <i class="fas fa-trophy"></i>
+            <span>랭킹</span>
+        </button>
+        <button class="nav-item" onclick="switchNav('mystats')">
+            <i class="fas fa-chart-pie"></i>
+            <span>내 통계</span>
+        </button>
+        <button class="nav-item" onclick="switchNav('live')" style="position:relative;">
+            <i class="fas fa-users"></i>
+            <span>실시간</span>
+            <span class="nav-badge" id="liveBadge" style="display:none;">0</span>
+        </button>
+    </nav>
+
+    <!-- 랭킹 모달 -->
+    <div class="fullscreen-modal" id="rankingModal">
+        <div class="fm-header">
+            <h2><i class="fas fa-trophy"></i> 오늘의 랭킹</h2>
+            <button class="fm-close" onclick="closeModal('rankingModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="fm-body">
+            <div class="ranking-card">
+                <div class="ranking-card-title"><i class="fas fa-clock"></i> 학습시간 TOP 10</div>
+                <ul class="ranking-list" id="timeRankingList"></ul>
+            </div>
+            <div class="ranking-card">
+                <div class="ranking-card-title"><i class="fas fa-check-circle"></i> 완료 과목 TOP 10</div>
+                <ul class="ranking-list" id="completeRankingList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 내 통계 모달 -->
+    <div class="fullscreen-modal" id="mystatsModal">
+        <div class="fm-header">
+            <h2><i class="fas fa-chart-pie"></i> 내 학습 통계</h2>
+            <button class="fm-close" onclick="closeModal('mystatsModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="fm-body">
+            <div class="my-stats-card">
+                <div class="my-stats-title"><i class="fas fa-calendar-week"></i> 이번 주 요약</div>
+                <div class="stats-summary-row">
+                    <div class="summary-box">
+                        <div class="value" id="myWeekCompleted">0</div>
+                        <div class="label">완료</div>
+                    </div>
+                    <div class="summary-box">
+                        <div class="value" id="myWeekTime">0h</div>
+                        <div class="label">학습시간</div>
+                    </div>
+                    <div class="summary-box">
+                        <div class="value" id="myWeekRate">0%</div>
+                        <div class="label">실천율</div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-stats-card">
+                <div class="my-stats-title"><i class="fas fa-book"></i> 과목별 학습시간</div>
+                <div id="subjectBars"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 실시간 현황 모달 -->
+    <div class="fullscreen-modal" id="liveModal">
+        <div class="fm-header">
+            <h2><i class="fas fa-users"></i> 실시간 공부 현황</h2>
+            <button class="fm-close" onclick="closeModal('liveModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="fm-body">
+            <div class="live-count">
+                <div class="number" id="liveStudyingCount">0</div>
+                <div class="label">명이 지금 공부중!</div>
+            </div>
+            <div id="liveList"></div>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
@@ -765,6 +1111,10 @@
         let longPressTimer = null;
         let contextMenuJustOpened = false;
         let currentPhotoData = null;
+        
+        // 계획 삭제용 변수
+        let selectedPlan = null;
+        let planLongPressTimer = null;
 
         const SUBJECTS = ['국어', '수학', '영어', '탐구'];
 
@@ -827,6 +1177,7 @@
             document.getElementById('userName').textContent = name;
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('container').classList.add('active');
+            document.getElementById('bottomNav').style.display = 'flex';
             await loadData();
         }
 
@@ -834,6 +1185,11 @@
             user = null; timers = {}; completedToday = [];
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('container').classList.remove('active');
+            document.getElementById('bottomNav').style.display = 'none';
+            // 모달도 닫기
+            closeModal('rankingModal');
+            closeModal('mystatsModal');
+            closeModal('liveModal');
         }
 
         async function loadData() {
@@ -910,11 +1266,15 @@
                                 const isCompletedLocal = completedToday.some(c => c.key === key);
                                 const completedData = completedToday.find(c => c.key === key);
                                 
+                                // 오늘 날짜와 비교 (today는 이미 위에서 정의됨)
+                                const isPastDate = dateStr < today;
+                                
                                 let cardCls = '', statusIcon = '';
                                 if (plan.status === 'approved' || plan.status === 'O') { cardCls = 'completed'; statusIcon = '✅'; }
-                                else if (plan.status === 'failed' || plan.status === 'X') { cardCls = 'failed'; statusIcon = '❌'; }
+                                else if (plan.status === 'failed' || plan.status === 'X' || plan.status === 'rejected') { cardCls = 'failed'; statusIcon = '❌'; }
                                 else if (plan.status === 'requested') { cardCls = 'pending'; statusIcon = '⏳'; }
                                 else if (isCompletedLocal) { cardCls = 'done-local'; statusIcon = '✔️'; }
+                                else if (isPastDate) { cardCls = 'missed'; statusIcon = '❌'; } // 날짜 지남 + 미완료
                                 
                                 if (timer.state === 'running') cardCls = 'running';
                                 if (timer.state === 'paused') cardCls = 'paused';
@@ -936,7 +1296,14 @@
                                 const unit = bookType === 'lecture' ? '강' : 'p';
                                 const inputDisabled = isServerComplete ? 'disabled' : '';
                                 
-                                bHtml += `<div class="plan-card ${cardCls}">
+                                // 삭제 가능 여부 (완료되지 않은 계획 + 당일만 가능)
+                                const canDelete = !isServerComplete && !isCompletedLocal && !isPastDate;
+                                
+                                bHtml += `<div class="plan-card ${cardCls}" 
+                                    oncontextmenu="event.preventDefault(); ${canDelete ? `showPlanMenu(event,'${subject}','${book.name}','${dateStr}')` : ''}"
+                                    ontouchstart="${canDelete ? `startPlanLongPress(event,'${subject}','${book.name}','${dateStr}')` : ''}"
+                                    ontouchend="endPlanLongPress()"
+                                    ontouchcancel="endPlanLongPress()">
                                     <div class="card-top">
                                         <button class="timer-btn play-btn ${isRunning ? 'active' : ''}" onclick="timerPlay('${subject}','${book.name}','${dateStr}')" ${isServerComplete || isCompletedLocal || isRunning ? 'disabled' : ''}><i class="fas fa-play"></i></button>
                                         <button class="timer-btn pause-btn ${isPaused ? 'active' : ''}" onclick="timerPause('${subject}','${book.name}','${dateStr}')" ${isServerComplete || isCompletedLocal || timer.state === 'idle' ? 'disabled' : ''}><i class="fas fa-pause"></i></button>
@@ -1158,7 +1525,79 @@
             menu.classList.add('active'); contextMenuJustOpened = true;
             if (navigator.vibrate) navigator.vibrate(50);
         }
-        function hideContextMenu() { document.getElementById('contextMenu').classList.remove('active'); contextMenuJustOpened = false; }
+        function hideContextMenu() { 
+            document.getElementById('contextMenu').classList.remove('active'); 
+            document.getElementById('planMenu').classList.remove('active');
+            contextMenuJustOpened = false; 
+        }
+        
+        // 계획 삭제 관련 함수
+        function startPlanLongPress(e, subject, book, dateStr) {
+            planLongPressTimer = setTimeout(() => {
+                selectedPlan = { subject, book, dateStr };
+                showPlanMenu(e.touches ? e.touches[0].clientX : e.clientX, e.touches ? e.touches[0].clientY : e.clientY);
+                planLongPressTimer = null;
+            }, 500);
+        }
+        
+        function endPlanLongPress() {
+            if (planLongPressTimer) {
+                clearTimeout(planLongPressTimer);
+                planLongPressTimer = null;
+            }
+        }
+        
+        function showPlanMenu(eOrX, y) {
+            let x = eOrX, yPos = y;
+            if (typeof eOrX === 'object') {
+                // event object
+                selectedPlan = { 
+                    subject: arguments[1], 
+                    book: arguments[2], 
+                    dateStr: arguments[3] 
+                };
+                x = eOrX.clientX || eOrX.touches?.[0]?.clientX || 100;
+                yPos = eOrX.clientY || eOrX.touches?.[0]?.clientY || 100;
+            }
+            const menu = document.getElementById('planMenu');
+            menu.style.left = Math.min(x, window.innerWidth - 160) + 'px';
+            menu.style.top = Math.min(yPos, window.innerHeight - 80) + 'px';
+            menu.classList.add('active');
+            contextMenuJustOpened = true;
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+        
+        async function deletePlan() {
+            hideContextMenu();
+            if (!selectedPlan) return;
+            
+            if (!confirm('이 계획을 삭제하시겠습니까?')) {
+                selectedPlan = null;
+                return;
+            }
+            
+            const res = await api({
+                action: 'deletePlan',
+                floor: user.floor,
+                name: user.name,
+                date: selectedPlan.dateStr,
+                subject: selectedPlan.subject,
+                bookName: selectedPlan.book
+            });
+            
+            if (res.success) {
+                plans = plans.filter(p => !(
+                    p.date === selectedPlan.dateStr && 
+                    p.subject === selectedPlan.subject && 
+                    p.book === selectedPlan.book
+                ));
+                renderTable();
+                toast('🗑️ 계획이 삭제되었습니다', 'success');
+            } else {
+                toast('삭제 실패', 'warning');
+            }
+            selectedPlan = null;
+        }
         
         function editBook() {
             hideContextMenu(); if (!selectedBook) return;
@@ -1246,20 +1685,287 @@
                 const captureArea = document.getElementById('captureArea');
                 const captureHeader = document.getElementById('captureHeader');
                 const wrapper = document.querySelector('.table-wrapper');
+                const table = document.querySelector('.plan-table');
                 const dates = getWeekDates();
-                document.getElementById('captureInfo').textContent = `${user.name} · ${user.floor} · ${dates[0].getMonth()+1}월 ${Math.ceil(dates[0].getDate()/7)}주차`;
-                captureHeader.classList.add('visible'); captureArea.classList.add('capture-mode');
-                const origOverflow = wrapper.style.overflow, origHeight = wrapper.style.height;
-                wrapper.style.overflow = 'visible'; wrapper.style.height = 'auto';
-                await new Promise(r => setTimeout(r, 150));
-                const canvas = await html2canvas(captureArea, { backgroundColor: '#fff', scale: 2, useCORS: true });
-                captureHeader.classList.remove('visible'); captureArea.classList.remove('capture-mode');
-                wrapper.style.overflow = origOverflow; wrapper.style.height = origHeight;
+                
+                // 헤더에 정보 표시
+                const weekNum = Math.ceil(dates[0].getDate() / 7);
+                document.getElementById('captureInfo').textContent = `${user.name} · ${user.floor} · ${dates[0].getMonth()+1}월 ${weekNum}주차 (${dates[0].getMonth()+1}/${dates[0].getDate()}~${dates[6].getMonth()+1}/${dates[6].getDate()})`;
+                
+                // 캡처 모드 설정
+                captureHeader.classList.add('visible');
+                captureArea.classList.add('capture-mode');
+                
+                // 원본 스타일 저장
+                const origWrapperOverflow = wrapper.style.overflow;
+                const origWrapperHeight = wrapper.style.height;
+                const origWrapperWidth = wrapper.style.width;
+                const origTableMinWidth = table.style.minWidth;
+                const origScrollLeft = wrapper.scrollLeft;
+                const origScrollTop = wrapper.scrollTop;
+                
+                // 전체 보이도록 스타일 변경
+                wrapper.style.overflow = 'visible';
+                wrapper.style.height = 'auto';
+                wrapper.style.width = 'auto';
+                wrapper.scrollLeft = 0;
+                wrapper.scrollTop = 0;
+                
+                await new Promise(r => setTimeout(r, 200));
+                
+                // 캡처 실행
+                const canvas = await html2canvas(captureArea, { 
+                    backgroundColor: '#ffffff', 
+                    scale: 2, 
+                    useCORS: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: table.scrollWidth + 50,
+                    windowHeight: table.scrollHeight + 150
+                });
+                
+                // 원본 스타일 복원
+                captureHeader.classList.remove('visible');
+                captureArea.classList.remove('capture-mode');
+                wrapper.style.overflow = origWrapperOverflow;
+                wrapper.style.height = origWrapperHeight;
+                wrapper.style.width = origWrapperWidth;
+                wrapper.scrollLeft = origScrollLeft;
+                wrapper.scrollTop = origScrollTop;
+                
+                // 클립보드에 복사 또는 다운로드
                 canvas.toBlob(async blob => {
-                    try { await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]); toast('📋 복사됨! 카톡에 붙여넣기', 'success'); }
-                    catch { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${user.name}_계획표.png`; a.click(); toast('📥 저장됨', 'success'); }
+                    try { 
+                        await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]); 
+                        toast('📋 복사 완료! 카톡에 붙여넣기 하세요', 'success'); 
+                    }
+                    catch { 
+                        const a = document.createElement('a'); 
+                        a.href = URL.createObjectURL(blob); 
+                        a.download = `${user.name}_주간계획표_${dates[0].getMonth()+1}월${weekNum}주.png`; 
+                        a.click(); 
+                        toast('📥 이미지 저장됨', 'success'); 
+                    }
                 }, 'image/png');
-            } catch (e) { console.error(e); toast('캡처 실패'); }
+            } catch (e) { 
+                console.error(e); 
+                toast('캡처 실패', 'error'); 
+            }
+        }
+
+        // ========== 하단 네비게이션 ==========
+        function switchNav(tab) {
+            document.querySelectorAll('.nav-item').forEach((item, idx) => {
+                item.classList.toggle('active', 
+                    (tab === 'planner' && idx === 0) ||
+                    (tab === 'ranking' && idx === 1) ||
+                    (tab === 'mystats' && idx === 2) ||
+                    (tab === 'live' && idx === 3)
+                );
+            });
+            
+            if (tab === 'planner') {
+                // 모든 모달 닫기
+                closeModal('rankingModal');
+                closeModal('mystatsModal');
+                closeModal('liveModal');
+            } else if (tab === 'ranking') {
+                openModal('rankingModal');
+                loadRanking();
+            } else if (tab === 'mystats') {
+                openModal('mystatsModal');
+                loadMyStats();
+            } else if (tab === 'live') {
+                openModal('liveModal');
+                loadLiveStatus();
+            }
+        }
+        
+        function openModal(id) {
+            document.getElementById(id).classList.add('show');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
+            // 플래너 탭 활성화
+            document.querySelectorAll('.nav-item').forEach((item, idx) => {
+                item.classList.toggle('active', idx === 0);
+            });
+        }
+
+        // ========== 랭킹 로드 ==========
+        async function loadRanking() {
+            const timeList = document.getElementById('timeRankingList');
+            const completeList = document.getElementById('completeRankingList');
+            
+            timeList.innerHTML = '<li style="padding:20px;text-align:center;color:#888;"><i class="fas fa-spinner fa-spin"></i> 로딩중...</li>';
+            completeList.innerHTML = '<li style="padding:20px;text-align:center;color:#888;"><i class="fas fa-spinner fa-spin"></i> 로딩중...</li>';
+            
+            try {
+                // 오늘 기록 가져오기 (전체 학생)
+                const res = await api({ action: 'getTodayRanking', floor: user.floor });
+                
+                if (res.success && res.rankings) {
+                    const rankings = res.rankings;
+                    
+                    // 학습시간 순 정렬
+                    const byTime = [...rankings].sort((a, b) => (b.totalTime || 0) - (a.totalTime || 0)).slice(0, 10);
+                    // 완료 과목 순 정렬
+                    const byComplete = [...rankings].sort((a, b) => (b.completed || 0) - (a.completed || 0)).slice(0, 10);
+                    
+                    timeList.innerHTML = byTime.length > 0 ? byTime.map((r, i) => renderRankItem(r, i, 'time')).join('') 
+                        : '<li style="padding:20px;text-align:center;color:#888;">아직 기록이 없습니다</li>';
+                    completeList.innerHTML = byComplete.length > 0 ? byComplete.map((r, i) => renderRankItem(r, i, 'complete')).join('') 
+                        : '<li style="padding:20px;text-align:center;color:#888;">아직 기록이 없습니다</li>';
+                } else {
+                    // API 없으면 임시 데이터
+                    timeList.innerHTML = '<li style="padding:20px;text-align:center;color:#888;">랭킹 데이터를 불러올 수 없습니다</li>';
+                    completeList.innerHTML = '<li style="padding:20px;text-align:center;color:#888;">랭킹 데이터를 불러올 수 없습니다</li>';
+                }
+            } catch (e) {
+                console.error(e);
+                timeList.innerHTML = '<li style="padding:20px;text-align:center;color:#888;">오류가 발생했습니다</li>';
+            }
+        }
+        
+        function renderRankItem(r, i, type) {
+            const rankClass = i < 3 ? `rank-${i+1}` : 'rank-other';
+            const isMe = r.name === user.name;
+            const value = type === 'time' ? `${r.totalTime || 0}<small>분</small>` : `${r.completed || 0}<small>개</small>`;
+            
+            return `
+            <li class="ranking-item">
+                <span class="rank-badge ${rankClass}">${i + 1}</span>
+                <div class="rank-info">
+                    <div class="rank-name ${isMe ? 'me' : ''}">${r.name}${isMe ? ' (나)' : ''}</div>
+                    <div class="rank-floor">${r.floor || user.floor}</div>
+                </div>
+                <div class="rank-value">${value}</div>
+            </li>`;
+        }
+
+        // ========== 내 통계 로드 ==========
+        async function loadMyStats() {
+            const subjectBars = document.getElementById('subjectBars');
+            
+            try {
+                // 이번 주 내 기록 가져오기
+                const weekDates = getWeekDates();
+                const weekStart = fmt(weekDates[0]);
+                const weekEnd = fmt(weekDates[6]);
+                
+                // 이번 주 계획과 완료 데이터 집계
+                let weekPlanned = 0;
+                let weekCompleted = 0;
+                let weekTime = 0;
+                const subjectTime = {};
+                
+                // 현재 로드된 plans에서 이번 주 데이터 집계
+                plans.forEach(p => {
+                    if (p.date >= weekStart && p.date <= weekEnd) {
+                        weekPlanned++;
+                        if (['approved', 'O'].includes(p.status)) {
+                            weekCompleted++;
+                            const time = p.actualTime || 0;
+                            weekTime += time;
+                            if (!subjectTime[p.subject]) subjectTime[p.subject] = 0;
+                            subjectTime[p.subject] += time;
+                        }
+                    }
+                });
+                
+                // completedToday 추가
+                completedToday.forEach(c => {
+                    if (!subjectTime[c.subject]) subjectTime[c.subject] = 0;
+                    subjectTime[c.subject] += Math.ceil(c.elapsed / 60);
+                    weekTime += Math.ceil(c.elapsed / 60);
+                });
+                
+                const weekRate = weekPlanned > 0 ? Math.round(weekCompleted / weekPlanned * 100) : 0;
+                
+                document.getElementById('myWeekCompleted').textContent = weekCompleted;
+                document.getElementById('myWeekTime').textContent = (weekTime / 60).toFixed(1) + 'h';
+                document.getElementById('myWeekRate').textContent = weekRate + '%';
+                
+                // 과목별 막대 그래프
+                const maxTime = Math.max(...Object.values(subjectTime), 1);
+                const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+                
+                if (Object.keys(subjectTime).length === 0) {
+                    subjectBars.innerHTML = '<div style="text-align:center;color:#888;padding:20px;">아직 학습 기록이 없습니다</div>';
+                } else {
+                    subjectBars.innerHTML = Object.entries(subjectTime).map(([subj, time], i) => {
+                        const pct = Math.round(time / maxTime * 100);
+                        const hours = (time / 60).toFixed(1);
+                        return `
+                        <div class="subject-bar">
+                            <span class="subject-bar-name">${subj}</span>
+                            <div class="subject-bar-track">
+                                <div class="subject-bar-fill" style="width:${pct}%;background:${colors[i % colors.length]}">${time}분</div>
+                            </div>
+                            <span class="subject-bar-time">${hours}h</span>
+                        </div>`;
+                    }).join('');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // ========== 실시간 현황 로드 ==========
+        async function loadLiveStatus() {
+            const liveList = document.getElementById('liveList');
+            const liveCount = document.getElementById('liveStudyingCount');
+            const liveBadge = document.getElementById('liveBadge');
+            
+            liveList.innerHTML = '<div style="padding:20px;text-align:center;color:#888;"><i class="fas fa-spinner fa-spin"></i> 로딩중...</div>';
+            
+            try {
+                const res = await api({ action: 'getLiveStatus', floor: user.floor });
+                
+                if (res.success && res.students) {
+                    const students = res.students;
+                    const studying = students.filter(s => s.isStudying);
+                    
+                    liveCount.textContent = studying.length;
+                    
+                    if (liveBadge) {
+                        if (studying.length > 0) {
+                            liveBadge.textContent = studying.length;
+                            liveBadge.style.display = 'block';
+                        } else {
+                            liveBadge.style.display = 'none';
+                        }
+                    }
+                    
+                    if (students.length === 0) {
+                        liveList.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">등록된 학생이 없습니다</div>';
+                    } else {
+                        // 공부중인 학생 먼저, 그 다음 대기중
+                        const sorted = [...students].sort((a, b) => (b.isStudying ? 1 : 0) - (a.isStudying ? 1 : 0));
+                        
+                        liveList.innerHTML = sorted.map(s => {
+                            const isMe = s.name === user.name;
+                            return `
+                            <div class="live-card">
+                                <div class="live-status ${s.isStudying ? 'studying' : ''}"></div>
+                                <div class="live-info">
+                                    <div class="live-name">${s.name}${isMe ? ' (나)' : ''}</div>
+                                    <div class="live-detail">${s.isStudying ? s.currentSubject + ' 공부중' : '대기중'}</div>
+                                </div>
+                                <div class="live-time ${s.isStudying ? 'active' : ''}">${s.todayTime || 0}분</div>
+                            </div>`;
+                        }).join('');
+                    }
+                } else {
+                    // API 없으면 현재 층 학생들만 표시
+                    liveCount.textContent = '?';
+                    liveList.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">실시간 현황을 불러올 수 없습니다</div>';
+                }
+            } catch (e) {
+                console.error(e);
+                liveList.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">오류가 발생했습니다</div>';
+            }
         }
 
         function toast(msg, type = '') {

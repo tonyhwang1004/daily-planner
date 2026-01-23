@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>선생님 대시보드</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -355,6 +356,262 @@
             color: white;
             border-color: #1e3a5f;
         }
+
+        /* ========== 학부모 보고서 스타일 ========== */
+        .report-section {
+            padding: 12px;
+        }
+        .report-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .report-controls select {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: white;
+        }
+        .report-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
+            color: white;
+        }
+        .report-title {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .copy-btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            background: #10b981;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+        .report-content {
+            padding: 20px;
+            background: linear-gradient(180deg, #f8fafc, #ffffff);
+        }
+        .report-student-info {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed #e0e0e0;
+        }
+        .report-student-info .student-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e3a5f;
+            margin-bottom: 5px;
+        }
+        .report-period {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .report-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .report-stat {
+            text-align: center;
+            padding: 15px 8px;
+            background: #f0f9ff;
+            border-radius: 12px;
+        }
+        .report-stat.highlight {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+        }
+        .report-stat .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .report-stat .stat-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1e3a5f;
+        }
+        .report-stat .stat-label {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 3px;
+        }
+        .report-streak {
+            text-align: center;
+            padding: 12px;
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+        .report-streak strong {
+            font-size: 1.3rem;
+            color: #92400e;
+        }
+        .report-subjects {
+            margin-bottom: 20px;
+        }
+        .subject-title, .comment-title, .trend-title, .achievement-title {
+            font-weight: 700;
+            color: #1e3a5f;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        .report-subject-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .report-subject-bar .subj-name {
+            width: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #555;
+        }
+        .report-subject-bar .subj-track {
+            flex: 1;
+            height: 20px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+        .report-subject-bar .subj-fill {
+            height: 100%;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .report-subject-bar .subj-time {
+            width: 45px;
+            text-align: right;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e3a5f;
+        }
+        .report-comment textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            resize: none;
+            height: 80px;
+            font-family: inherit;
+        }
+        .report-footer {
+            text-align: center;
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 2px dashed #e0e0e0;
+            color: #888;
+            font-size: 0.85rem;
+        }
+        .report-placeholder {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+        .report-placeholder i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+        .report-placeholder p {
+            margin-bottom: 5px;
+        }
+        .report-placeholder .hint {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        .report-weekly-trend {
+            margin-bottom: 20px;
+        }
+        .trend-week {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .trend-week .week-label {
+            width: 60px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+        .trend-week .week-bar {
+            flex: 1;
+            height: 24px;
+            background: #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        .trend-week .week-fill {
+            height: 100%;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .trend-week .week-change {
+            width: 40px;
+            text-align: right;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .trend-week .week-change.up { color: #10b981; }
+        .trend-week .week-change.down { color: #ef4444; }
+        .report-achievements {
+            margin-bottom: 20px;
+        }
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            background: #f0f9ff;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .achievement-item .ach-icon {
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        .achievement-item .ach-text {
+            flex: 1;
+            font-size: 0.85rem;
+            color: #333;
+        }
+        .achievement-item .ach-value {
+            font-weight: 700;
+            color: #1e3a5f;
+        }
     </style>
 </head>
 <body>
@@ -415,6 +672,9 @@
         </button>
         <button class="tab" onclick="switchTab('stats')">
             <i class="fas fa-trophy"></i> 랭킹
+        </button>
+        <button class="tab" onclick="switchTab('report')">
+            <i class="fas fa-file-alt"></i> 학부모보고서
         </button>
     </div>
 
@@ -478,6 +738,138 @@
             <div class="ranking-section">
                 <div class="ranking-title">🏆 학습시간 TOP 10</div>
                 <div id="rankingList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 학부모 보고서 탭 -->
+    <div class="tab-content" id="reportTab">
+        <div class="report-section">
+            <!-- 학생 선택 -->
+            <div class="report-controls">
+                <select id="reportStudent" onchange="loadStudentReport()">
+                    <option value="">학생 선택</option>
+                </select>
+                <select id="reportType" onchange="loadStudentReport()">
+                    <option value="week">주간 보고서</option>
+                    <option value="month">월간 보고서</option>
+                </select>
+            </div>
+
+            <!-- 주간 보고서 카드 -->
+            <div id="weeklyReportCard" class="report-card" style="display:none;">
+                <div class="report-header">
+                    <span class="report-title">📊 주간 학습 보고서</span>
+                    <button class="copy-btn" onclick="copyReportImage('weeklyReportCard')">
+                        <i class="fas fa-copy"></i> 이미지 복사
+                    </button>
+                </div>
+                <div class="report-content" id="weeklyReportContent">
+                    <div class="report-student-info">
+                        <div class="student-name" id="reportStudentName">홍길동</div>
+                        <div class="report-period" id="reportPeriod">2025.1.20(월) ~ 1.26(일)</div>
+                    </div>
+                    <div class="report-stats-grid">
+                        <div class="report-stat">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-value" id="rptCompleted">0</div>
+                            <div class="stat-label">완료</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="stat-icon">📝</div>
+                            <div class="stat-value" id="rptPlanned">0</div>
+                            <div class="stat-label">계획</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-value" id="rptTime">0h</div>
+                            <div class="stat-label">학습시간</div>
+                        </div>
+                        <div class="report-stat highlight">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-value" id="rptRate">0%</div>
+                            <div class="stat-label">실천율</div>
+                        </div>
+                    </div>
+                    <div class="report-streak">
+                        <span>🔥 연속 학습일: <strong id="rptStreak">0</strong>일</span>
+                    </div>
+                    <div class="report-subjects">
+                        <div class="subject-title">📚 과목별 학습시간</div>
+                        <div id="rptSubjectBars"></div>
+                    </div>
+                    <div class="report-comment">
+                        <div class="comment-title">💬 선생님 한마디</div>
+                        <textarea id="rptComment" placeholder="학부모님께 전할 메시지를 입력하세요..."></textarea>
+                    </div>
+                    <div class="report-footer">
+                        <span>김엄마독서실 📚</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 월간 보고서 카드 -->
+            <div id="monthlyReportCard" class="report-card" style="display:none;">
+                <div class="report-header">
+                    <span class="report-title">📊 월간 학습 보고서</span>
+                    <button class="copy-btn" onclick="copyReportImage('monthlyReportCard')">
+                        <i class="fas fa-copy"></i> 이미지 복사
+                    </button>
+                </div>
+                <div class="report-content" id="monthlyReportContent">
+                    <div class="report-student-info">
+                        <div class="student-name" id="monthStudentName">홍길동</div>
+                        <div class="report-period" id="monthPeriod">2025년 1월</div>
+                    </div>
+                    <div class="report-stats-grid">
+                        <div class="report-stat">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-value" id="monthCompleted">0</div>
+                            <div class="stat-label">총 완료</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="stat-icon">📝</div>
+                            <div class="stat-value" id="monthPlanned">0</div>
+                            <div class="stat-label">총 계획</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-value" id="monthTime">0h</div>
+                            <div class="stat-label">총 학습시간</div>
+                        </div>
+                        <div class="report-stat highlight">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-value" id="monthRate">0%</div>
+                            <div class="stat-label">평균 실천율</div>
+                        </div>
+                    </div>
+                    <div class="report-weekly-trend">
+                        <div class="trend-title">📈 주차별 실천율 추이</div>
+                        <div id="monthWeeklyTrend"></div>
+                    </div>
+                    <div class="report-achievements">
+                        <div class="achievement-title">🏆 이번 달 성과</div>
+                        <div class="achievement-list" id="monthAchievements"></div>
+                    </div>
+                    <div class="report-subjects">
+                        <div class="subject-title">📚 과목별 학습시간</div>
+                        <div id="monthSubjectBars"></div>
+                    </div>
+                    <div class="report-comment">
+                        <div class="comment-title">💬 선생님 한마디</div>
+                        <textarea id="monthComment" placeholder="학부모님께 전할 메시지를 입력하세요..."></textarea>
+                    </div>
+                    <div class="report-footer">
+                        <span>김엄마독서실 📚</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 안내 메시지 -->
+            <div id="reportPlaceholder" class="report-placeholder">
+                <i class="fas fa-file-alt"></i>
+                <p>학생을 선택하면 보고서가 생성됩니다</p>
+                <p class="hint">이미지 복사 → 카카오톡에 붙여넣기</p>
             </div>
         </div>
     </div>
@@ -832,9 +1224,339 @@
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             
-            const tabIndex = tab === 'students' ? 1 : tab === 'check' ? 2 : 3;
+            const tabMap = { 'students': 1, 'check': 2, 'stats': 3, 'report': 4 };
+            const tabIndex = tabMap[tab] || 1;
             document.querySelector(`.tab:nth-child(${tabIndex})`).classList.add('active');
             document.getElementById(tab + 'Tab').classList.add('active');
+            
+            // 보고서 탭 진입 시 학생 목록 로드
+            if (tab === 'report') {
+                populateReportStudents();
+            }
+        }
+
+        // ========== 학부모 보고서 기능 ==========
+        
+        const subjectColors = {
+            '수학': '#ef4444', '영어': '#3b82f6', '국어': '#10b981',
+            '과학': '#f59e0b', '사회': '#8b5cf6', '한국사': '#ec4899',
+            '기타': '#6b7280'
+        };
+        
+        function populateReportStudents() {
+            const select = document.getElementById('reportStudent');
+            const currentValue = select.value;
+            
+            // 기존 옵션 제거 (첫번째 제외)
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+            
+            // 학생 목록 추가
+            const students = [...allStudents].sort((a, b) => {
+                if (a.floor !== b.floor) return a.floor.localeCompare(b.floor);
+                return a.name.localeCompare(b.name);
+            });
+            
+            students.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = `${s.floor}|${s.name}`;
+                opt.textContent = `${s.name} (${s.floor})`;
+                select.appendChild(opt);
+            });
+            
+            // 기존 선택값 복원
+            if (currentValue) select.value = currentValue;
+        }
+        
+        async function loadStudentReport() {
+            const studentSelect = document.getElementById('reportStudent');
+            const typeSelect = document.getElementById('reportType');
+            
+            if (!studentSelect.value) {
+                document.getElementById('weeklyReportCard').style.display = 'none';
+                document.getElementById('monthlyReportCard').style.display = 'none';
+                document.getElementById('reportPlaceholder').style.display = 'block';
+                return;
+            }
+            
+            const [floor, name] = studentSelect.value.split('|');
+            const reportType = typeSelect.value;
+            
+            document.getElementById('reportPlaceholder').style.display = 'none';
+            
+            if (reportType === 'week') {
+                await loadWeeklyReport(floor, name);
+                document.getElementById('weeklyReportCard').style.display = 'block';
+                document.getElementById('monthlyReportCard').style.display = 'none';
+            } else {
+                await loadMonthlyReport(floor, name);
+                document.getElementById('weeklyReportCard').style.display = 'none';
+                document.getElementById('monthlyReportCard').style.display = 'block';
+            }
+        }
+        
+        async function loadWeeklyReport(floor, name) {
+            // 지난 주 날짜 범위 계산 (일요일 12시 이후면 이번주, 아니면 지난주)
+            const now = new Date();
+            const day = now.getDay();
+            const hour = now.getHours();
+            
+            let monday, sunday;
+            
+            // 일요일 12시 이후면 이번주 보고서
+            if (day === 0 && hour >= 12) {
+                monday = new Date(now);
+                monday.setDate(now.getDate() - 6);
+                sunday = new Date(now);
+            } else {
+                // 아니면 지난주 보고서
+                monday = new Date(now);
+                monday.setDate(now.getDate() - (day === 0 ? 13 : day + 6));
+                sunday = new Date(monday);
+                sunday.setDate(monday.getDate() + 6);
+            }
+            
+            const weekStart = formatDate(monday);
+            const weekEnd = formatDate(sunday);
+            
+            // API에서 데이터 가져오기
+            const res = await api({
+                action: 'getStudentWeeklyReport',
+                floor: floor,
+                name: name,
+                weekStart: weekStart,
+                weekEnd: weekEnd
+            });
+            
+            // 학생 정보
+            document.getElementById('reportStudentName').textContent = name;
+            document.getElementById('reportPeriod').textContent = 
+                `${monday.getFullYear()}.${monday.getMonth()+1}.${monday.getDate()}(${['일','월','화','수','목','금','토'][monday.getDay()]}) ~ ${sunday.getMonth()+1}.${sunday.getDate()}(${['일','월','화','수','목','금','토'][sunday.getDay()]})`;
+            
+            if (res.success && res.report) {
+                const r = res.report;
+                document.getElementById('rptCompleted').textContent = r.completed || 0;
+                document.getElementById('rptPlanned').textContent = r.planned || 0;
+                document.getElementById('rptTime').textContent = ((r.totalTime || 0) / 60).toFixed(1) + 'h';
+                document.getElementById('rptRate').textContent = r.rate + '%';
+                document.getElementById('rptStreak').textContent = r.streak || 0;
+                
+                // 과목별 학습시간 바
+                renderSubjectBars('rptSubjectBars', r.subjectTime || {});
+            } else {
+                // 현재 데이터에서 가져오기
+                const student = allStudents.find(s => s.floor === floor && s.name === name);
+                if (student) {
+                    document.getElementById('rptCompleted').textContent = student.completed || 0;
+                    document.getElementById('rptPlanned').textContent = student.planned || 0;
+                    document.getElementById('rptTime').textContent = ((student.totalTime || 0) / 60).toFixed(1) + 'h';
+                    document.getElementById('rptRate').textContent = student.rate + '%';
+                    document.getElementById('rptStreak').textContent = '0';
+                    document.getElementById('rptSubjectBars').innerHTML = '<div style="color:#888;text-align:center;padding:20px;">과목별 데이터 없음</div>';
+                }
+            }
+        }
+        
+        async function loadMonthlyReport(floor, name) {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            
+            // 이번달 1일 ~ 말일
+            const monthStart = `${year}-${String(month).padStart(2,'0')}-01`;
+            const lastDay = new Date(year, month, 0).getDate();
+            const monthEnd = `${year}-${String(month).padStart(2,'0')}-${String(lastDay).padStart(2,'0')}`;
+            
+            // API에서 데이터 가져오기
+            const res = await api({
+                action: 'getStudentMonthlyReport',
+                floor: floor,
+                name: name,
+                monthStart: monthStart,
+                monthEnd: monthEnd
+            });
+            
+            // 학생 정보
+            document.getElementById('monthStudentName').textContent = name;
+            document.getElementById('monthPeriod').textContent = `${year}년 ${month}월`;
+            
+            if (res.success && res.report) {
+                const r = res.report;
+                document.getElementById('monthCompleted').textContent = r.completed || 0;
+                document.getElementById('monthPlanned').textContent = r.planned || 0;
+                document.getElementById('monthTime').textContent = ((r.totalTime || 0) / 60).toFixed(1) + 'h';
+                document.getElementById('monthRate').textContent = r.rate + '%';
+                
+                // 주차별 추이
+                renderWeeklyTrend(r.weeklyRates || []);
+                
+                // 성과
+                renderAchievements(r);
+                
+                // 과목별 학습시간
+                renderSubjectBars('monthSubjectBars', r.subjectTime || {});
+            } else {
+                // 기본 데이터
+                const student = allStudents.find(s => s.floor === floor && s.name === name);
+                if (student) {
+                    document.getElementById('monthCompleted').textContent = student.completed || 0;
+                    document.getElementById('monthPlanned').textContent = student.planned || 0;
+                    document.getElementById('monthTime').textContent = ((student.totalTime || 0) / 60).toFixed(1) + 'h';
+                    document.getElementById('monthRate').textContent = student.rate + '%';
+                }
+                document.getElementById('monthWeeklyTrend').innerHTML = '<div style="color:#888;text-align:center;padding:20px;">주차별 데이터 없음</div>';
+                document.getElementById('monthAchievements').innerHTML = '';
+                document.getElementById('monthSubjectBars').innerHTML = '<div style="color:#888;text-align:center;padding:20px;">과목별 데이터 없음</div>';
+            }
+        }
+        
+        function renderSubjectBars(containerId, subjectTime) {
+            const container = document.getElementById(containerId);
+            const subjects = Object.entries(subjectTime).sort((a, b) => b[1] - a[1]);
+            
+            if (subjects.length === 0) {
+                container.innerHTML = '<div style="color:#888;text-align:center;padding:20px;">데이터 없음</div>';
+                return;
+            }
+            
+            const maxTime = Math.max(...subjects.map(s => s[1]));
+            
+            container.innerHTML = subjects.map(([subj, time]) => {
+                const percent = maxTime > 0 ? (time / maxTime * 100) : 0;
+                const color = subjectColors[subj] || subjectColors['기타'];
+                const hours = (time / 60).toFixed(1);
+                
+                return `
+                    <div class="report-subject-bar">
+                        <span class="subj-name">${subj}</span>
+                        <div class="subj-track">
+                            <div class="subj-fill" style="width:${percent}%;background:${color};">${percent > 30 ? hours + 'h' : ''}</div>
+                        </div>
+                        <span class="subj-time">${hours}h</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function renderWeeklyTrend(weeklyRates) {
+            const container = document.getElementById('monthWeeklyTrend');
+            
+            if (!weeklyRates || weeklyRates.length === 0) {
+                container.innerHTML = '<div style="color:#888;text-align:center;padding:20px;">주차별 데이터 없음</div>';
+                return;
+            }
+            
+            container.innerHTML = weeklyRates.map((rate, i) => {
+                const prevRate = i > 0 ? weeklyRates[i-1] : rate;
+                const change = rate - prevRate;
+                const changeClass = change > 0 ? 'up' : change < 0 ? 'down' : '';
+                const changeText = change > 0 ? `+${change}%` : change < 0 ? `${change}%` : '-';
+                const color = rate >= 80 ? '#10b981' : rate >= 60 ? '#f59e0b' : '#ef4444';
+                
+                return `
+                    <div class="trend-week">
+                        <span class="week-label">${i+1}주차</span>
+                        <div class="week-bar">
+                            <div class="week-fill" style="width:${rate}%;background:${color};">${rate}%</div>
+                        </div>
+                        <span class="week-change ${changeClass}">${changeText}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function renderAchievements(report) {
+            const container = document.getElementById('monthAchievements');
+            const achievements = [];
+            
+            if (report.maxStreak) {
+                achievements.push({ icon: '🔥', text: '최장 연속 학습', value: report.maxStreak + '일' });
+            }
+            if (report.topSubject) {
+                achievements.push({ icon: '📚', text: '가장 많이 공부한 과목', value: report.topSubject });
+            }
+            if (report.rank) {
+                achievements.push({ icon: '🏆', text: `${report.floor} 랭킹`, value: report.rank + '위' });
+            }
+            if (report.totalDays) {
+                achievements.push({ icon: '📅', text: '학습한 날', value: report.totalDays + '일' });
+            }
+            
+            if (achievements.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            container.innerHTML = achievements.map(a => `
+                <div class="achievement-item">
+                    <span class="ach-icon">${a.icon}</span>
+                    <span class="ach-text">${a.text}</span>
+                    <span class="ach-value">${a.value}</span>
+                </div>
+            `).join('');
+        }
+        
+        async function copyReportImage(cardId) {
+            const card = document.getElementById(cardId);
+            const content = card.querySelector('.report-content');
+            
+            // 복사 버튼 임시 숨김
+            const copyBtn = card.querySelector('.copy-btn');
+            const textarea = card.querySelector('textarea');
+            const originalBtnDisplay = copyBtn.style.display;
+            copyBtn.style.display = 'none';
+            
+            // textarea를 div로 임시 변환 (캡처용)
+            let tempDiv = null;
+            if (textarea) {
+                tempDiv = document.createElement('div');
+                tempDiv.style.cssText = textarea.style.cssText;
+                tempDiv.style.padding = '12px';
+                tempDiv.style.background = '#f8fafc';
+                tempDiv.style.borderRadius = '8px';
+                tempDiv.style.border = '1px solid #ddd';
+                tempDiv.style.minHeight = '60px';
+                tempDiv.style.whiteSpace = 'pre-wrap';
+                tempDiv.style.fontSize = '0.9rem';
+                tempDiv.textContent = textarea.value || '열심히 공부하고 있습니다! 화이팅! 💪';
+                textarea.style.display = 'none';
+                textarea.parentNode.insertBefore(tempDiv, textarea.nextSibling);
+            }
+            
+            try {
+                const canvas = await html2canvas(content, {
+                    backgroundColor: '#ffffff',
+                    scale: 2,
+                    useCORS: true
+                });
+                
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        toast('📋 이미지 복사 완료! 카톡에 붙여넣기 하세요', 'success');
+                    } catch (err) {
+                        // 클립보드 실패 시 다운로드
+                        const url = canvas.toDataURL('image/png');
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `학습보고서_${document.getElementById('reportStudent').selectedOptions[0]?.text || '학생'}.png`;
+                        a.click();
+                        toast('📥 이미지 다운로드됨', 'success');
+                    }
+                });
+            } catch (err) {
+                toast('캡처 실패: ' + err, 'error');
+            } finally {
+                // 복원
+                copyBtn.style.display = originalBtnDisplay;
+                if (textarea) {
+                    textarea.style.display = '';
+                    if (tempDiv) tempDiv.remove();
+                }
+            }
         }
 
         function toast(msg, type = '') {
@@ -842,7 +1564,7 @@
             el.textContent = msg;
             el.className = 'toast' + (type ? ` ${type}` : '');
             el.classList.add('show');
-            setTimeout(() => el.classList.remove('show'), 1500);
+            setTimeout(() => el.classList.remove('show'), 2000);
         }
     </script>
 </body>

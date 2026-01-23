@@ -379,27 +379,29 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
+            margin: 0 auto 15px auto;
+            max-width: 420px;
+            width: 100%;
         }
         .report-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: 10px 14px;
             background: linear-gradient(135deg, #1e3a5f, #2d5a87);
             color: white;
         }
         .report-title {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
         .copy-btn {
-            padding: 8px 14px;
+            padding: 6px 12px;
             border: none;
             border-radius: 6px;
             background: #10b981;
             color: white;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
         }
@@ -407,209 +409,269 @@
             transform: scale(0.95);
         }
         .report-content {
-            padding: 20px;
+            padding: 16px;
             background: linear-gradient(180deg, #f8fafc, #ffffff);
         }
         .report-student-info {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
             border-bottom: 2px dashed #e0e0e0;
         }
         .report-student-info .student-name {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #1e3a5f;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
         .report-period {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         .report-stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 6px;
+            margin-bottom: 12px;
         }
         .report-stat {
             text-align: center;
-            padding: 15px 8px;
+            padding: 10px 4px;
             background: #f0f9ff;
-            border-radius: 12px;
+            border-radius: 10px;
         }
         .report-stat.highlight {
             background: linear-gradient(135deg, #fef3c7, #fde68a);
         }
         .report-stat .stat-icon {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+            font-size: 1.2rem;
+            margin-bottom: 3px;
         }
         .report-stat .stat-value {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: #1e3a5f;
         }
         .report-stat .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #666;
-            margin-top: 3px;
+            margin-top: 2px;
         }
         .report-streak {
             text-align: center;
-            padding: 12px;
+            padding: 8px;
             background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 1rem;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
         }
         .report-streak strong {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #92400e;
         }
         .report-subjects {
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
         .subject-title, .comment-title, .trend-title, .achievement-title {
             font-weight: 700;
             color: #1e3a5f;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
         }
         .report-subject-bar {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .report-subject-bar .subj-name {
-            width: 50px;
-            font-size: 0.8rem;
+            width: 40px;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #555;
         }
         .report-subject-bar .subj-track {
             flex: 1;
-            height: 20px;
+            height: 16px;
             background: #e5e7eb;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            margin: 0 10px;
+            margin: 0 8px;
         }
         .report-subject-bar .subj-fill {
             height: 100%;
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding-right: 8px;
+            padding-right: 6px;
             color: white;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
         }
         .report-subject-bar .subj-time {
-            width: 45px;
+            width: 38px;
             text-align: right;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: #1e3a5f;
         }
         .report-comment textarea {
             width: 100%;
-            padding: 12px;
+            padding: 8px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.9rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
             resize: none;
-            height: 80px;
+            height: 60px;
             font-family: inherit;
         }
         .report-footer {
             text-align: center;
-            padding-top: 15px;
-            margin-top: 15px;
+            padding-top: 10px;
+            margin-top: 10px;
             border-top: 2px dashed #e0e0e0;
             color: #888;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
         }
+        
+        /* 추가 정보 스타일 */
+        .student-floor {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .report-extra-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .extra-item {
+            text-align: center;
+            padding: 4px 2px;
+        }
+        .extra-icon {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+        .extra-label {
+            display: block;
+            font-size: 0.6rem;
+            color: #888;
+        }
+        .extra-value {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #1e3a5f;
+            margin-top: 1px;
+        }
+        .stat-compare {
+            font-size: 0.6rem;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+        .stat-compare.up { color: #10b981; }
+        .stat-compare.down { color: #ef4444; }
+        .stat-compare.same { color: #888; }
+        
+        /* 실천율 색상 */
+        .rate-high { background: linear-gradient(135deg, #d1fae5, #a7f3d0) !important; }
+        .rate-high .stat-value { color: #059669 !important; }
+        .rate-mid { background: linear-gradient(135deg, #fef3c7, #fde68a) !important; }
+        .rate-mid .stat-value { color: #d97706 !important; }
+        .rate-low { background: linear-gradient(135deg, #fee2e2, #fecaca) !important; }
+        .rate-low .stat-value { color: #dc2626 !important; }
+        
         .report-placeholder {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
             color: #888;
         }
         .report-placeholder i {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: #ddd;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .report-placeholder p {
             margin-bottom: 5px;
         }
         .report-placeholder .hint {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #aaa;
         }
         .report-weekly-trend {
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
         .trend-week {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
         .trend-week .week-label {
-            width: 60px;
-            font-size: 0.8rem;
+            width: 45px;
+            font-size: 0.7rem;
             color: #555;
         }
         .trend-week .week-bar {
             flex: 1;
-            height: 24px;
+            height: 18px;
             background: #e5e7eb;
-            border-radius: 12px;
+            border-radius: 9px;
             overflow: hidden;
-            margin-right: 10px;
+            margin-right: 6px;
         }
         .trend-week .week-fill {
             height: 100%;
-            border-radius: 12px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding-right: 10px;
+            padding-right: 6px;
             color: white;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: 600;
         }
         .trend-week .week-change {
-            width: 40px;
+            width: 35px;
             text-align: right;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 600;
         }
         .trend-week .week-change.up { color: #10b981; }
         .trend-week .week-change.down { color: #ef4444; }
         .report-achievements {
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
         .achievement-item {
             display: flex;
             align-items: center;
-            padding: 10px 12px;
+            padding: 6px 8px;
             background: #f0f9ff;
-            border-radius: 8px;
-            margin-bottom: 8px;
+            border-radius: 6px;
+            margin-bottom: 5px;
         }
         .achievement-item .ach-icon {
-            font-size: 1.2rem;
-            margin-right: 10px;
+            font-size: 1rem;
+            margin-right: 8px;
         }
         .achievement-item .ach-text {
             flex: 1;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #333;
         }
         .achievement-item .ach-value {
             font-weight: 700;
+            font-size: 0.75rem;
             color: #1e3a5f;
         }
     </style>
@@ -767,6 +829,7 @@
                 <div class="report-content" id="weeklyReportContent">
                     <div class="report-student-info">
                         <div class="student-name" id="reportStudentName">홍길동</div>
+                        <div class="student-floor" id="reportFloor">7층</div>
                         <div class="report-period" id="reportPeriod">2025.1.20(월) ~ 1.26(일)</div>
                     </div>
                     <div class="report-stats-grid">
@@ -785,12 +848,33 @@
                             <div class="stat-value" id="rptTime">0h</div>
                             <div class="stat-label">학습시간</div>
                         </div>
-                        <div class="report-stat highlight">
+                        <div class="report-stat" id="rptRateBox">
                             <div class="stat-icon">📈</div>
                             <div class="stat-value" id="rptRate">0%</div>
                             <div class="stat-label">실천율</div>
+                            <div class="stat-compare" id="rptRateCompare"></div>
                         </div>
                     </div>
+                    
+                    <!-- 추가 정보 섹션 -->
+                    <div class="report-extra-info">
+                        <div class="extra-item">
+                            <span class="extra-icon">📅</span>
+                            <span class="extra-label">학습한 요일:</span>
+                            <span class="extra-value" id="rptStudyDays">-</span>
+                        </div>
+                        <div class="extra-item">
+                            <span class="extra-icon">🏆</span>
+                            <span class="extra-label">층 랭킹:</span>
+                            <span class="extra-value" id="rptRanking">-</span>
+                        </div>
+                        <div class="extra-item">
+                            <span class="extra-icon">⭐</span>
+                            <span class="extra-label">최고 집중일:</span>
+                            <span class="extra-value" id="rptBestDay">-</span>
+                        </div>
+                    </div>
+                    
                     <div class="report-streak">
                         <span>🔥 연속 학습일: <strong id="rptStreak">0</strong>일</span>
                     </div>
@@ -819,6 +903,7 @@
                 <div class="report-content" id="monthlyReportContent">
                     <div class="report-student-info">
                         <div class="student-name" id="monthStudentName">홍길동</div>
+                        <div class="student-floor" id="monthFloor">7층</div>
                         <div class="report-period" id="monthPeriod">2025년 1월</div>
                     </div>
                     <div class="report-stats-grid">
@@ -837,12 +922,32 @@
                             <div class="stat-value" id="monthTime">0h</div>
                             <div class="stat-label">총 학습시간</div>
                         </div>
-                        <div class="report-stat highlight">
+                        <div class="report-stat" id="monthRateBox">
                             <div class="stat-icon">📈</div>
                             <div class="stat-value" id="monthRate">0%</div>
                             <div class="stat-label">평균 실천율</div>
                         </div>
                     </div>
+                    
+                    <!-- 추가 정보 섹션 -->
+                    <div class="report-extra-info">
+                        <div class="extra-item">
+                            <span class="extra-icon">📅</span>
+                            <span class="extra-label">출석률:</span>
+                            <span class="extra-value" id="monthAttendance">-</span>
+                        </div>
+                        <div class="extra-item">
+                            <span class="extra-icon">🏆</span>
+                            <span class="extra-label">층 랭킹:</span>
+                            <span class="extra-value" id="monthRanking">-</span>
+                        </div>
+                        <div class="extra-item">
+                            <span class="extra-icon">⭐</span>
+                            <span class="extra-label">최고 집중주:</span>
+                            <span class="extra-value" id="monthBestWeek">-</span>
+                        </div>
+                    </div>
+                    
                     <div class="report-weekly-trend">
                         <div class="trend-title">📈 주차별 실천율 추이</div>
                         <div id="monthWeeklyTrend"></div>
@@ -1297,50 +1402,76 @@
         }
         
         async function loadWeeklyReport(floor, name) {
-            // 지난 주 날짜 범위 계산 (일요일 12시 이후면 이번주, 아니면 지난주)
+            // 이번 주 날짜 범위 계산
             const now = new Date();
             const day = now.getDay();
-            const hour = now.getHours();
             
-            let monday, sunday;
-            
-            // 일요일 12시 이후면 이번주 보고서
-            if (day === 0 && hour >= 12) {
-                monday = new Date(now);
-                monday.setDate(now.getDate() - 6);
-                sunday = new Date(now);
-            } else {
-                // 아니면 지난주 보고서
-                monday = new Date(now);
-                monday.setDate(now.getDate() - (day === 0 ? 13 : day + 6));
-                sunday = new Date(monday);
-                sunday.setDate(monday.getDate() + 6);
-            }
+            let monday = new Date(now);
+            monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+            let sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
             
             const weekStart = formatDate(monday);
             const weekEnd = formatDate(sunday);
             
+            // 지난주 날짜 범위 (비교용)
+            let prevMonday = new Date(monday);
+            prevMonday.setDate(monday.getDate() - 7);
+            let prevSunday = new Date(prevMonday);
+            prevSunday.setDate(prevMonday.getDate() + 6);
+            const prevWeekStart = formatDate(prevMonday);
+            const prevWeekEnd = formatDate(prevSunday);
+            
             // API에서 데이터 가져오기
-            const res = await api({
-                action: 'getStudentWeeklyReport',
-                floor: floor,
-                name: name,
-                weekStart: weekStart,
-                weekEnd: weekEnd
-            });
+            const [res, prevRes] = await Promise.all([
+                api({
+                    action: 'getStudentWeeklyReport',
+                    floor: floor,
+                    name: name,
+                    weekStart: weekStart,
+                    weekEnd: weekEnd
+                }),
+                api({
+                    action: 'getStudentWeeklyReport',
+                    floor: floor,
+                    name: name,
+                    weekStart: prevWeekStart,
+                    weekEnd: prevWeekEnd
+                })
+            ]);
             
             // 학생 정보
             document.getElementById('reportStudentName').textContent = name;
+            document.getElementById('reportFloor').textContent = floor;
             document.getElementById('reportPeriod').textContent = 
                 `${monday.getFullYear()}.${monday.getMonth()+1}.${monday.getDate()}(${['일','월','화','수','목','금','토'][monday.getDay()]}) ~ ${sunday.getMonth()+1}.${sunday.getDate()}(${['일','월','화','수','목','금','토'][sunday.getDay()]})`;
             
+            let rate = 0;
+            let prevRate = 0;
+            
             if (res.success && res.report) {
                 const r = res.report;
+                rate = r.rate || 0;
+                
                 document.getElementById('rptCompleted').textContent = r.completed || 0;
                 document.getElementById('rptPlanned').textContent = r.planned || 0;
-                document.getElementById('rptTime').textContent = ((r.totalTime || 0) / 60).toFixed(1) + 'h';
-                document.getElementById('rptRate').textContent = r.rate + '%';
+                
+                const totalHours = ((r.totalTime || 0) / 60).toFixed(1);
+                document.getElementById('rptTime').textContent = totalHours > 0 ? totalHours + 'h' : '0h';
+                document.getElementById('rptRate').textContent = rate + '%';
                 document.getElementById('rptStreak').textContent = r.streak || 0;
+                
+                // 학습 요일 표시
+                const studyDays = r.studyDays || 0;
+                const studyDayNames = r.studyDayNames || [];
+                document.getElementById('rptStudyDays').textContent = 
+                    studyDayNames.length > 0 ? `${studyDayNames.join(', ')} (${studyDays}일)` : `${studyDays}일`;
+                
+                // 최고 집중일
+                document.getElementById('rptBestDay').textContent = r.bestDay || '-';
+                
+                // 층 랭킹
+                document.getElementById('rptRanking').textContent = r.ranking ? `${r.ranking}위` : '-';
                 
                 // 과목별 학습시간 바
                 renderSubjectBars('rptSubjectBars', r.subjectTime || {});
@@ -1348,14 +1479,63 @@
                 // 현재 데이터에서 가져오기
                 const student = allStudents.find(s => s.floor === floor && s.name === name);
                 if (student) {
+                    rate = student.rate || 0;
                     document.getElementById('rptCompleted').textContent = student.completed || 0;
                     document.getElementById('rptPlanned').textContent = student.planned || 0;
                     document.getElementById('rptTime').textContent = ((student.totalTime || 0) / 60).toFixed(1) + 'h';
-                    document.getElementById('rptRate').textContent = student.rate + '%';
+                    document.getElementById('rptRate').textContent = rate + '%';
                     document.getElementById('rptStreak').textContent = '0';
+                    document.getElementById('rptStudyDays').textContent = '-';
+                    document.getElementById('rptBestDay').textContent = '-';
+                    document.getElementById('rptRanking').textContent = '-';
                     document.getElementById('rptSubjectBars').innerHTML = '<div style="color:#888;text-align:center;padding:20px;">과목별 데이터 없음</div>';
                 }
             }
+            
+            // 전주 대비 비교
+            if (prevRes.success && prevRes.report) {
+                prevRate = prevRes.report.rate || 0;
+            }
+            
+            const rateDiff = rate - prevRate;
+            const compareEl = document.getElementById('rptRateCompare');
+            if (rateDiff > 0) {
+                compareEl.textContent = `전주 대비 +${rateDiff}% ↑`;
+                compareEl.className = 'stat-compare up';
+            } else if (rateDiff < 0) {
+                compareEl.textContent = `전주 대비 ${rateDiff}% ↓`;
+                compareEl.className = 'stat-compare down';
+            } else {
+                compareEl.textContent = '전주와 동일';
+                compareEl.className = 'stat-compare same';
+            }
+            
+            // 실천율에 따른 색상
+            const rateBox = document.getElementById('rptRateBox');
+            rateBox.classList.remove('rate-high', 'rate-mid', 'rate-low');
+            if (rate >= 80) {
+                rateBox.classList.add('rate-high');
+            } else if (rate >= 50) {
+                rateBox.classList.add('rate-mid');
+            } else {
+                rateBox.classList.add('rate-low');
+            }
+            
+            // 자동 메시지 제안
+            const commentEl = document.getElementById('rptComment');
+            if (!commentEl.value || commentEl.dataset.auto === 'true') {
+                if (rate >= 80) {
+                    commentEl.value = '이번 주 정말 잘했어요! 꾸준히 노력하는 모습이 보기 좋습니다. 👏';
+                } else if (rate >= 50) {
+                    commentEl.value = '조금만 더 힘내면 목표 달성할 수 있어요! 화이팅! 💪';
+                } else {
+                    commentEl.value = '다음 주는 계획을 세우고 더 열심히 해봐요. 응원합니다! 📚';
+                }
+                commentEl.dataset.auto = 'true';
+            }
+            
+            // 랭킹 계산
+            calculateAndShowRanking(floor, name, 'rptRanking');
         }
         
         async function loadMonthlyReport(floor, name) {
@@ -1379,17 +1559,41 @@
             
             // 학생 정보
             document.getElementById('monthStudentName').textContent = name;
+            document.getElementById('monthFloor').textContent = floor;
             document.getElementById('monthPeriod').textContent = `${year}년 ${month}월`;
+            
+            let rate = 0;
             
             if (res.success && res.report) {
                 const r = res.report;
+                rate = r.rate || 0;
+                
                 document.getElementById('monthCompleted').textContent = r.completed || 0;
                 document.getElementById('monthPlanned').textContent = r.planned || 0;
                 document.getElementById('monthTime').textContent = ((r.totalTime || 0) / 60).toFixed(1) + 'h';
-                document.getElementById('monthRate').textContent = r.rate + '%';
+                document.getElementById('monthRate').textContent = rate + '%';
+                
+                // 출석률 (학습한 날 / 전체 평일)
+                const totalDays = r.totalDays || 0;
+                const weekdaysInMonth = getWeekdaysInMonth(year, month);
+                const attendance = weekdaysInMonth > 0 ? Math.round(totalDays / weekdaysInMonth * 100) : 0;
+                document.getElementById('monthAttendance').textContent = `${totalDays}일 / ${weekdaysInMonth}일 (${attendance}%)`;
+                
+                // 최고 집중주
+                const weeklyRates = r.weeklyRates || [];
+                if (weeklyRates.length > 0) {
+                    const maxRate = Math.max(...weeklyRates);
+                    const bestWeekIdx = weeklyRates.indexOf(maxRate);
+                    document.getElementById('monthBestWeek').textContent = `${bestWeekIdx + 1}주차 (${maxRate}%)`;
+                } else {
+                    document.getElementById('monthBestWeek').textContent = '-';
+                }
+                
+                // 층 랭킹
+                document.getElementById('monthRanking').textContent = r.ranking ? `${r.ranking}위` : '-';
                 
                 // 주차별 추이
-                renderWeeklyTrend(r.weeklyRates || []);
+                renderWeeklyTrend(weeklyRates);
                 
                 // 성과
                 renderAchievements(r);
@@ -1400,14 +1604,68 @@
                 // 기본 데이터
                 const student = allStudents.find(s => s.floor === floor && s.name === name);
                 if (student) {
+                    rate = student.rate || 0;
                     document.getElementById('monthCompleted').textContent = student.completed || 0;
                     document.getElementById('monthPlanned').textContent = student.planned || 0;
                     document.getElementById('monthTime').textContent = ((student.totalTime || 0) / 60).toFixed(1) + 'h';
-                    document.getElementById('monthRate').textContent = student.rate + '%';
+                    document.getElementById('monthRate').textContent = rate + '%';
                 }
+                document.getElementById('monthAttendance').textContent = '-';
+                document.getElementById('monthBestWeek').textContent = '-';
+                document.getElementById('monthRanking').textContent = '-';
                 document.getElementById('monthWeeklyTrend').innerHTML = '<div style="color:#888;text-align:center;padding:20px;">주차별 데이터 없음</div>';
                 document.getElementById('monthAchievements').innerHTML = '';
                 document.getElementById('monthSubjectBars').innerHTML = '<div style="color:#888;text-align:center;padding:20px;">과목별 데이터 없음</div>';
+            }
+            
+            // 실천율에 따른 색상
+            const rateBox = document.getElementById('monthRateBox');
+            rateBox.classList.remove('rate-high', 'rate-mid', 'rate-low');
+            if (rate >= 80) {
+                rateBox.classList.add('rate-high');
+            } else if (rate >= 50) {
+                rateBox.classList.add('rate-mid');
+            } else {
+                rateBox.classList.add('rate-low');
+            }
+            
+            // 자동 메시지 제안
+            const commentEl = document.getElementById('monthComment');
+            if (!commentEl.value || commentEl.dataset.auto === 'true') {
+                if (rate >= 80) {
+                    commentEl.value = `${month}월 한 달 정말 수고했어요! 꾸준한 노력이 빛나는 한 달이었습니다. 👏`;
+                } else if (rate >= 50) {
+                    commentEl.value = `${month}월도 열심히 했어요! 다음 달은 더 높은 목표에 도전해봐요! 💪`;
+                } else {
+                    commentEl.value = `${month}월은 조금 아쉬웠지만, 다음 달은 새로운 마음으로 시작해봐요! 📚`;
+                }
+                commentEl.dataset.auto = 'true';
+            }
+            
+            // 랭킹 계산
+            calculateAndShowRanking(floor, name, 'monthRanking');
+        }
+        
+        // 해당 월의 평일 수 계산
+        function getWeekdaysInMonth(year, month) {
+            let count = 0;
+            const lastDay = new Date(year, month, 0).getDate();
+            for (let d = 1; d <= lastDay; d++) {
+                const day = new Date(year, month - 1, d).getDay();
+                if (day !== 0 && day !== 6) count++; // 토, 일 제외
+            }
+            return count;
+        }
+        
+        // 랭킹 계산 및 표시
+        function calculateAndShowRanking(floor, name, elementId) {
+            const floorStudents = allStudents.filter(s => s.floor === floor);
+            const sorted = [...floorStudents].sort((a, b) => (b.rate || 0) - (a.rate || 0));
+            const rank = sorted.findIndex(s => s.name === name) + 1;
+            const total = floorStudents.length;
+            
+            if (rank > 0) {
+                document.getElementById(elementId).textContent = `${rank}위 / ${total}명`;
             }
         }
         

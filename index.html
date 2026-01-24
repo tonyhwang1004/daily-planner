@@ -1398,6 +1398,8 @@ function createRoadmap() {
     const goalNames = { 'top10': '상위권 대학', 'mid': '중상위권 대학', 'improve': '성적 향상', 'weak': '취약 과목 극복' };
     roadmapData = { goal: goalNames[goal], period: parseInt(period), dailyHours: parseInt(hours), startDate: fmt(new Date()) };
     localStorage.setItem(`roadmap_${user.name}`, JSON.stringify(roadmapData));
+                                     // API 저장
+    api({ action: 'saveRoadmap', floor: user.floor, name: user.name, ...roadmapData });
     displayRoadmapResult();
     toast('로드맵 생성 완료!', 'success');
 }
@@ -3040,6 +3042,8 @@ function submitCondition() {
     
     const result = { date: fmt(new Date()), ...conditionData, score };
     localStorage.setItem(`condition_${user.name}_${fmt(new Date())}`, JSON.stringify(result));
+    // API 저장
+    api({ action: 'saveCondition', floor: user.floor, name: user.name, ...result });
     displayCareResult(result);
     toast('컨디션 체크 완료!', 'success');
 }
@@ -3118,6 +3122,8 @@ function startStyleTest() {
     
     styleData = { code, name: typeNames[code], tips: allTips[code] };
     localStorage.setItem(`style_${user.name}`, JSON.stringify(styleData));
+    // API 저장
+    api({ action: 'saveStyle', floor: user.floor, name: user.name, ...styleData, date: fmt(new Date()) });
     displayStyleResult();
     toast('성향 진단 완료!', 'success');
 }

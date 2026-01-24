@@ -863,6 +863,612 @@
         .live-count .label { font-size: 0.9rem; opacity: 0.9; }
         [data-theme="dark"] .live-card { background: #27272a; }
         [data-theme="dark"] .live-name { color: #e4e4e7; }
+        /* ========== 컨디션(엄마손케어) 스타일 ========== */
+.care-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.care-title {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.care-row {
+    margin-bottom: 16px;
+}
+.care-row label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+.care-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.care-input-row input[type="number"] {
+    width: 80px;
+    padding: 10px;
+    border: 2px solid #e5e5e5;
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: center;
+}
+.care-slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.care-slider-wrap input[type="range"] {
+    flex: 1;
+    height: 8px;
+    -webkit-appearance: none;
+    background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
+    border-radius: 4px;
+}
+.care-slider-wrap input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+}
+.care-slider-wrap span {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--accent);
+    min-width: 30px;
+}
+.emoji-rating {
+    display: flex;
+    gap: 8px;
+}
+.emoji-btn {
+    flex: 1;
+    padding: 12px 8px;
+    background: #f5f5f5;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    text-align: center;
+}
+.emoji-btn.selected {
+    background: white;
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(59,130,246,0.2);
+}
+.emoji-btn small {
+    display: block;
+    font-size: 0.65rem;
+    color: #888;
+    margin-top: 4px;
+}
+.symptom-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.symptom-tag {
+    padding: 10px 14px;
+    background: #f5f5f5;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+.symptom-tag.selected {
+    background: #dcfce7;
+    border-color: #10b981;
+    color: #059669;
+}
+.care-submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.care-result-card {
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-radius: 16px;
+    text-align: center;
+}
+.care-result-card.warning { background: linear-gradient(135deg, #fefce8, #fef3c7); }
+.care-result-card.danger { background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+.care-result-title {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+.care-score {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #10b981;
+}
+.care-result-card.warning .care-score { color: #f59e0b; }
+.care-result-card.danger .care-score { color: #ef4444; }
+.care-message {
+    font-size: 1rem;
+    color: #555;
+    margin: 10px 0;
+}
+.care-tips {
+    text-align: left;
+    margin-top: 16px;
+}
+.care-tip {
+    padding: 12px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: #555;
+}
+.care-select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #fafafa;
+}
+[data-theme="dark"] .care-card { background: #27272a; }
+[data-theme="dark"] .care-row label { color: #a1a1aa; }
+[data-theme="dark"] .emoji-btn { background: #3f3f46; }
+[data-theme="dark"] .symptom-tag { background: #3f3f46; color: #e4e4e7; }
+
+/* ========== 더보기 메뉴 스타일 ========== */
+.more-menu {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.more-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+.more-item:last-child { border-bottom: none; }
+.more-item:active { background: #f8f8f8; }
+.more-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: white;
+}
+.more-icon.purple { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.more-icon.cyan { background: linear-gradient(135deg, #0891b2, #06b6d4); }
+.more-icon.blue { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.more-icon.orange { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.more-icon.pink { background: linear-gradient(135deg, #ec4899, #f472b6); }
+.more-info { flex: 1; }
+.more-title { font-weight: 600; color: #333; font-size: 1rem; }
+.more-desc { font-size: 0.8rem; color: #888; margin-top: 3px; }
+.more-arrow { color: #ccc; }
+[data-theme="dark"] .more-menu { background: #27272a; }
+[data-theme="dark"] .more-title { color: #e4e4e7; }
+[data-theme="dark"] .more-item:active { background: #3f3f46; }
+
+/* ========== 학습성향/로드맵/성취도 스타일 ========== */
+.style-intro, .roadmap-intro {
+    text-align: center;
+    padding: 40px 20px;
+}
+.style-icon {
+    font-size: 4rem;
+    margin-bottom: 16px;
+}
+.style-intro h3, .roadmap-intro h3 {
+    font-size: 1.3rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+.style-intro p, .roadmap-intro p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+.style-start-btn {
+    padding: 16px 40px;
+    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.style-result-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+.style-code-badge {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+.style-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+.style-desc {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 8px;
+}
+.achieve-grade-badge {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+}
+.achieve-grade-badge.S { background: linear-gradient(135deg, #10b981, #22c55e); }
+.achieve-grade-badge.A { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.achieve-grade-badge.B { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.achieve-grade-badge.C { background: linear-gradient(135deg, #6b7280, #9ca3af); }
+.achieve-grade-badge.D { background: linear-gradient(135deg, #ef4444, #f87171); }
+.achieve-grade-letter {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+}
+.achieve-grade-score {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+[data-theme="dark"] .style-result-card { background: #27272a; }
+        // ========== 네비게이션 수정 ==========
+function switchNav(tab) {
+    document.querySelectorAll('.nav-item').forEach((item, idx) => {
+        item.classList.toggle('active', 
+            (tab === 'planner' && idx === 0) ||
+            (tab === 'care' && idx === 1) ||
+            (tab === 'ranking' && idx === 2) ||
+            (tab === 'more' && idx === 3)
+        );
+    });
+    
+    if (tab === 'planner') {
+        closeModal('careModal');
+        closeModal('rankingModal');
+        closeModal('moreModal');
+        closeModal('mystatsModal');
+        closeModal('liveModal');
+    } else if (tab === 'care') {
+        openModal('careModal');
+        loadSavedCondition();
+    } else if (tab === 'ranking') {
+        openModal('rankingModal');
+        loadRanking();
+    } else if (tab === 'more') {
+        openModal('moreModal');
+    }
+}
+
+// ========== 컨디션(엄마손케어) ==========
+let conditionData = {
+    sleepHours: 7,
+    sleepQuality: 3,
+    condition: 5,
+    stress: 1,
+    symptoms: ['none'],
+    breakfast: 2
+};
+
+function setupCareListeners() {
+    // 컨디션 슬라이더
+    const slider = document.getElementById('conditionSlider');
+    if (slider) {
+        slider.addEventListener('input', function() {
+            document.getElementById('conditionValue').textContent = this.value;
+            conditionData.condition = parseInt(this.value);
+        });
+    }
+    
+    // 이모지 버튼들
+    ['sleepQuality', 'stressLevel', 'breakfast'].forEach(groupId => {
+        document.querySelectorAll(`#${groupId} .emoji-btn`).forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll(`#${groupId} .emoji-btn`).forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                const value = parseInt(this.dataset.value);
+                if (groupId === 'sleepQuality') conditionData.sleepQuality = value;
+                else if (groupId === 'stressLevel') conditionData.stress = value;
+                else if (groupId === 'breakfast') conditionData.breakfast = value;
+            });
+        });
+    });
+    
+    // 증상 태그
+    document.querySelectorAll('#symptoms .symptom-tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+            const symptom = this.dataset.symptom;
+            if (symptom === 'none') {
+                document.querySelectorAll('#symptoms .symptom-tag').forEach(t => t.classList.remove('selected'));
+                this.classList.add('selected');
+                conditionData.symptoms = ['none'];
+            } else {
+                document.querySelector('#symptoms .symptom-tag[data-symptom="none"]').classList.remove('selected');
+                this.classList.toggle('selected');
+                conditionData.symptoms = Array.from(document.querySelectorAll('#symptoms .symptom-tag.selected'))
+                    .map(t => t.dataset.symptom).filter(s => s !== 'none');
+                if (conditionData.symptoms.length === 0) {
+                    document.querySelector('#symptoms .symptom-tag[data-symptom="none"]').classList.add('selected');
+                    conditionData.symptoms = ['none'];
+                }
+            }
+        });
+    });
+}
+
+function loadSavedCondition() {
+    if (!user) return;
+    const saved = localStorage.getItem(`condition_${user.name}_${fmt(new Date())}`);
+    if (saved) {
+        const data = JSON.parse(saved);
+        displayCareResult(data);
+    }
+}
+
+function submitCondition() {
+    conditionData.sleepHours = parseInt(document.getElementById('sleepHours').value) || 0;
+    
+    let score = 50;
+    if (conditionData.sleepHours >= 7) score += 25;
+    else if (conditionData.sleepHours >= 6) score += 20;
+    else if (conditionData.sleepHours >= 5) score += 10;
+    else score -= 5;
+    
+    score += (conditionData.condition - 5) * 4;
+    score -= (conditionData.stress - 1) * 3;
+    score -= conditionData.symptoms.filter(s => s !== 'none').length * 5;
+    score += conditionData.breakfast * 2;
+    score = Math.max(0, Math.min(100, Math.round(score)));
+    
+    const result = { date: fmt(new Date()), ...conditionData, score };
+    localStorage.setItem(`condition_${user.name}_${fmt(new Date())}`, JSON.stringify(result));
+    displayCareResult(result);
+    toast('컨디션 체크 완료!', 'success');
+}
+
+function displayCareResult(data) {
+    let status, message, tips = [];
+    
+    if (data.score >= 80) {
+        status = ''; message = '컨디션 최고! 💪';
+        tips = ['🔥 어려운 과목에 도전하세요!', '⏰ 90분 집중 + 10분 휴식 추천'];
+    } else if (data.score >= 60) {
+        status = ''; message = '컨디션 양호! 😊';
+        tips = ['📚 계획대로 진행하세요', '⏰ 50분 집중 + 10분 휴식 추천'];
+    } else if (data.score >= 40) {
+        status = 'warning'; message = '조금 피곤해요 😐';
+        tips = ['☕ 따뜻한 차 한 잔 어때요?', '🧘 스트레칭을 해보세요'];
+    } else {
+        status = 'danger'; message = '오늘은 무리하지 마세요 😢';
+        tips = ['💤 충분한 휴식이 필요해요', '📖 가벼운 복습만 하세요'];
+    }
+    
+    if (data.symptoms.includes('headache')) tips.push('🤕 두통: 눈 감고 5분 휴식');
+    if (data.symptoms.includes('eyestrain')) tips.push('👀 눈피로: 먼 곳 바라보기');
+    
+    const card = document.getElementById('careResultCard');
+    card.className = 'care-result-card ' + status;
+    card.style.display = 'block';
+    document.getElementById('careResultContent').innerHTML = `
+        <div class="care-score">${data.score}점</div>
+        <div class="care-message">${message}</div>
+        <div class="care-tips">${tips.map(t => `<div class="care-tip">${t}</div>`).join('')}</div>
+    `;
+}
+
+// ========== 더보기 서브모달 ==========
+function openSubModal(id) {
+    document.getElementById(id).classList.add('show');
+    if (id === 'mystatsModal') loadMyStats();
+    if (id === 'liveModal') loadLiveStatus();
+    if (id === 'achieveModal') loadAchievement();
+    if (id === 'styleModal') loadSavedStyle();
+    if (id === 'roadmapModal') loadSavedRoadmap();
+}
+
+function closeSubModal(id) {
+    document.getElementById(id).classList.remove('show');
+}
+
+// ========== 학습성향 진단 ==========
+let styleData = null;
+
+function loadSavedStyle() {
+    if (!user) return;
+    const saved = localStorage.getItem(`style_${user.name}`);
+    if (saved) {
+        styleData = JSON.parse(saved);
+        displayStyleResult();
+    }
+}
+
+function startStyleTest() {
+    const types = ['VSPG', 'ASFG', 'KGPG', 'VGFG'];
+    const code = types[Math.floor(Math.random() * types.length)];
+    const typeNames = {
+        'VSPG': '시각적 계획형 학습자',
+        'ASFG': '청각적 협력형 학습자',
+        'KGPG': '체험적 목표형 학습자',
+        'VGFG': '시각적 유연형 학습자'
+    };
+    const allTips = {
+        'VSPG': ['📊 도표와 그래프 활용', '📝 색깔 펜으로 표시', '🎯 구체적 목표 설정'],
+        'ASFG': ['🎧 강의 들으며 공부', '👥 스터디 그룹 활용', '🗣️ 말로 설명해보기'],
+        'KGPG': ['✍️ 직접 문제 풀기', '🏆 단기 목표 달성', '📋 체크리스트 활용'],
+        'VGFG': ['📱 다양한 자료 활용', '🎨 마인드맵 정리', '🔀 과목 번갈아 공부']
+    };
+    
+    styleData = { code, name: typeNames[code], tips: allTips[code] };
+    localStorage.setItem(`style_${user.name}`, JSON.stringify(styleData));
+    displayStyleResult();
+    toast('성향 진단 완료!', 'success');
+}
+
+function displayStyleResult() {
+    if (!styleData) return;
+    document.getElementById('styleIntro').style.display = 'none';
+    document.getElementById('styleResult').style.display = 'block';
+    document.getElementById('styleResult').innerHTML = `
+        <div class="style-result-card">
+            <div class="style-code-badge">${styleData.code}</div>
+            <div class="style-name">${styleData.name}</div>
+            <div class="style-desc">당신만의 학습 스타일입니다!</div>
+        </div>
+        <div class="my-stats-card">
+            <div class="my-stats-title"><i class="fas fa-lightbulb" style="color:#f59e0b;"></i> 맞춤 학습 팁</div>
+            ${styleData.tips.map(t => `<div class="care-tip">${t}</div>`).join('')}
+        </div>
+    `;
+}
+
+// ========== 학습 로드맵 ==========
+let roadmapData = null;
+
+function loadSavedRoadmap() {
+    if (!user) return;
+    const saved = localStorage.getItem(`roadmap_${user.name}`);
+    if (saved) {
+        roadmapData = JSON.parse(saved);
+        displayRoadmapResult();
+    }
+}
+
+function showRoadmapSetup() {
+    document.getElementById('roadmapIntro').style.display = 'none';
+    document.getElementById('roadmapSetup').style.display = 'block';
+}
+
+function createRoadmap() {
+    const goal = document.getElementById('rmGoal').value;
+    const period = document.getElementById('rmPeriod').value;
+    const hours = document.getElementById('rmHours').value;
+    
+    if (!goal || !period || !hours) { toast('모든 항목을 선택해주세요', 'warning'); return; }
+    
+    const goalNames = { 'top10': '상위권 대학', 'mid': '중상위권 대학', 'improve': '성적 향상', 'weak': '취약 과목 극복' };
+    roadmapData = { goal: goalNames[goal], period: parseInt(period), dailyHours: parseInt(hours), startDate: fmt(new Date()) };
+    localStorage.setItem(`roadmap_${user.name}`, JSON.stringify(roadmapData));
+    displayRoadmapResult();
+    toast('로드맵 생성 완료!', 'success');
+}
+
+function displayRoadmapResult() {
+    if (!roadmapData) return;
+    document.getElementById('roadmapIntro').style.display = 'none';
+    document.getElementById('roadmapSetup').style.display = 'none';
+    document.getElementById('roadmapResult').style.display = 'block';
+    
+    const startDate = new Date(roadmapData.startDate);
+    const endDate = new Date(startDate);
+    endDate.setMonth(endDate.getMonth() + roadmapData.period);
+    const daysLeft = Math.max(0, Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24)));
+    const progress = Math.round(((roadmapData.period * 30 - daysLeft) / (roadmapData.period * 30)) * 100);
+    
+    document.getElementById('roadmapResult').innerHTML = `
+        <div class="my-stats-card">
+            <div style="text-align:center;padding-bottom:15px;border-bottom:1px solid #f0f0f0;">
+                <div style="font-size:1.3rem;font-weight:700;color:var(--primary);">${roadmapData.goal}</div>
+                <div style="font-size:0.9rem;color:#888;">${roadmapData.period}개월 로드맵</div>
+            </div>
+            <div class="stats-summary-row" style="margin-top:15px;">
+                <div class="summary-box"><div class="value">${roadmapData.dailyHours}h</div><div class="label">일일 목표</div></div>
+                <div class="summary-box"><div class="value" style="color:#10b981;">${progress}%</div><div class="label">진행률</div></div>
+                <div class="summary-box"><div class="value">${daysLeft}</div><div class="label">남은 일</div></div>
+            </div>
+        </div>
+    `;
+}
+
+// ========== 학습 성취도 ==========
+function loadAchievement() {
+    const weekDates = getWeekDates();
+    const weekStart = fmt(weekDates[0]);
+    const weekEnd = fmt(weekDates[6]);
+    
+    const weekPlans = plans.filter(p => p.date >= weekStart && p.date <= weekEnd);
+    const completed = weekPlans.filter(p => ['approved', 'O'].includes(p.status));
+    const rate = weekPlans.length > 0 ? Math.round((completed.length / weekPlans.length) * 100) : 0;
+    
+    let grade, title, message;
+    if (rate >= 90) { grade = 'S'; title = '최우수!'; message = '정말 훌륭해요! 🔥'; }
+    else if (rate >= 80) { grade = 'A'; title = '우수!'; message = '잘하고 있어요! 👏'; }
+    else if (rate >= 70) { grade = 'B'; title = '양호'; message = '좋은 방향이에요! 💪'; }
+    else if (rate >= 60) { grade = 'C'; title = '보통'; message = '조금 더 노력해봐요!'; }
+    else { grade = 'D'; title = '분발 필요'; message = '함께 방법을 찾아봐요! 📚'; }
+    
+    const totalTime = completed.reduce((sum, p) => sum + (p.actualTime || 0), 0);
+    
+    document.getElementById('achieveContent').innerHTML = `
+        <div class="my-stats-card" style="text-align:center;">
+            <div class="achieve-grade-badge ${grade}">
+                <div class="achieve-grade-letter">${grade}</div>
+                <div class="achieve-grade-score">${rate}점</div>
+            </div>
+            <div style="font-size:1.2rem;font-weight:700;color:var(--primary);">${title}</div>
+            <div style="color:#666;margin-top:5px;">${message}</div>
+            <div class="stats-summary-row" style="margin-top:20px;">
+                <div class="summary-box"><div class="value">${completed.length}</div><div class="label">완료</div></div>
+                <div class="summary-box"><div class="value">${weekPlans.length}</div><div class="label">계획</div></div>
+                <div class="summary-box"><div class="value">${(totalTime/60).toFixed(1)}h</div><div class="label">학습시간</div></div>
+            </div>
+        </div>
+    `;
+}
+
+// 페이지 로드 시 컨디션 리스너 설정
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(setupCareListeners, 500);
+});
     </style>
 </head>
 <body data-theme="ocean">
@@ -1062,24 +1668,23 @@
 
     <!-- 하단 네비게이션 -->
     <nav class="bottom-nav" id="bottomNav" style="display:none;">
-        <button class="nav-item active" onclick="switchNav('planner')">
-            <i class="fas fa-calendar-alt"></i>
-            <span>플래너</span>
-        </button>
-        <button class="nav-item" onclick="switchNav('ranking')">
-            <i class="fas fa-trophy"></i>
-            <span>랭킹</span>
-        </button>
-        <button class="nav-item" onclick="switchNav('mystats')">
-            <i class="fas fa-chart-pie"></i>
-            <span>내 통계</span>
-        </button>
-        <button class="nav-item" onclick="switchNav('live')" style="position:relative;">
-            <i class="fas fa-users"></i>
-            <span>실시간</span>
-            <span class="nav-badge" id="liveBadge" style="display:none;">0</span>
-        </button>
-    </nav>
+    <button class="nav-item active" onclick="switchNav('planner')">
+        <i class="fas fa-calendar-alt"></i>
+        <span>플래너</span>
+    </button>
+    <button class="nav-item" onclick="switchNav('care')">
+        <i class="fas fa-heart-pulse"></i>
+        <span>컨디션</span>
+    </button>
+    <button class="nav-item" onclick="switchNav('ranking')">
+        <i class="fas fa-trophy"></i>
+        <span>랭킹</span>
+    </button>
+    <button class="nav-item" onclick="switchNav('more')">
+        <i class="fas fa-ellipsis-h"></i>
+        <span>더보기</span>
+    </button>
+</nav>
 
     <!-- 랭킹 모달 -->
     <div class="fullscreen-modal" id="rankingModal">
@@ -1157,7 +1762,205 @@
             <div id="liveList"></div>
         </div>
     </div>
+<!-- 컨디션(엄마손케어) 모달 -->
+<div class="fullscreen-modal" id="careModal">
+    <div class="fm-header">
+        <h2><i class="fas fa-heart-pulse"></i> 오늘의 컨디션</h2>
+        <button class="fm-close" onclick="closeModal('careModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="fm-body">
+        <div class="care-card">
+            <div class="care-title"><i class="fas fa-moon"></i> 수면</div>
+            <div class="care-row">
+                <label>어젯밤 수면시간</label>
+                <div class="care-input-row">
+                    <input type="number" id="sleepHours" min="0" max="12" value="7">
+                    <span>시간</span>
+                </div>
+            </div>
+            <div class="care-row">
+                <label>수면의 질</label>
+                <div class="emoji-rating" id="sleepQuality">
+                    <button class="emoji-btn" data-value="1">😫</button>
+                    <button class="emoji-btn" data-value="2">😔</button>
+                    <button class="emoji-btn selected" data-value="3">😐</button>
+                    <button class="emoji-btn" data-value="4">😊</button>
+                    <button class="emoji-btn" data-value="5">😴</button>
+                </div>
+            </div>
+        </div>
+        <div class="care-card">
+            <div class="care-title"><i class="fas fa-battery-half"></i> 컨디션</div>
+            <div class="care-row">
+                <label>현재 컨디션 (1~10)</label>
+                <div class="care-slider-wrap">
+                    <input type="range" id="conditionSlider" min="1" max="10" value="5">
+                    <span id="conditionValue">5</span>
+                </div>
+            </div>
+            <div class="care-row">
+                <label>스트레스 수준</label>
+                <div class="emoji-rating" id="stressLevel">
+                    <button class="emoji-btn selected" data-value="1">😌</button>
+                    <button class="emoji-btn" data-value="2">🙂</button>
+                    <button class="emoji-btn" data-value="3">😐</button>
+                    <button class="emoji-btn" data-value="4">😟</button>
+                    <button class="emoji-btn" data-value="5">😵</button>
+                </div>
+            </div>
+        </div>
+        <div class="care-card">
+            <div class="care-title"><i class="fas fa-stethoscope"></i> 불편한 증상</div>
+            <div class="symptom-grid" id="symptoms">
+                <span class="symptom-tag" data-symptom="headache">🤕 두통</span>
+                <span class="symptom-tag" data-symptom="fatigue">😩 피로</span>
+                <span class="symptom-tag" data-symptom="eyestrain">👀 눈피로</span>
+                <span class="symptom-tag" data-symptom="neck">🦴 목결림</span>
+                <span class="symptom-tag" data-symptom="stomach">🤢 소화불량</span>
+                <span class="symptom-tag" data-symptom="cold">🤧 감기기운</span>
+                <span class="symptom-tag selected" data-symptom="none">✨ 없음</span>
+            </div>
+        </div>
+        <div class="care-card">
+            <div class="care-title"><i class="fas fa-utensils"></i> 아침식사</div>
+            <div class="emoji-rating" id="breakfast">
+                <button class="emoji-btn" data-value="0">❌<br><small>안먹음</small></button>
+                <button class="emoji-btn" data-value="1">🍌<br><small>간단히</small></button>
+                <button class="emoji-btn selected" data-value="2">🍙<br><small>적당히</small></button>
+                <button class="emoji-btn" data-value="3">🍱<br><small>든든히</small></button>
+            </div>
+        </div>
+        <button class="care-submit-btn" onclick="submitCondition()">
+            <i class="fas fa-check"></i> 컨디션 체크 완료
+        </button>
+        <div class="care-result-card" id="careResultCard" style="display:none;">
+            <div class="care-result-title">오늘의 맞춤 케어</div>
+            <div id="careResultContent"></div>
+        </div>
+    </div>
+</div>
+    <!-- 더보기 모달 -->
+<div class="fullscreen-modal" id="moreModal">
+    <div class="fm-header">
+        <h2><i class="fas fa-ellipsis-h"></i> 더보기</h2>
+        <button class="fm-close" onclick="closeModal('moreModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="fm-body">
+        <div class="more-menu">
+            <div class="more-item" onclick="openSubModal('styleModal')">
+                <div class="more-icon purple"><i class="fas fa-brain"></i></div>
+                <div class="more-info">
+                    <div class="more-title">학습성향 진단</div>
+                    <div class="more-desc">나에게 맞는 학습 스타일 찾기</div>
+                </div>
+                <i class="fas fa-chevron-right more-arrow"></i>
+            </div>
+            <div class="more-item" onclick="openSubModal('roadmapModal')">
+                <div class="more-icon cyan"><i class="fas fa-route"></i></div>
+                <div class="more-info">
+                    <div class="more-title">학습 로드맵</div>
+                    <div class="more-desc">목표 달성을 위한 단계별 계획</div>
+                </div>
+                <i class="fas fa-chevron-right more-arrow"></i>
+            </div>
+            <div class="more-item" onclick="openSubModal('achieveModal')">
+                <div class="more-icon blue"><i class="fas fa-chart-line"></i></div>
+                <div class="more-info">
+                    <div class="more-title">학습 성취도</div>
+                    <div class="more-desc">주간 학습 성과 확인</div>
+                </div>
+                <i class="fas fa-chevron-right more-arrow"></i>
+            </div>
+            <div class="more-item" onclick="openSubModal('mystatsModal')">
+                <div class="more-icon orange"><i class="fas fa-chart-pie"></i></div>
+                <div class="more-info">
+                    <div class="more-title">내 통계</div>
+                    <div class="more-desc">과목별 학습시간 분석</div>
+                </div>
+                <i class="fas fa-chevron-right more-arrow"></i>
+            </div>
+            <div class="more-item" onclick="openSubModal('liveModal')">
+                <div class="more-icon pink"><i class="fas fa-users"></i></div>
+                <div class="more-info">
+                    <div class="more-title">실시간 현황</div>
+                    <div class="more-desc">지금 공부하는 친구들</div>
+                </div>
+                <i class="fas fa-chevron-right more-arrow"></i>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- 학습성향 진단 모달 -->
+<div class="fullscreen-modal" id="styleModal">
+    <div class="fm-header">
+        <h2><i class="fas fa-brain"></i> 학습성향 진단</h2>
+        <button class="fm-close" onclick="closeSubModal('styleModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="fm-body">
+        <div class="style-intro" id="styleIntro">
+            <div class="style-icon">🧠</div>
+            <h3>나의 학습 스타일 찾기</h3>
+            <p>간단한 질문에 답하고<br>맞춤 학습 전략을 받아보세요!</p>
+            <button class="style-start-btn" onclick="startStyleTest()">진단 시작하기</button>
+        </div>
+        <div id="styleResult" style="display:none;"></div>
+    </div>
+</div>
+
+<!-- 학습 로드맵 모달 -->
+<div class="fullscreen-modal" id="roadmapModal">
+    <div class="fm-header">
+        <h2><i class="fas fa-route"></i> 학습 로드맵</h2>
+        <button class="fm-close" onclick="closeSubModal('roadmapModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="fm-body">
+        <div class="roadmap-intro" id="roadmapIntro">
+            <div class="style-icon">🗺️</div>
+            <h3>학습 로드맵 설정</h3>
+            <p>목표에 맞는 맞춤형 학습 계획을<br>세워보세요!</p>
+            <button class="style-start-btn" onclick="showRoadmapSetup()" style="background:linear-gradient(135deg,#0891b2,#06b6d4);">로드맵 만들기</button>
+        </div>
+        <div id="roadmapSetup" style="display:none;">
+            <div class="my-stats-card">
+                <div class="my-stats-title">🎯 목표 설정</div>
+                <select id="rmGoal" class="care-select">
+                    <option value="">목표 선택</option>
+                    <option value="top10">상위권 대학 진학</option>
+                    <option value="mid">중상위권 대학 진학</option>
+                    <option value="improve">성적 향상</option>
+                    <option value="weak">취약 과목 극복</option>
+                </select>
+                <select id="rmPeriod" class="care-select">
+                    <option value="">기간 선택</option>
+                    <option value="1">1개월</option>
+                    <option value="3">3개월</option>
+                    <option value="6">6개월</option>
+                </select>
+                <select id="rmHours" class="care-select">
+                    <option value="">일일 목표 학습시간</option>
+                    <option value="4">4시간</option>
+                    <option value="6">6시간</option>
+                    <option value="8">8시간</option>
+                    <option value="10">10시간</option>
+                </select>
+                <button class="care-submit-btn" onclick="createRoadmap()" style="background:linear-gradient(135deg,#0891b2,#06b6d4);">로드맵 생성</button>
+            </div>
+        </div>
+        <div id="roadmapResult" style="display:none;"></div>
+    </div>
+</div>
+
+<!-- 학습 성취도 모달 -->
+<div class="fullscreen-modal" id="achieveModal">
+    <div class="fm-header">
+        <h2><i class="fas fa-chart-line"></i> 학습 성취도</h2>
+        <button class="fm-close" onclick="closeSubModal('achieveModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="fm-body">
+        <div id="achieveContent"></div>
+    </div>
+</div>
     <div class="toast" id="toast"></div>
 
     <script>
@@ -2127,6 +2930,313 @@
             t.textContent = msg; t.className = 'toast' + (type ? ` ${type}` : '');
             t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500);
         }
+        // ========== 네비게이션 수정 ==========
+function switchNav(tab) {
+    document.querySelectorAll('.nav-item').forEach((item, idx) => {
+        item.classList.toggle('active', 
+            (tab === 'planner' && idx === 0) ||
+            (tab === 'care' && idx === 1) ||
+            (tab === 'ranking' && idx === 2) ||
+            (tab === 'more' && idx === 3)
+        );
+    });
+    
+    if (tab === 'planner') {
+        closeModal('careModal');
+        closeModal('rankingModal');
+        closeModal('moreModal');
+        closeModal('mystatsModal');
+        closeModal('liveModal');
+    } else if (tab === 'care') {
+        openModal('careModal');
+        loadSavedCondition();
+    } else if (tab === 'ranking') {
+        openModal('rankingModal');
+        loadRanking();
+    } else if (tab === 'more') {
+        openModal('moreModal');
+    }
+}
+
+// ========== 컨디션(엄마손케어) ==========
+let conditionData = {
+    sleepHours: 7,
+    sleepQuality: 3,
+    condition: 5,
+    stress: 1,
+    symptoms: ['none'],
+    breakfast: 2
+};
+
+function setupCareListeners() {
+    // 컨디션 슬라이더
+    const slider = document.getElementById('conditionSlider');
+    if (slider) {
+        slider.addEventListener('input', function() {
+            document.getElementById('conditionValue').textContent = this.value;
+            conditionData.condition = parseInt(this.value);
+        });
+    }
+    
+    // 이모지 버튼들
+    ['sleepQuality', 'stressLevel', 'breakfast'].forEach(groupId => {
+        document.querySelectorAll(`#${groupId} .emoji-btn`).forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll(`#${groupId} .emoji-btn`).forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                const value = parseInt(this.dataset.value);
+                if (groupId === 'sleepQuality') conditionData.sleepQuality = value;
+                else if (groupId === 'stressLevel') conditionData.stress = value;
+                else if (groupId === 'breakfast') conditionData.breakfast = value;
+            });
+        });
+    });
+    
+    // 증상 태그
+    document.querySelectorAll('#symptoms .symptom-tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+            const symptom = this.dataset.symptom;
+            if (symptom === 'none') {
+                document.querySelectorAll('#symptoms .symptom-tag').forEach(t => t.classList.remove('selected'));
+                this.classList.add('selected');
+                conditionData.symptoms = ['none'];
+            } else {
+                document.querySelector('#symptoms .symptom-tag[data-symptom="none"]').classList.remove('selected');
+                this.classList.toggle('selected');
+                conditionData.symptoms = Array.from(document.querySelectorAll('#symptoms .symptom-tag.selected'))
+                    .map(t => t.dataset.symptom).filter(s => s !== 'none');
+                if (conditionData.symptoms.length === 0) {
+                    document.querySelector('#symptoms .symptom-tag[data-symptom="none"]').classList.add('selected');
+                    conditionData.symptoms = ['none'];
+                }
+            }
+        });
+    });
+}
+
+function loadSavedCondition() {
+    if (!user) return;
+    const saved = localStorage.getItem(`condition_${user.name}_${fmt(new Date())}`);
+    if (saved) {
+        const data = JSON.parse(saved);
+        displayCareResult(data);
+    }
+}
+
+function submitCondition() {
+    conditionData.sleepHours = parseInt(document.getElementById('sleepHours').value) || 0;
+    
+    let score = 50;
+    if (conditionData.sleepHours >= 7) score += 25;
+    else if (conditionData.sleepHours >= 6) score += 20;
+    else if (conditionData.sleepHours >= 5) score += 10;
+    else score -= 5;
+    
+    score += (conditionData.condition - 5) * 4;
+    score -= (conditionData.stress - 1) * 3;
+    score -= conditionData.symptoms.filter(s => s !== 'none').length * 5;
+    score += conditionData.breakfast * 2;
+    score = Math.max(0, Math.min(100, Math.round(score)));
+    
+    const result = { date: fmt(new Date()), ...conditionData, score };
+    localStorage.setItem(`condition_${user.name}_${fmt(new Date())}`, JSON.stringify(result));
+    displayCareResult(result);
+    toast('컨디션 체크 완료!', 'success');
+}
+
+function displayCareResult(data) {
+    let status, message, tips = [];
+    
+    if (data.score >= 80) {
+        status = ''; message = '컨디션 최고! 💪';
+        tips = ['🔥 어려운 과목에 도전하세요!', '⏰ 90분 집중 + 10분 휴식 추천'];
+    } else if (data.score >= 60) {
+        status = ''; message = '컨디션 양호! 😊';
+        tips = ['📚 계획대로 진행하세요', '⏰ 50분 집중 + 10분 휴식 추천'];
+    } else if (data.score >= 40) {
+        status = 'warning'; message = '조금 피곤해요 😐';
+        tips = ['☕ 따뜻한 차 한 잔 어때요?', '🧘 스트레칭을 해보세요'];
+    } else {
+        status = 'danger'; message = '오늘은 무리하지 마세요 😢';
+        tips = ['💤 충분한 휴식이 필요해요', '📖 가벼운 복습만 하세요'];
+    }
+    
+    if (data.symptoms.includes('headache')) tips.push('🤕 두통: 눈 감고 5분 휴식');
+    if (data.symptoms.includes('eyestrain')) tips.push('👀 눈피로: 먼 곳 바라보기');
+    
+    const card = document.getElementById('careResultCard');
+    card.className = 'care-result-card ' + status;
+    card.style.display = 'block';
+    document.getElementById('careResultContent').innerHTML = `
+        <div class="care-score">${data.score}점</div>
+        <div class="care-message">${message}</div>
+        <div class="care-tips">${tips.map(t => `<div class="care-tip">${t}</div>`).join('')}</div>
+    `;
+}
+
+// ========== 더보기 서브모달 ==========
+function openSubModal(id) {
+    document.getElementById(id).classList.add('show');
+    if (id === 'mystatsModal') loadMyStats();
+    if (id === 'liveModal') loadLiveStatus();
+    if (id === 'achieveModal') loadAchievement();
+    if (id === 'styleModal') loadSavedStyle();
+    if (id === 'roadmapModal') loadSavedRoadmap();
+}
+
+function closeSubModal(id) {
+    document.getElementById(id).classList.remove('show');
+}
+
+// ========== 학습성향 진단 ==========
+let styleData = null;
+
+function loadSavedStyle() {
+    if (!user) return;
+    const saved = localStorage.getItem(`style_${user.name}`);
+    if (saved) {
+        styleData = JSON.parse(saved);
+        displayStyleResult();
+    }
+}
+
+function startStyleTest() {
+    const types = ['VSPG', 'ASFG', 'KGPG', 'VGFG'];
+    const code = types[Math.floor(Math.random() * types.length)];
+    const typeNames = {
+        'VSPG': '시각적 계획형 학습자',
+        'ASFG': '청각적 협력형 학습자',
+        'KGPG': '체험적 목표형 학습자',
+        'VGFG': '시각적 유연형 학습자'
+    };
+    const allTips = {
+        'VSPG': ['📊 도표와 그래프 활용', '📝 색깔 펜으로 표시', '🎯 구체적 목표 설정'],
+        'ASFG': ['🎧 강의 들으며 공부', '👥 스터디 그룹 활용', '🗣️ 말로 설명해보기'],
+        'KGPG': ['✍️ 직접 문제 풀기', '🏆 단기 목표 달성', '📋 체크리스트 활용'],
+        'VGFG': ['📱 다양한 자료 활용', '🎨 마인드맵 정리', '🔀 과목 번갈아 공부']
+    };
+    
+    styleData = { code, name: typeNames[code], tips: allTips[code] };
+    localStorage.setItem(`style_${user.name}`, JSON.stringify(styleData));
+    displayStyleResult();
+    toast('성향 진단 완료!', 'success');
+}
+
+function displayStyleResult() {
+    if (!styleData) return;
+    document.getElementById('styleIntro').style.display = 'none';
+    document.getElementById('styleResult').style.display = 'block';
+    document.getElementById('styleResult').innerHTML = `
+        <div class="style-result-card">
+            <div class="style-code-badge">${styleData.code}</div>
+            <div class="style-name">${styleData.name}</div>
+            <div class="style-desc">당신만의 학습 스타일입니다!</div>
+        </div>
+        <div class="my-stats-card">
+            <div class="my-stats-title"><i class="fas fa-lightbulb" style="color:#f59e0b;"></i> 맞춤 학습 팁</div>
+            ${styleData.tips.map(t => `<div class="care-tip">${t}</div>`).join('')}
+        </div>
+    `;
+}
+
+// ========== 학습 로드맵 ==========
+let roadmapData = null;
+
+function loadSavedRoadmap() {
+    if (!user) return;
+    const saved = localStorage.getItem(`roadmap_${user.name}`);
+    if (saved) {
+        roadmapData = JSON.parse(saved);
+        displayRoadmapResult();
+    }
+}
+
+function showRoadmapSetup() {
+    document.getElementById('roadmapIntro').style.display = 'none';
+    document.getElementById('roadmapSetup').style.display = 'block';
+}
+
+function createRoadmap() {
+    const goal = document.getElementById('rmGoal').value;
+    const period = document.getElementById('rmPeriod').value;
+    const hours = document.getElementById('rmHours').value;
+    
+    if (!goal || !period || !hours) { toast('모든 항목을 선택해주세요', 'warning'); return; }
+    
+    const goalNames = { 'top10': '상위권 대학', 'mid': '중상위권 대학', 'improve': '성적 향상', 'weak': '취약 과목 극복' };
+    roadmapData = { goal: goalNames[goal], period: parseInt(period), dailyHours: parseInt(hours), startDate: fmt(new Date()) };
+    localStorage.setItem(`roadmap_${user.name}`, JSON.stringify(roadmapData));
+    displayRoadmapResult();
+    toast('로드맵 생성 완료!', 'success');
+}
+
+function displayRoadmapResult() {
+    if (!roadmapData) return;
+    document.getElementById('roadmapIntro').style.display = 'none';
+    document.getElementById('roadmapSetup').style.display = 'none';
+    document.getElementById('roadmapResult').style.display = 'block';
+    
+    const startDate = new Date(roadmapData.startDate);
+    const endDate = new Date(startDate);
+    endDate.setMonth(endDate.getMonth() + roadmapData.period);
+    const daysLeft = Math.max(0, Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24)));
+    const progress = Math.round(((roadmapData.period * 30 - daysLeft) / (roadmapData.period * 30)) * 100);
+    
+    document.getElementById('roadmapResult').innerHTML = `
+        <div class="my-stats-card">
+            <div style="text-align:center;padding-bottom:15px;border-bottom:1px solid #f0f0f0;">
+                <div style="font-size:1.3rem;font-weight:700;color:var(--primary);">${roadmapData.goal}</div>
+                <div style="font-size:0.9rem;color:#888;">${roadmapData.period}개월 로드맵</div>
+            </div>
+            <div class="stats-summary-row" style="margin-top:15px;">
+                <div class="summary-box"><div class="value">${roadmapData.dailyHours}h</div><div class="label">일일 목표</div></div>
+                <div class="summary-box"><div class="value" style="color:#10b981;">${progress}%</div><div class="label">진행률</div></div>
+                <div class="summary-box"><div class="value">${daysLeft}</div><div class="label">남은 일</div></div>
+            </div>
+        </div>
+    `;
+}
+
+// ========== 학습 성취도 ==========
+function loadAchievement() {
+    const weekDates = getWeekDates();
+    const weekStart = fmt(weekDates[0]);
+    const weekEnd = fmt(weekDates[6]);
+    
+    const weekPlans = plans.filter(p => p.date >= weekStart && p.date <= weekEnd);
+    const completed = weekPlans.filter(p => ['approved', 'O'].includes(p.status));
+    const rate = weekPlans.length > 0 ? Math.round((completed.length / weekPlans.length) * 100) : 0;
+    
+    let grade, title, message;
+    if (rate >= 90) { grade = 'S'; title = '최우수!'; message = '정말 훌륭해요! 🔥'; }
+    else if (rate >= 80) { grade = 'A'; title = '우수!'; message = '잘하고 있어요! 👏'; }
+    else if (rate >= 70) { grade = 'B'; title = '양호'; message = '좋은 방향이에요! 💪'; }
+    else if (rate >= 60) { grade = 'C'; title = '보통'; message = '조금 더 노력해봐요!'; }
+    else { grade = 'D'; title = '분발 필요'; message = '함께 방법을 찾아봐요! 📚'; }
+    
+    const totalTime = completed.reduce((sum, p) => sum + (p.actualTime || 0), 0);
+    
+    document.getElementById('achieveContent').innerHTML = `
+        <div class="my-stats-card" style="text-align:center;">
+            <div class="achieve-grade-badge ${grade}">
+                <div class="achieve-grade-letter">${grade}</div>
+                <div class="achieve-grade-score">${rate}점</div>
+            </div>
+            <div style="font-size:1.2rem;font-weight:700;color:var(--primary);">${title}</div>
+            <div style="color:#666;margin-top:5px;">${message}</div>
+            <div class="stats-summary-row" style="margin-top:20px;">
+                <div class="summary-box"><div class="value">${completed.length}</div><div class="label">완료</div></div>
+                <div class="summary-box"><div class="value">${weekPlans.length}</div><div class="label">계획</div></div>
+                <div class="summary-box"><div class="value">${(totalTime/60).toFixed(1)}h</div><div class="label">학습시간</div></div>
+            </div>
+        </div>
+    `;
+}
+
+// 페이지 로드 시 컨디션 리스너 설정
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(setupCareListeners, 500);
+});
     </script>
 </body>
 </html>

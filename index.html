@@ -3137,6 +3137,7 @@ function displayStyleResult() {
             <div class="style-code-badge">${styleData.code}</div>
             <div class="style-name">${styleData.name}</div>
             <div class="style-desc">당신만의 학습 스타일입니다!</div>
+            <button onclick="resetStyleTest()" style="margin-top:15px;padding:10px 20px;background:#f0f0f0;border:none;border-radius:8px;cursor:pointer;">🔄 다시 진단하기</button>
         </div>
         <div class="my-stats-card">
             <div class="my-stats-title"><i class="fas fa-lightbulb" style="color:#f59e0b;"></i> 맞춤 학습 팁</div>
@@ -3243,6 +3244,22 @@ function loadAchievement() {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(setupCareListeners, 500);
 });
+       // 학습성향 다시 진단
+function resetStyleTest() {
+    localStorage.removeItem(`style_${user.name}`);
+    styleData = null;
+    document.getElementById('styleIntro').style.display = 'block';
+    document.getElementById('styleResult').style.display = 'none';
+}
+
+// 로드맵 다시 설정
+function resetRoadmap() {
+    localStorage.removeItem(`roadmap_${user.name}`);
+    roadmapData = null;
+    document.getElementById('roadmapIntro').style.display = 'block';
+    document.getElementById('roadmapSetup').style.display = 'none';
+    document.getElementById('roadmapResult').style.display = 'none';
+} 
     </script>
 </body>
 </html>

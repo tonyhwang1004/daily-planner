@@ -1363,6 +1363,7 @@ function displayStyleResult() {
             <div class="style-code-badge">${styleData.code}</div>
             <div class="style-name">${styleData.name}</div>
             <div class="style-desc">당신만의 학습 스타일입니다!</div>
+    <button onclick="resetStyleTest()" style="margin-top:15px;padding:10px 20px;background:#f0f0f0;border:none;border-radius:8px;cursor:pointer;">🔄 다시 진단하기</button>
         </div>
         <div class="my-stats-card">
             <div class="my-stats-title"><i class="fas fa-lightbulb" style="color:#f59e0b;"></i> 맞춤 학습 팁</div>
@@ -1427,6 +1428,7 @@ function displayRoadmapResult() {
                 <div class="summary-box"><div class="value" style="color:#10b981;">${progress}%</div><div class="label">진행률</div></div>
                 <div class="summary-box"><div class="value">${daysLeft}</div><div class="label">남은 일</div></div>
             </div>
+    <button onclick="resetRoadmap()" style="margin-top:15px;padding:10px 20px;background:#f0f0f0;border:none;border-radius:8px;cursor:pointer;width:100%;">🔄 다시 설정하기</button>
         </div>
     `;
 }

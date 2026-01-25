@@ -3228,23 +3228,6 @@ function loadSavedStyle() {
         displayStyleResult();
     }
 }
-function displayStyleResult() {
-    if (!styleData) return;
-    document.getElementById('styleIntro').style.display = 'none';
-    document.getElementById('styleResult').style.display = 'block';
-    document.getElementById('styleResult').innerHTML = `
-        <div class="style-result-card">
-            <div class="style-code-badge">${styleData.code}</div>
-            <div class="style-name">${styleData.name}</div>
-            <div class="style-desc">당신만의 학습 스타일입니다!</div>
-            <button onclick="resetStyleTest()" style="margin-top:15px;padding:10px 20px;background:#f0f0f0;border:none;border-radius:8px;cursor:pointer;">🔄 다시 진단하기</button>
-        </div>
-        <div class="my-stats-card">
-            <div class="my-stats-title"><i class="fas fa-lightbulb" style="color:#f59e0b;"></i> 맞춤 학습 팁</div>
-            ${styleData.tips.map(t => `<div class="care-tip">${t}</div>`).join('')}
-        </div>
-    `;
-}
 
 // ========== 학습 로드맵 ==========
 let roadmapData = null;

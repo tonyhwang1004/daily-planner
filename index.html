@@ -609,6 +609,23 @@
             background: linear-gradient(135deg, #fef3c7, #fde68a);
             border-bottom: 1px solid #fcd34d;
         }
+        .top-area {
+    max-height: 40px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    cursor: pointer;
+}
+.top-area:hover,
+.top-area.expanded {
+    max-height: 200px;
+}
+.top-toggle {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #888;
+    padding: 4px;
+    background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
+}
         .streak-item {
             display: flex;
             align-items: center;

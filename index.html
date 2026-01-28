@@ -372,8 +372,8 @@
         .input-sep { font-size: 0.6rem; color: #999; }
 
         .check-bar {
-            position: relative;
-            left: 0; right: 0;
+            position: fixed;
+            bottom: 65px; left: 0; right: 0;
             background: white;
             padding: 12px 15px;
             border-top: 1px solid #e5e5e5;
@@ -626,30 +626,7 @@
     padding: 4px;
     background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
 }
-        .bottom-area {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-height: 20px;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    cursor: pointer;
-    z-index: 100;
-    background: white;
-}
-.bottom-area:hover,
-.bottom-area.expanded {
-    max-height: 200px;
-}
-.bottom-toggle {
-    text-align: center;
-    font-size: 0.7rem;
-    color: #888;
-    padding: 4px;
-    background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
-}
-        .streak-item {
+               .streak-item {
             display: flex;
             align-items: center;
             gap: 6px;
@@ -683,6 +660,7 @@
         /* ========== 하단 탭 네비게이션 ========== */
         .bottom-nav {
            position: fixed;
+            bottom: 0;
             left: 0;
             right: 0;
             background: white;
@@ -1328,8 +1306,7 @@
                 </table>
             </div>
         </div>
-<div class="bottom-area" onclick="this.classList.toggle('expanded')">
-    <div class="bottom-toggle">▲ 터치하여 펼치기</div>
+
         <div class="check-bar">
             <div class="check-bar-info">
                 <div class="check-bar-title">오늘의 학습</div>
@@ -1476,7 +1453,6 @@
         <span>더보기</span>
     </button>
 </nav>
-        </div>
 
     <!-- 랭킹 모달 -->
     <div class="fullscreen-modal" id="rankingModal">

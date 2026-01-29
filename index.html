@@ -1888,7 +1888,7 @@ transition: opacity 0.3s ease;
             for (let i = 0; i < 7; i++) {
                 const d = dates[i];
                 const cls = fmt(d) === today ? 'today' : (i === 5 ? 'sat' : (i === 6 ? 'sun' : ''));
-                hHtml += `<th class="${cls}"><div class="day-header ${cls}"><div class="day-name">${dayName(i)}</div><div class="day-num">${d.getDate()}</div></div></th>`;
+                hHtml += `<th class="${cls}"><div class="day-header ${cls}">${dayName(i)} ${d.getDate()}</div></th>`;
             }
             hHtml += '</tr>';
             document.getElementById('tableHead').innerHTML = hHtml;

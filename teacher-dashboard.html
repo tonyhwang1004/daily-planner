@@ -8,292 +8,111 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f5f5f5;
-            font-size: 12px;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; font-size: 12px; }
 
-        .header {
-            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
-            color: white;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        .header { background: linear-gradient(135deg, #1e3a5f, #2d5a87); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .header h1 { font-size: 1rem; }
         .header-right { display: flex; gap: 6px; align-items: center; }
-        .floor-btn {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            background: rgba(255,255,255,0.2);
-            color: white;
-        }
+        .floor-btn { padding: 5px 10px; border: none; border-radius: 5px; font-size: 0.75rem; font-weight: 600; cursor: pointer; background: rgba(255,255,255,0.2); color: white; }
         .floor-btn.active { background: #3b82f6; }
-        .refresh-btn {
-            padding: 5px 8px;
-            border: none;
-            border-radius: 5px;
-            background: #10b981;
-            color: white;
-            cursor: pointer;
-        }
+        .refresh-btn { padding: 5px 8px; border: none; border-radius: 5px; background: #10b981; color: white; cursor: pointer; }
         .refresh-btn.spinning i { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* 기간 선택 바 */
-        .period-bar {
-            background: white;
-            padding: 8px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .period-toggle {
-            display: flex;
-            background: #f0f0f0;
-            border-radius: 6px;
-            padding: 2px;
-        }
-        .period-btn {
-            padding: 6px 14px;
-            border: none;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            background: transparent;
-            color: #666;
-        }
-        .period-btn.active {
-            background: #1e3a5f;
-            color: white;
-        }
-        .period-info {
-            font-size: 0.8rem;
-            color: #666;
-        }
+        .period-bar { background: white; padding: 8px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; }
+        .period-toggle { display: flex; background: #f0f0f0; border-radius: 6px; padding: 2px; }
+        .period-btn { padding: 6px 14px; border: none; border-radius: 5px; font-size: 0.8rem; font-weight: 600; cursor: pointer; background: transparent; color: #666; }
+        .period-btn.active { background: #1e3a5f; color: white; }
+        .period-info { font-size: 0.8rem; color: #666; }
 
-        /* 요약 바 */
-        .summary-bar {
-            background: #1e3a5f;
-            color: white;
-            padding: 10px 15px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .summary-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.8rem;
-        }
+        .summary-bar { background: #1e3a5f; color: white; padding: 10px 15px; display: flex; gap: 12px; flex-wrap: wrap; }
+        .summary-item { display: flex; align-items: center; gap: 4px; font-size: 0.8rem; }
         .summary-item .label { opacity: 0.8; }
         .summary-item .value { font-weight: 700; }
 
-        /* 탭 */
-        .tabs {
-            display: flex;
-            background: white;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .tab {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #666;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-        }
-        .tab.active {
-            color: #1e3a5f;
-            border-bottom-color: #1e3a5f;
-        }
-        .tab .badge {
-            background: #ef4444;
-            color: white;
-            padding: 1px 5px;
-            border-radius: 6px;
-            font-size: 0.65rem;
-            margin-left: 3px;
-        }
-
+        .tabs { display: flex; background: white; border-bottom: 1px solid #e0e0e0; }
+        .tab { flex: 1; padding: 10px; border: none; background: none; font-size: 0.8rem; font-weight: 600; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
+        .tab.active { color: #1e3a5f; border-bottom-color: #1e3a5f; }
+        .tab .badge { background: #ef4444; color: white; padding: 1px 5px; border-radius: 6px; font-size: 0.65rem; margin-left: 3px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* ========== 학생현황 테이블 ========== */
-        .student-table-container {
-            overflow-x: auto;
+        /* ★ 추가: 학생 검색 바 */
+        .srch-bar {
             background: white;
+            padding: 7px 10px;
+            display: none;
+            align-items: center;
+            gap: 7px;
+            border-bottom: 1px solid #e0e0e0;
         }
-        .student-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 10px;
+        .srch-bar i { color: #aaa; font-size: 0.85rem; }
+        .srch-bar input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 5px 9px;
+            font-size: 0.8rem;
+            outline: none;
         }
-        .student-table th {
-            background: #f8f9fa;
-            padding: 6px 4px;
-            text-align: center;
-            font-weight: 600;
-            color: #555;
-            border-bottom: 2px solid #e0e0e0;
-            position: sticky;
-            top: 0;
-            white-space: nowrap;
+        .srch-bar input:focus { border-color: #3b82f6; }
+        .srch-bar button {
+            padding: 3px 10px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: #666;
         }
-        .student-table td {
-            padding: 5px 4px;
-            text-align: center;
-            border-bottom: 1px solid #f0f0f0;
-        }
+        /* ★ 검색 관련 행 스타일 */
+        .student-table tr.s-hide { display: none; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .tab .badge.has-pending { animation: blink 1.2s ease-in-out infinite; }
+        .ranking-item.rank-top { background: linear-gradient(135deg,#fef9c3,#fde68a) !important; }
+        .student-table tr.s-hl td { background: #fef9c3 !important; }
+
+        .student-table-container { overflow-x: auto; background: white; }
+        .student-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        .student-table th { background: #f8f9fa; padding: 6px 4px; text-align: center; font-weight: 600; color: #555; border-bottom: 2px solid #e0e0e0; position: sticky; top: 0; white-space: nowrap; }
+        .student-table td { padding: 5px 4px; text-align: center; border-bottom: 1px solid #f0f0f0; }
         .student-table tr:hover { background: #f8fafc; }
-        .student-table .name-cell {
-            text-align: left;
-            font-weight: 600;
-            color: #1e3a5f;
-            white-space: nowrap;
-            padding-left: 8px;
-        }
-        .floor-badge {
-            font-size: 8px;
-            padding: 1px 3px;
-            border-radius: 3px;
-            margin-left: 2px;
-        }
+        .student-table .name-cell { text-align: left; font-weight: 600; color: #1e3a5f; white-space: nowrap; padding-left: 8px; }
+        .floor-badge { font-size: 10px; padding: 1px 3px; border-radius: 3px; margin-left: 2px; }
         .floor-7 { background: #dbeafe; color: #1e40af; }
         .floor-8 { background: #fef3c7; color: #92400e; }
-
-        .rate-bar {
-            width: 40px;
-            height: 12px;
-            background: #e5e7eb;
-            border-radius: 6px;
-            overflow: hidden;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .rate-bar-fill {
-            height: 100%;
-            border-radius: 6px;
-        }
+        .rate-bar { width: 40px; height: 12px; background: #e5e7eb; border-radius: 6px; overflow: hidden; display: inline-block; vertical-align: middle; }
+        .rate-bar-fill { height: 100%; border-radius: 6px; }
         .rate-high { background: #10b981; }
         .rate-mid { background: #f59e0b; }
         .rate-low { background: #ef4444; }
-
-        .mini-num {
-            font-weight: 600;
-        }
+        .mini-num { font-weight: 600; }
         .mini-num.green { color: #10b981; }
         .mini-num.orange { color: #f59e0b; }
-        .mini-num.red { color: #ef4444; }
         .mini-num.blue { color: #3b82f6; }
 
-        /* ========== 검사대기 ========== */
-        .check-list {
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .check-item {
-            background: white;
-            border-radius: 8px;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-            border-left: 3px solid #f59e0b;
-        }
+        .check-list { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+        .check-item { background: white; border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); border-left: 3px solid #f59e0b; }
         .check-item .info { flex: 1; }
         .check-item .name { font-weight: 700; color: #1e3a5f; font-size: 11px; }
         .check-item .detail { font-size: 10px; color: #666; margin-top: 2px; }
-        .check-item .page-box {
-            background: #fef3c7;
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-weight: 700;
-            color: #92400e;
-            font-size: 10px;
-        }
+        .check-item .page-box { background: #fef3c7; padding: 3px 6px; border-radius: 4px; font-weight: 700; color: #92400e; font-size: 10px; }
         .check-item .actions { display: flex; gap: 4px; }
-        .check-item .btn {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 600;
-            cursor: pointer;
-        }
+        .check-item .btn { padding: 10px 16px; border: none; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; min-width: 44px; min-height: 44px; display:flex; align-items:center; justify-content:center; }
         .check-item .btn.approve { background: #10b981; color: white; }
         .check-item .btn.reject { background: #ef4444; color: white; }
 
-        /* ========== 통계 ========== */
         .stats-section { padding: 12px; }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .stat-box {
-            background: white;
-            border-radius: 8px;
-            padding: 12px 8px;
-            text-align: center;
-        }
-        .stat-box.highlight {
-            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
-            color: white;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+        .stat-box { background: white; border-radius: 8px; padding: 12px 8px; text-align: center; }
+        .stat-box.highlight { background: linear-gradient(135deg, #1e3a5f, #2d5a87); color: white; }
         .stat-box .value { font-size: 1.4rem; font-weight: 800; }
         .stat-box .label { font-size: 0.65rem; opacity: 0.8; margin-top: 2px; }
-
-        .ranking-section {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .ranking-title {
-            padding: 8px 12px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: #1e3a5f;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .ranking-item {
-            display: flex;
-            align-items: center;
-            padding: 6px 12px;
-            border-bottom: 1px solid #f8f8f8;
-            font-size: 11px;
-        }
+        .ranking-section { background: white; border-radius: 8px; overflow: hidden; }
+        .ranking-title { padding: 8px 12px; font-weight: 700; font-size: 0.85rem; color: #1e3a5f; border-bottom: 1px solid #f0f0f0; }
+        .ranking-item { display: flex; align-items: center; padding: 6px 12px; border-bottom: 1px solid #f8f8f8; font-size: 11px; }
         .ranking-item:last-child { border-bottom: none; }
-        .rank-num {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 9px;
-            font-weight: 700;
-            margin-right: 8px;
-        }
+        .rank-num { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; margin-right: 8px; }
         .rank-1 { background: #fef3c7; color: #b45309; }
         .rank-2 { background: #e5e7eb; color: #4b5563; }
         .rank-3 { background: #fed7aa; color: #c2410c; }
@@ -303,377 +122,79 @@
         .rank-floor { font-size: 9px; color: #888; }
         .rank-value { font-weight: 700; color: #1e3a5f; }
 
-        /* 토스트 */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #333;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            opacity: 0;
-            transition: all 0.3s;
-            z-index: 1000;
-        }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #333; color: white; padding: 8px 16px; border-radius: 6px; font-size: 11px; font-weight: 600; opacity: 0; transition: all 0.3s; z-index: 1000; }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .toast.success { background: #10b981; }
         .toast.error { background: #ef4444; }
-
-        .empty-state {
-            text-align: center;
-            padding: 30px 20px;
-            color: #888;
-        }
+        .empty-state { text-align: center; padding: 30px 20px; color: #888; }
         .empty-state i { font-size: 1.5rem; margin-bottom: 8px; color: #ddd; }
-
         .loading-row td { text-align: center; padding: 20px; color: #888; }
 
-        /* 정렬 버튼 */
-        .sort-bar {
-            background: #f8f9fa;
-            padding: 6px 10px;
-            display: flex;
-            gap: 6px;
-            align-items: center;
-            font-size: 10px;
-            border-bottom: 1px solid #e0e0e0;
-        }
+        .sort-bar { background: #f8f9fa; padding: 6px 10px; display: flex; gap: 6px; align-items: center; font-size: 10px; border-bottom: 1px solid #e0e0e0; }
         .sort-bar span { color: #666; }
-        .sort-btn {
-            padding: 3px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: white;
-            font-size: 9px;
-            cursor: pointer;
-        }
-        .sort-btn.active {
-            background: #1e3a5f;
-            color: white;
-            border-color: #1e3a5f;
-        }
+        .sort-btn { padding: 3px 8px; border: 1px solid #ddd; border-radius: 4px; background: white; font-size: 9px; cursor: pointer; }
+        .sort-btn.active { background: #1e3a5f; color: white; border-color: #1e3a5f; }
 
-        /* ========== 학부모 보고서 스타일 ========== */
-        .report-section {
-            padding: 12px;
-        }
-        .report-controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .report-controls select {
-            flex: 1;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            background: white;
-        }
-        .report-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin: 0 auto 15px auto;
-            max-width: 420px;
-            width: 100%;
-        }
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
-            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
-            color: white;
-        }
-        .report-title {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-        .copy-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            background: #10b981;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .copy-btn:active {
-            transform: scale(0.95);
-        }
-        .report-content {
-            padding: 16px;
-            background: linear-gradient(180deg, #f8fafc, #ffffff);
-        }
-        .report-student-info {
-            text-align: center;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 2px dashed #e0e0e0;
-        }
-        .report-student-info .student-name {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #1e3a5f;
-            margin-bottom: 4px;
-        }
-        .report-period {
-            color: #666;
-            font-size: 0.8rem;
-        }
-        .report-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-        .report-stat {
-            text-align: center;
-            padding: 10px 4px;
-            background: #f0f9ff;
-            border-radius: 10px;
-        }
-        .report-stat.highlight {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-        }
-        .report-stat .stat-icon {
-            font-size: 1.2rem;
-            margin-bottom: 3px;
-        }
-        .report-stat .stat-value {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #1e3a5f;
-        }
-        .report-stat .stat-label {
-            font-size: 0.65rem;
-            color: #666;
-            margin-top: 2px;
-        }
-        .report-streak {
-            text-align: center;
-            padding: 8px;
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 0.85rem;
-        }
-        .report-streak strong {
-            font-size: 1.1rem;
-            color: #92400e;
-        }
-        .report-subjects {
-            margin-bottom: 12px;
-        }
-        .subject-title, .comment-title, .trend-title, .achievement-title {
-            font-weight: 700;
-            color: #1e3a5f;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-        }
-        .report-subject-bar {
-            display: flex;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-        .report-subject-bar .subj-name {
-            width: 40px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #555;
-        }
-        .report-subject-bar .subj-track {
-            flex: 1;
-            height: 16px;
-            background: #e5e7eb;
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 0 8px;
-        }
-        .report-subject-bar .subj-fill {
-            height: 100%;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 6px;
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 600;
-        }
-        .report-subject-bar .subj-time {
-            width: 38px;
-            text-align: right;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #1e3a5f;
-        }
-        .report-comment textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            resize: none;
-            height: 60px;
-            font-family: inherit;
-        }
-        .report-footer {
-            text-align: center;
-            padding-top: 10px;
-            margin-top: 10px;
-            border-top: 2px dashed #e0e0e0;
-            color: #888;
-            font-size: 0.75rem;
-        }
-        
-        /* 추가 정보 스타일 */
-        .student-floor {
-            display: inline-block;
-            background: #3b82f6;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-top: 4px;
-        }
-        .report-extra-info {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            margin-bottom: 10px;
-            padding: 8px;
-            background: #f8fafc;
-            border-radius: 8px;
-        }
-        .extra-item {
-            text-align: center;
-            padding: 4px 2px;
-        }
-        .extra-icon {
-            display: block;
-            font-size: 1rem;
-            margin-bottom: 2px;
-        }
-        .extra-label {
-            display: block;
-            font-size: 0.6rem;
-            color: #888;
-        }
-        .extra-value {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #1e3a5f;
-            margin-top: 1px;
-        }
-        .stat-compare {
-            font-size: 0.6rem;
-            margin-top: 2px;
-            font-weight: 600;
-        }
+        .report-section { padding: 12px; }
+        .report-controls { display: flex; gap: 10px; margin-bottom: 15px; }
+        .report-controls select { flex: 1; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; background: white; }
+        .report-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 0 auto 15px auto; max-width: 420px; width: 100%; }
+        .report-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: linear-gradient(135deg, #1e3a5f, #2d5a87); color: white; }
+        .report-title { font-weight: 700; font-size: 0.95rem; }
+        .copy-btn { padding: 6px 12px; border: none; border-radius: 6px; background: #10b981; color: white; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
+        .report-content { padding: 16px; background: linear-gradient(180deg, #f8fafc, #ffffff); }
+        .report-student-info { text-align: center; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 2px dashed #e0e0e0; }
+        .report-student-info .student-name { font-size: 1.3rem; font-weight: 800; color: #1e3a5f; margin-bottom: 4px; }
+        .report-period { color: #666; font-size: 0.8rem; }
+        .report-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
+        .report-stat { text-align: center; padding: 10px 4px; background: #f0f9ff; border-radius: 10px; }
+        .report-stat.highlight { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+        .report-stat .stat-icon { font-size: 1.2rem; margin-bottom: 3px; }
+        .report-stat .stat-value { font-size: 1.1rem; font-weight: 800; color: #1e3a5f; }
+        .report-stat .stat-label { font-size: 0.65rem; color: #666; margin-top: 2px; }
+        .report-streak { text-align: center; padding: 8px; background: linear-gradient(135deg, #fef3c7, #fde68a); border-radius: 8px; margin-bottom: 12px; font-size: 0.85rem; }
+        .report-streak strong { font-size: 1.1rem; color: #92400e; }
+        .report-subjects { margin-bottom: 12px; }
+        .subject-title, .comment-title, .trend-title, .achievement-title { font-weight: 700; color: #1e3a5f; margin-bottom: 8px; font-size: 0.85rem; }
+        .report-subject-bar { display: flex; align-items: center; margin-bottom: 6px; }
+        .report-subject-bar .subj-name { width: 40px; font-size: 0.75rem; font-weight: 600; color: #555; }
+        .report-subject-bar .subj-track { flex: 1; height: 16px; background: #e5e7eb; border-radius: 8px; overflow: hidden; margin: 0 8px; }
+        .report-subject-bar .subj-fill { height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; color: white; font-size: 0.65rem; font-weight: 600; }
+        .report-subject-bar .subj-time { width: 38px; text-align: right; font-size: 0.7rem; font-weight: 600; color: #1e3a5f; }
+        .report-comment textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.8rem; resize: none; height: 60px; font-family: inherit; }
+        .report-footer { text-align: center; padding-top: 10px; margin-top: 10px; border-top: 2px dashed #e0e0e0; color: #888; font-size: 0.75rem; }
+        .student-floor { display: inline-block; background: #3b82f6; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 600; margin-top: 4px; }
+        .report-extra-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 10px; padding: 8px; background: #f8fafc; border-radius: 8px; }
+        .extra-item { text-align: center; padding: 4px 2px; }
+        .extra-icon { display: block; font-size: 1rem; margin-bottom: 2px; }
+        .extra-label { display: block; font-size: 0.6rem; color: #888; }
+        .extra-value { display: block; font-size: 0.75rem; font-weight: 700; color: #1e3a5f; margin-top: 1px; }
+        .stat-compare { font-size: 0.6rem; margin-top: 2px; font-weight: 600; }
         .stat-compare.up { color: #10b981; }
         .stat-compare.down { color: #ef4444; }
         .stat-compare.same { color: #888; }
-        
-        /* 실천율 색상 */
         .rate-high { background: linear-gradient(135deg, #d1fae5, #a7f3d0) !important; }
         .rate-high .stat-value { color: #059669 !important; }
         .rate-mid { background: linear-gradient(135deg, #fef3c7, #fde68a) !important; }
         .rate-mid .stat-value { color: #d97706 !important; }
         .rate-low { background: linear-gradient(135deg, #fee2e2, #fecaca) !important; }
         .rate-low .stat-value { color: #dc2626 !important; }
-        
-        .report-placeholder {
-            text-align: center;
-            padding: 40px 20px;
-            color: #888;
-        }
-        .report-placeholder i {
-            font-size: 2.5rem;
-            color: #ddd;
-            margin-bottom: 10px;
-        }
-        .report-placeholder p {
-            margin-bottom: 5px;
-        }
-        .report-placeholder .hint {
-            font-size: 0.75rem;
-            color: #aaa;
-        }
-        .report-weekly-trend {
-            margin-bottom: 12px;
-        }
-        .trend-week {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        .trend-week .week-label {
-            width: 45px;
-            font-size: 0.7rem;
-            color: #555;
-        }
-        .trend-week .week-bar {
-            flex: 1;
-            height: 18px;
-            background: #e5e7eb;
-            border-radius: 9px;
-            overflow: hidden;
-            margin-right: 6px;
-        }
-        .trend-week .week-fill {
-            height: 100%;
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 6px;
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 600;
-        }
-        .trend-week .week-change {
-            width: 35px;
-            text-align: right;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
+        .report-placeholder { text-align: center; padding: 40px 20px; color: #888; }
+        .report-placeholder i { font-size: 2.5rem; color: #ddd; margin-bottom: 10px; }
+        .report-placeholder .hint { font-size: 0.75rem; color: #aaa; }
+        .report-weekly-trend { margin-bottom: 12px; }
+        .trend-week { display: flex; align-items: center; margin-bottom: 5px; }
+        .trend-week .week-label { width: 45px; font-size: 0.7rem; color: #555; }
+        .trend-week .week-bar { flex: 1; height: 18px; background: #e5e7eb; border-radius: 9px; overflow: hidden; margin-right: 6px; }
+        .trend-week .week-fill { height: 100%; border-radius: 9px; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; color: white; font-size: 0.65rem; font-weight: 600; }
+        .trend-week .week-change { width: 35px; text-align: right; font-size: 0.7rem; font-weight: 600; }
         .trend-week .week-change.up { color: #10b981; }
         .trend-week .week-change.down { color: #ef4444; }
-        .report-achievements {
-            margin-bottom: 12px;
-        }
-        .achievement-item {
-            display: flex;
-            align-items: center;
-            padding: 6px 8px;
-            background: #f0f9ff;
-            border-radius: 6px;
-            margin-bottom: 5px;
-        }
-        .achievement-item .ach-icon {
-            font-size: 1rem;
-            margin-right: 8px;
-        }
-        .achievement-item .ach-text {
-            flex: 1;
-            font-size: 0.75rem;
-            color: #333;
-        }
-        .achievement-item .ach-value {
-            font-weight: 700;
-            font-size: 0.75rem;
-            color: #1e3a5f;
-        }
+        .report-achievements { margin-bottom: 12px; }
+        .achievement-item { display: flex; align-items: center; padding: 6px 8px; background: #f0f9ff; border-radius: 6px; margin-bottom: 5px; }
+        .achievement-item .ach-icon { font-size: 1rem; margin-right: 8px; }
+        .achievement-item .ach-text { flex: 1; font-size: 0.75rem; color: #333; }
+        .achievement-item .ach-value { font-weight: 700; font-size: 0.75rem; color: #1e3a5f; }
     </style>
 </head>
 <body>
@@ -698,50 +219,29 @@
     </div>
 
     <div class="summary-bar" id="summaryBar">
-        <div class="summary-item">
-            <span class="label">학생</span>
-            <span class="value" id="sumStudents">0</span>
-        </div>
-        <div class="summary-item">
-            <span class="label">계획</span>
-            <span class="value" id="sumPlans">0</span>
-        </div>
-        <div class="summary-item">
-            <span class="label">완료</span>
-            <span class="value" id="sumCompleted">0</span>
-        </div>
-        <div class="summary-item">
-            <span class="label">대기</span>
-            <span class="value" id="sumPending">0</span>
-        </div>
-        <div class="summary-item">
-            <span class="label">학습</span>
-            <span class="value" id="sumTime">0h</span>
-        </div>
-        <div class="summary-item">
-            <span class="label">실천율</span>
-            <span class="value" id="sumRate">0%</span>
-        </div>
+        <div class="summary-item"><span class="label">학생</span><span class="value" id="sumStudents">0</span></div>
+        <div class="summary-item"><span class="label">계획</span><span class="value" id="sumPlans">0</span></div>
+        <div class="summary-item"><span class="label">완료</span><span class="value" id="sumCompleted">0</span></div>
+        <div class="summary-item"><span class="label">대기</span><span class="value" id="sumPending">0</span></div>
+        <div class="summary-item"><span class="label">학습</span><span class="value" id="sumTime">0h</span></div>
+        <div class="summary-item"><span class="label">실천율</span><span class="value" id="sumRate">0%</span></div>
     </div>
 
     <div class="tabs">
-        <button class="tab active" onclick="switchTab('students')">
-            <i class="fas fa-users"></i> 학생현황
-        </button>
-        <button class="tab" onclick="switchTab('check')">
-            <i class="fas fa-bell"></i> 검사대기
-            <span class="badge" id="checkBadge">0</span>
-        </button>
-        <button class="tab" onclick="switchTab('stats')">
-            <i class="fas fa-trophy"></i> 랭킹
-        </button>
-        <button class="tab" onclick="switchTab('report')">
-            <i class="fas fa-file-alt"></i> 학부모보고서
-        </button>
+        <button class="tab active" onclick="switchTab('students')"><i class="fas fa-users"></i> 학생현황</button>
+        <button class="tab" onclick="switchTab('check')"><i class="fas fa-bell"></i> 검사대기<span class="badge" id="checkBadge">0</span></button>
+        <button class="tab" onclick="switchTab('stats')"><i class="fas fa-trophy"></i> 랭킹</button>
+        <button class="tab" onclick="switchTab('report')"><i class="fas fa-file-alt"></i> 학부모보고서</button>
     </div>
 
     <!-- 학생현황 탭 -->
     <div class="tab-content active" id="studentsTab">
+        <!-- ★ 학생 검색 바 -->
+        <div class="srch-bar" id="srchBar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="srchInput" placeholder="학생 이름 검색..." oninput="filterStudents(this.value)">
+            <button onclick="clearSearch()">초기화</button>
+        </div>
         <div class="sort-bar">
             <span>정렬:</span>
             <button class="sort-btn active" onclick="setSort('rate')">실천율↓</button>
@@ -752,19 +252,10 @@
         <div class="student-table-container">
             <table class="student-table">
                 <thead>
-                    <tr>
-                        <th>이름</th>
-                        <th>계획</th>
-                        <th>완료</th>
-                        <th>대기</th>
-                        <th>시간</th>
-                        <th>실천율</th>
-                    </tr>
+                    <tr><th>이름</th><th>계획</th><th>완료</th><th>대기</th><th>시간</th><th>실천율</th></tr>
                 </thead>
                 <tbody id="studentTableBody">
-                    <tr class="loading-row">
-                        <td colspan="6"><i class="fas fa-spinner fa-spin"></i> 로딩 중...</td>
-                    </tr>
+                    <tr class="loading-row"><td colspan="6"><i class="fas fa-spinner fa-spin"></i> 로딩 중...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -775,28 +266,15 @@
         <div class="check-list" id="checkList"></div>
     </div>
 
-    <!-- 통계 탭 -->
+    <!-- 통계/랭킹 탭 -->
     <div class="tab-content" id="statsTab">
         <div class="stats-section">
             <div class="stats-grid">
-                <div class="stat-box highlight">
-                    <div class="value" id="statCompleted">0</div>
-                    <div class="label">총 완료</div>
-                </div>
-                <div class="stat-box">
-                    <div class="value" id="statTime">0h</div>
-                    <div class="label">총 시간</div>
-                </div>
-                <div class="stat-box">
-                    <div class="value" id="statRate">0%</div>
-                    <div class="label">평균 실천율</div>
-                </div>
-                <div class="stat-box">
-                    <div class="value" id="statActive">0</div>
-                    <div class="label">활동 학생</div>
-                </div>
+                <div class="stat-box highlight"><div class="value" id="statCompleted">0</div><div class="label">총 완료</div></div>
+                <div class="stat-box"><div class="value" id="statTime">0h</div><div class="label">총 시간</div></div>
+                <div class="stat-box"><div class="value" id="statRate">0%</div><div class="label">평균 실천율</div></div>
+                <div class="stat-box"><div class="value" id="statActive">0</div><div class="label">활동 학생</div></div>
             </div>
-
             <div class="ranking-section">
                 <div class="ranking-title">🏆 학습시간 TOP 10</div>
                 <div id="rankingList"></div>
@@ -807,24 +285,18 @@
     <!-- 학부모 보고서 탭 -->
     <div class="tab-content" id="reportTab">
         <div class="report-section">
-            <!-- 학생 선택 -->
             <div class="report-controls">
-                <select id="reportStudent" onchange="loadStudentReport()">
-                    <option value="">학생 선택</option>
-                </select>
+                <select id="reportStudent" onchange="loadStudentReport()"><option value="">학생 선택</option></select>
                 <select id="reportType" onchange="loadStudentReport()">
                     <option value="week">주간 보고서</option>
                     <option value="month">월간 보고서</option>
                 </select>
             </div>
 
-            <!-- 주간 보고서 카드 -->
             <div id="weeklyReportCard" class="report-card" style="display:none;">
                 <div class="report-header">
                     <span class="report-title">📊 주간 학습 보고서</span>
-                    <button class="copy-btn" onclick="copyReportImage('weeklyReportCard')">
-                        <i class="fas fa-copy"></i> 이미지 복사
-                    </button>
+                    <button class="copy-btn" onclick="copyReportImage('weeklyReportCard')"><i class="fas fa-copy"></i> 이미지 복사</button>
                 </div>
                 <div class="report-content" id="weeklyReportContent">
                     <div class="report-student-info">
@@ -833,72 +305,27 @@
                         <div class="report-period" id="reportPeriod">2025.1.20(월) ~ 1.26(일)</div>
                     </div>
                     <div class="report-stats-grid">
-                        <div class="report-stat">
-                            <div class="stat-icon">✅</div>
-                            <div class="stat-value" id="rptCompleted">0</div>
-                            <div class="stat-label">완료</div>
-                        </div>
-                        <div class="report-stat">
-                            <div class="stat-icon">📝</div>
-                            <div class="stat-value" id="rptPlanned">0</div>
-                            <div class="stat-label">계획</div>
-                        </div>
-                        <div class="report-stat">
-                            <div class="stat-icon">⏱️</div>
-                            <div class="stat-value" id="rptTime">0h</div>
-                            <div class="stat-label">학습시간</div>
-                        </div>
-                        <div class="report-stat" id="rptRateBox">
-                            <div class="stat-icon">📈</div>
-                            <div class="stat-value" id="rptRate">0%</div>
-                            <div class="stat-label">실천율</div>
-                            <div class="stat-compare" id="rptRateCompare"></div>
-                        </div>
+                        <div class="report-stat"><div class="stat-icon">✅</div><div class="stat-value" id="rptCompleted">0</div><div class="stat-label">완료</div></div>
+                        <div class="report-stat"><div class="stat-icon">📝</div><div class="stat-value" id="rptPlanned">0</div><div class="stat-label">계획</div></div>
+                        <div class="report-stat"><div class="stat-icon">⏱️</div><div class="stat-value" id="rptTime">0h</div><div class="stat-label">학습시간</div></div>
+                        <div class="report-stat" id="rptRateBox"><div class="stat-icon">📈</div><div class="stat-value" id="rptRate">0%</div><div class="stat-label">실천율</div><div class="stat-compare" id="rptRateCompare"></div></div>
                     </div>
-                    
-                    <!-- 추가 정보 섹션 -->
                     <div class="report-extra-info">
-                        <div class="extra-item">
-                            <span class="extra-icon">📅</span>
-                            <span class="extra-label">학습한 요일:</span>
-                            <span class="extra-value" id="rptStudyDays">-</span>
-                        </div>
-                        <div class="extra-item">
-                            <span class="extra-icon">🏆</span>
-                            <span class="extra-label">층 랭킹:</span>
-                            <span class="extra-value" id="rptRanking">-</span>
-                        </div>
-                        <div class="extra-item">
-                            <span class="extra-icon">⭐</span>
-                            <span class="extra-label">최고 집중일:</span>
-                            <span class="extra-value" id="rptBestDay">-</span>
-                        </div>
+                        <div class="extra-item"><span class="extra-icon">📅</span><span class="extra-label">학습한 요일:</span><span class="extra-value" id="rptStudyDays">-</span></div>
+                        <div class="extra-item"><span class="extra-icon">🏆</span><span class="extra-label">층 랭킹:</span><span class="extra-value" id="rptRanking">-</span></div>
+                        <div class="extra-item"><span class="extra-icon">⭐</span><span class="extra-label">최고 집중일:</span><span class="extra-value" id="rptBestDay">-</span></div>
                     </div>
-                    
-                    <div class="report-streak">
-                        <span>🔥 연속 학습일: <strong id="rptStreak">0</strong>일</span>
-                    </div>
-                    <div class="report-subjects">
-                        <div class="subject-title">📚 과목별 학습시간</div>
-                        <div id="rptSubjectBars"></div>
-                    </div>
-                    <div class="report-comment">
-                        <div class="comment-title">💬 선생님 한마디</div>
-                        <textarea id="rptComment" placeholder="학부모님께 전할 메시지를 입력하세요..."></textarea>
-                    </div>
-                    <div class="report-footer">
-                        <span>김엄마독서실 📚</span>
-                    </div>
+                    <div class="report-streak">🔥 연속 학습일: <strong id="rptStreak">0</strong>일</div>
+                    <div class="report-subjects"><div class="subject-title">📚 과목별 학습시간</div><div id="rptSubjectBars"></div></div>
+                    <div class="report-comment"><div class="comment-title">💬 선생님 한마디</div><textarea id="rptComment" placeholder="학부모님께 전할 메시지를 입력하세요..."></textarea></div>
+                    <div class="report-footer"><span>김엄마독서실 📚</span></div>
                 </div>
             </div>
 
-            <!-- 월간 보고서 카드 -->
             <div id="monthlyReportCard" class="report-card" style="display:none;">
                 <div class="report-header">
                     <span class="report-title">📊 월간 학습 보고서</span>
-                    <button class="copy-btn" onclick="copyReportImage('monthlyReportCard')">
-                        <i class="fas fa-copy"></i> 이미지 복사
-                    </button>
+                    <button class="copy-btn" onclick="copyReportImage('monthlyReportCard')"><i class="fas fa-copy"></i> 이미지 복사</button>
                 </div>
                 <div class="report-content" id="monthlyReportContent">
                     <div class="report-student-info">
@@ -907,70 +334,24 @@
                         <div class="report-period" id="monthPeriod">2025년 1월</div>
                     </div>
                     <div class="report-stats-grid">
-                        <div class="report-stat">
-                            <div class="stat-icon">✅</div>
-                            <div class="stat-value" id="monthCompleted">0</div>
-                            <div class="stat-label">총 완료</div>
-                        </div>
-                        <div class="report-stat">
-                            <div class="stat-icon">📝</div>
-                            <div class="stat-value" id="monthPlanned">0</div>
-                            <div class="stat-label">총 계획</div>
-                        </div>
-                        <div class="report-stat">
-                            <div class="stat-icon">⏱️</div>
-                            <div class="stat-value" id="monthTime">0h</div>
-                            <div class="stat-label">총 학습시간</div>
-                        </div>
-                        <div class="report-stat" id="monthRateBox">
-                            <div class="stat-icon">📈</div>
-                            <div class="stat-value" id="monthRate">0%</div>
-                            <div class="stat-label">평균 실천율</div>
-                        </div>
+                        <div class="report-stat"><div class="stat-icon">✅</div><div class="stat-value" id="monthCompleted">0</div><div class="stat-label">총 완료</div></div>
+                        <div class="report-stat"><div class="stat-icon">📝</div><div class="stat-value" id="monthPlanned">0</div><div class="stat-label">총 계획</div></div>
+                        <div class="report-stat"><div class="stat-icon">⏱️</div><div class="stat-value" id="monthTime">0h</div><div class="stat-label">총 학습시간</div></div>
+                        <div class="report-stat" id="monthRateBox"><div class="stat-icon">📈</div><div class="stat-value" id="monthRate">0%</div><div class="stat-label">평균 실천율</div></div>
                     </div>
-                    
-                    <!-- 추가 정보 섹션 -->
                     <div class="report-extra-info">
-                        <div class="extra-item">
-                            <span class="extra-icon">📅</span>
-                            <span class="extra-label">출석률:</span>
-                            <span class="extra-value" id="monthAttendance">-</span>
-                        </div>
-                        <div class="extra-item">
-                            <span class="extra-icon">🏆</span>
-                            <span class="extra-label">층 랭킹:</span>
-                            <span class="extra-value" id="monthRanking">-</span>
-                        </div>
-                        <div class="extra-item">
-                            <span class="extra-icon">⭐</span>
-                            <span class="extra-label">최고 집중주:</span>
-                            <span class="extra-value" id="monthBestWeek">-</span>
-                        </div>
+                        <div class="extra-item"><span class="extra-icon">📅</span><span class="extra-label">출석률:</span><span class="extra-value" id="monthAttendance">-</span></div>
+                        <div class="extra-item"><span class="extra-icon">🏆</span><span class="extra-label">층 랭킹:</span><span class="extra-value" id="monthRanking">-</span></div>
+                        <div class="extra-item"><span class="extra-icon">⭐</span><span class="extra-label">최고 집중주:</span><span class="extra-value" id="monthBestWeek">-</span></div>
                     </div>
-                    
-                    <div class="report-weekly-trend">
-                        <div class="trend-title">📈 주차별 실천율 추이</div>
-                        <div id="monthWeeklyTrend"></div>
-                    </div>
-                    <div class="report-achievements">
-                        <div class="achievement-title">🏆 이번 달 성과</div>
-                        <div class="achievement-list" id="monthAchievements"></div>
-                    </div>
-                    <div class="report-subjects">
-                        <div class="subject-title">📚 과목별 학습시간</div>
-                        <div id="monthSubjectBars"></div>
-                    </div>
-                    <div class="report-comment">
-                        <div class="comment-title">💬 선생님 한마디</div>
-                        <textarea id="monthComment" placeholder="학부모님께 전할 메시지를 입력하세요..."></textarea>
-                    </div>
-                    <div class="report-footer">
-                        <span>김엄마독서실 📚</span>
-                    </div>
+                    <div class="report-weekly-trend"><div class="trend-title">📈 주차별 실천율 추이</div><div id="monthWeeklyTrend"></div></div>
+                    <div class="report-achievements"><div class="achievement-title">🏆 이번 달 성과</div><div class="achievement-list" id="monthAchievements"></div></div>
+                    <div class="report-subjects"><div class="subject-title">📚 과목별 학습시간</div><div id="monthSubjectBars"></div></div>
+                    <div class="report-comment"><div class="comment-title">💬 선생님 한마디</div><textarea id="monthComment" placeholder="학부모님께 전할 메시지를 입력하세요..."></textarea></div>
+                    <div class="report-footer"><span>김엄마독서실 📚</span></div>
                 </div>
             </div>
 
-            <!-- 안내 메시지 -->
             <div id="reportPlaceholder" class="report-placeholder">
                 <i class="fas fa-file-alt"></i>
                 <p>학생을 선택하면 보고서가 생성됩니다</p>
@@ -983,76 +364,98 @@
 
     <script>
         const API = 'https://script.google.com/macros/s/AKfycbwGFbsj8FgFIuF-iFkJ4ekyS76MWQf9UrUysJ-Fs12vuVByJwenoYRgOJeOZiPOa6gzkg/exec';
-        
+
         let currentFloor = '';
         let currentPeriod = 'week';
         let currentSort = 'rate';
         let allStudents = [];
         let waitingList = [];
 
+        // ★ 수정 1: 분 → 시간:분 변환 함수
+        function fmtMin(min) {
+            const m = min || 0;
+            const h = Math.floor(m / 60), r = m % 60;
+            return h > 0 ? h + '시간 ' + r + '분' : m + '분';
+        }
+
+        // ★ 수정 2: 학생 검색 함수
+        function filterStudents(q) {
+            document.querySelectorAll('#studentTableBody tr').forEach(row => {
+                const nc = row.querySelector('.name-cell');
+                if (!nc) { row.classList.remove('s-hide'); return; }
+                const match = !q || nc.textContent.toLowerCase().includes(q.toLowerCase());
+                row.classList.toggle('s-hide', !match);
+                row.classList.toggle('s-hl', !!q && match);
+            });
+        }
+        function clearSearch() {
+            document.getElementById('srchInput').value = '';
+            filterStudents('');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            // ★ 저장된 층 선택 복원
+            const savedFloor = localStorage.getItem('teacherFloor') || '';
+            currentFloor = savedFloor;
+            document.querySelectorAll('.floor-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.floor === savedFloor));
+
             updatePeriodInfo();
             loadData();
+
+            // ★ 30초마다 자동 새로고침
+            setInterval(async () => {
+                const prevCount = waitingList.length;
+                const pendingRes = await api({ action: 'getPendingRequests', floor: '' });
+                waitingList = pendingRes.success ? (pendingRes.requests || []) : [];
+                // 새 검사 요청 들어오면 진동 알림
+                if (waitingList.length > prevCount && navigator.vibrate) {
+                    navigator.vibrate([200, 100, 200]);
+                }
+                renderSummary();
+                renderCheckList();
+            }, 30000);
         });
 
         async function api(params) {
             try {
-                const res = await fetch(API, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(params)
-                });
+                const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(params) });
                 return await res.json();
-            } catch (err) {
-                return { success: false, error: err.toString() };
-            }
+            } catch (err) { return { success: false, error: err.toString() }; }
         }
 
-        function getToday() {
-            const now = new Date();
-            return formatDate(now);
-        }
-
-        function formatDate(d) {
-            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-        }
+        function getToday() { return formatDate(new Date()); }
+        function formatDate(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 
         function getWeekRange() {
-            const now = new Date();
-            const day = now.getDay();
-            const monday = new Date(now);
-            monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
-            const sunday = new Date(monday);
-            sunday.setDate(monday.getDate() + 6);
+            const now = new Date(); const day = now.getDay();
+            const monday = new Date(now); monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+            const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
             return { start: formatDate(monday), end: formatDate(sunday), monday, sunday };
         }
 
         function updatePeriodInfo() {
             const info = document.getElementById('periodInfo');
+            const dayNames = ['일','월','화','수','목','금','토'];
             if (currentPeriod === 'today') {
                 const now = new Date();
-                const dayNames = ['일','월','화','수','목','금','토'];
                 info.textContent = `${now.getMonth()+1}/${now.getDate()}(${dayNames[now.getDay()]})`;
             } else {
                 const { monday, sunday } = getWeekRange();
-                const dayNames = ['일','월','화','수','목','금','토'];
                 info.textContent = `${monday.getMonth()+1}/${monday.getDate()}(${dayNames[monday.getDay()]}) ~ ${sunday.getMonth()+1}/${sunday.getDate()}(${dayNames[sunday.getDay()]})`;
             }
         }
 
         function setFloor(floor) {
             currentFloor = floor;
-            document.querySelectorAll('.floor-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.floor === floor);
-            });
+            localStorage.setItem('teacherFloor', floor);
+            document.querySelectorAll('.floor-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.floor === floor));
+            clearSearch(); // ★ 층 전환 시 검색어 초기화
             renderAll();
         }
 
         function setPeriod(period) {
             currentPeriod = period;
-            document.querySelectorAll('.period-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent === (period === 'today' ? '오늘' : '이번주'));
-            });
+            document.querySelectorAll('.period-btn').forEach(btn => btn.classList.toggle('active', btn.textContent === (period === 'today' ? '오늘' : '이번주')));
             updatePeriodInfo();
             loadData();
         }
@@ -1060,9 +463,7 @@
         function setSort(sort) {
             currentSort = sort;
             document.querySelectorAll('.sort-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.includes(
-                    sort === 'rate' ? '실천율' : sort === 'name' ? '이름' : sort === 'completed' ? '완료' : '시간'
-                ));
+                btn.classList.toggle('active', btn.textContent.includes(sort === 'rate' ? '실천율' : sort === 'name' ? '이름' : sort === 'completed' ? '완료' : '시간'));
             });
             renderStudentTable();
         }
@@ -1070,181 +471,99 @@
         async function loadData() {
             const btn = document.getElementById('refreshBtn');
             btn.classList.add('spinning');
-
             try {
-                if (currentPeriod === 'week') {
-                    await loadWeeklyData();
-                } else {
-                    await loadTodayData();
-                }
-
-                // 검사 대기 목록 (항상 로드)
+                if (currentPeriod === 'week') await loadWeeklyData();
+                else await loadTodayData();
                 const pendingRes = await api({ action: 'getPendingRequests', floor: '' });
                 waitingList = pendingRes.success ? (pendingRes.requests || []) : [];
-
                 renderAll();
-            } catch (err) {
-                console.error(err);
-                toast('데이터 로드 실패', 'error');
-            }
-
+            } catch (err) { toast('데이터 로드 실패', 'error'); }
             btn.classList.remove('spinning');
         }
 
         async function loadWeeklyData() {
             const { start, end } = getWeekRange();
-            
-            // 새 함수 사용 시도, 실패하면 기존 방식
-            const res = await api({
-                action: 'getWeeklyStudentStatus',
-                floor: '',
-                weekStart: start,
-                weekEnd: end
-            });
-
-            if (res.success && res.students) {
-                allStudents = res.students;
-            } else {
-                // 기존 방식 fallback
-                await loadTodayData();
-            }
+            const res = await api({ action: 'getWeeklyStudentStatus', floor: '', weekStart: start, weekEnd: end });
+            if (res.success && res.students) allStudents = res.students;
+            else await loadTodayData();
         }
 
         async function loadTodayData() {
-            const today = getToday();
-            
-            const [dash7, dash8] = await Promise.all([
-                api({ action: 'getDashboard', floor: '7층' }),
-                api({ action: 'getDashboard', floor: '8층' })
-            ]);
-
+            const [dash7, dash8] = await Promise.all([api({ action: 'getDashboard', floor: '7층' }), api({ action: 'getDashboard', floor: '8층' })]);
             allStudents = [];
-            if (dash7.success && dash7.dashboard?.studentStatus) {
-                dash7.dashboard.studentStatus.forEach(s => {
-                    allStudents.push({ 
-                        ...s, 
-                        floor: '7층',
-                        totalTime: 0,
-                        rate: s.planned > 0 ? Math.round(s.completed / s.planned * 100) : 0
-                    });
-                });
-            }
-            if (dash8.success && dash8.dashboard?.studentStatus) {
-                dash8.dashboard.studentStatus.forEach(s => {
-                    allStudents.push({ 
-                        ...s, 
-                        floor: '8층',
-                        totalTime: 0,
-                        rate: s.planned > 0 ? Math.round(s.completed / s.planned * 100) : 0
-                    });
-                });
-            }
+            if (dash7.success && dash7.dashboard?.studentStatus) dash7.dashboard.studentStatus.forEach(s => allStudents.push({ ...s, floor: '7층', totalTime: 0, rate: s.planned > 0 ? Math.round(s.completed / s.planned * 100) : 0 }));
+            if (dash8.success && dash8.dashboard?.studentStatus) dash8.dashboard.studentStatus.forEach(s => allStudents.push({ ...s, floor: '8층', totalTime: 0, rate: s.planned > 0 ? Math.round(s.completed / s.planned * 100) : 0 }));
         }
 
-        function getFilteredStudents() {
-            if (!currentFloor) return allStudents;
-            return allStudents.filter(s => s.floor === currentFloor);
-        }
+        function getFilteredStudents() { return !currentFloor ? allStudents : allStudents.filter(s => s.floor === currentFloor); }
+        function getFilteredWaiting() { return !currentFloor ? waitingList : waitingList.filter(w => w.floor === currentFloor); }
 
-        function getFilteredWaiting() {
-            if (!currentFloor) return waitingList;
-            return waitingList.filter(w => w.floor === currentFloor);
-        }
-
-        function renderAll() {
-            renderSummary();
-            renderStudentTable();
-            renderCheckList();
-            renderRanking();
-        }
+        function renderAll() { renderSummary(); renderStudentTable(); renderCheckList(); renderRanking(); }
 
         function renderSummary() {
             const students = getFilteredStudents();
-            const waiting = getFilteredWaiting();
-
             const totalPlans = students.reduce((s, x) => s + (x.planned || 0), 0);
             const totalCompleted = students.reduce((s, x) => s + (x.completed || 0), 0);
             const totalPending = students.reduce((s, x) => s + (x.pending || 0), 0);
             const totalTime = students.reduce((s, x) => s + (x.totalTime || 0), 0);
             const avgRate = students.length > 0 ? Math.round(students.reduce((s, x) => s + (x.rate || 0), 0) / students.length) : 0;
-
             document.getElementById('sumStudents').textContent = students.length;
             document.getElementById('sumPlans').textContent = totalPlans;
             document.getElementById('sumCompleted').textContent = totalCompleted;
             document.getElementById('sumPending').textContent = totalPending;
-            document.getElementById('sumTime').textContent = (totalTime / 60).toFixed(1) + 'h';
+            // ★ 시간:분 표시
+            document.getElementById('sumTime').textContent = fmtMin(totalTime);
             document.getElementById('sumRate').textContent = avgRate + '%';
-            document.getElementById('checkBadge').textContent = waiting.length;
+            const waitingCount = getFilteredWaiting().length;
+            document.getElementById('checkBadge').textContent = waitingCount;
+            const badge = document.getElementById('checkBadge');
+            badge.classList.toggle('has-pending', waitingCount > 0);
         }
 
         function renderStudentTable() {
             const tbody = document.getElementById('studentTableBody');
             let students = getFilteredStudents();
-
-            if (students.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="padding:30px;color:#888;">학생 데이터가 없습니다</td></tr>';
-                return;
-            }
-
-            // 정렬
+            if (students.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="padding:30px;color:#888;">학생 데이터가 없습니다</td></tr>'; return; }
             const sorted = [...students].sort((a, b) => {
                 switch (currentSort) {
                     case 'name': return a.name.localeCompare(b.name, 'ko');
                     case 'completed': return (b.completed || 0) - (a.completed || 0);
                     case 'time': return (b.totalTime || 0) - (a.totalTime || 0);
-                    case 'rate':
                     default: return (b.rate || 0) - (a.rate || 0);
                 }
             });
-
             tbody.innerHTML = sorted.map(s => {
-                const planned = s.planned || 0;
-                const completed = s.completed || 0;
-                const pending = s.pending || 0;
-                const totalTime = s.totalTime || 0;
-                const rate = s.rate || 0;
-                
+                const planned = s.planned || 0, completed = s.completed || 0, pending = s.pending || 0;
+                const totalTime = s.totalTime || 0, rate = s.rate || 0;
                 const rateClass = rate >= 80 ? 'rate-high' : rate >= 50 ? 'rate-mid' : 'rate-low';
                 const floorClass = s.floor === '7층' ? 'floor-7' : 'floor-8';
-                const timeStr = totalTime >= 60 ? (totalTime / 60).toFixed(1) + 'h' : totalTime + 'm';
-
-                return `
-                <tr>
-                    <td class="name-cell">
-                        ${s.name} <span class="floor-badge ${floorClass}">${s.floor}</span>
-                    </td>
+                // ★ 시간:분 표시
+                const timeStr = fmtMin(totalTime);
+                return `<tr>
+                    <td class="name-cell">${s.name} <span class="floor-badge ${floorClass}">${s.floor}</span></td>
                     <td>${planned}</td>
                     <td><span class="mini-num green">${completed}</span></td>
                     <td>${pending > 0 ? `<span class="mini-num orange">${pending}</span>` : '-'}</td>
                     <td><span class="mini-num blue">${timeStr}</span></td>
-                    <td>
-                        <div class="rate-bar"><div class="rate-bar-fill ${rateClass}" style="width:${rate}%"></div></div>
-                        <span style="font-weight:600;margin-left:3px;">${rate}%</span>
-                    </td>
+                    <td><div class="rate-bar"><div class="rate-bar-fill ${rateClass}" style="width:${rate}%"></div></div> <span style="font-weight:600;">${rate}%</span></td>
                 </tr>`;
             }).join('');
+            // 검색어 유지
+            const q = document.getElementById('srchInput')?.value;
+            if (q) filterStudents(q);
         }
 
         function renderCheckList() {
             const container = document.getElementById('checkList');
             const filtered = getFilteredWaiting();
-
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-check-circle"></i>
-                        <p>검사 대기 중인 학생이 없습니다</p>
-                    </div>`;
-                return;
-            }
-
+            if (filtered.length === 0) { container.innerHTML = `<div class="empty-state"><i class="fas fa-check-circle"></i><p>검사 대기 중인 학생이 없습니다</p></div>`; return; }
             container.innerHTML = filtered.map((r, idx) => {
                 const pageText = r.startPage && r.endPage ? `p.${r.startPage}~${r.endPage}` : '-';
-                return `
-                <div class="check-item" id="check-${idx}">
+                // ★ 시간:분 표시
+                return `<div class="check-item" id="check-${idx}">
                     <div class="info">
                         <div class="name">${r.name} <span style="color:#888;font-size:9px;">${r.floor}</span></div>
-                        <div class="detail">${r.subject} · ${r.book} · ${r.actualTime || 0}분</div>
+                        <div class="detail">${r.subject} · ${r.book} · ${fmtMin(r.actualTime)}</div>
                     </div>
                     <div class="page-box">${pageText}</div>
                     <div class="actions">
@@ -1258,231 +577,111 @@
         function renderRanking() {
             const container = document.getElementById('rankingList');
             const students = getFilteredStudents();
-            
-            // 학습시간 기준 정렬
-            const sorted = [...students]
-                .filter(s => (s.totalTime || 0) > 0)
-                .sort((a, b) => (b.totalTime || 0) - (a.totalTime || 0))
-                .slice(0, 10);
-
-            if (sorted.length === 0) {
-                container.innerHTML = '<div style="padding:15px;text-align:center;color:#888;font-size:11px;">학습 기록이 없습니다</div>';
-                return;
-            }
-
+            const sorted = [...students].filter(s => (s.totalTime || 0) > 0).sort((a, b) => (b.totalTime || 0) - (a.totalTime || 0)).slice(0, 10);
+            if (sorted.length === 0) { container.innerHTML = '<div style="padding:15px;text-align:center;color:#888;font-size:11px;">학습 기록이 없습니다</div>'; return; }
             container.innerHTML = sorted.map((s, i) => {
-                const timeStr = (s.totalTime / 60).toFixed(1) + 'h';
-                return `
-                <div class="ranking-item">
+                // ★ 시간:분 표시
+                return `<div class="ranking-item${i === 0 ? ' rank-top' : ''}">
                     <div class="rank-num ${i < 3 ? 'rank-'+(i+1) : 'rank-other'}">${i+1}</div>
-                    <div class="rank-info">
-                        <span class="rank-name">${s.name}</span>
-                        <span class="rank-floor">${s.floor}</span>
-                    </div>
-                    <div class="rank-value">${timeStr}</div>
+                    <div class="rank-info"><span class="rank-name">${s.name}</span><span class="rank-floor">${s.floor}</span></div>
+                    <div class="rank-value">${fmtMin(s.totalTime)}</div>
                 </div>`;
             }).join('');
-
-            // 통계 업데이트
             const activeStudents = students.filter(s => (s.completed || 0) > 0);
             const totalCompleted = students.reduce((s, x) => s + (x.completed || 0), 0);
             const totalTime = students.reduce((s, x) => s + (x.totalTime || 0), 0);
             const avgRate = students.length > 0 ? Math.round(students.reduce((s, x) => s + (x.rate || 0), 0) / students.length) : 0;
-
             document.getElementById('statCompleted').textContent = totalCompleted;
-            document.getElementById('statTime').textContent = (totalTime / 60).toFixed(1) + 'h';
+            // ★ 시간:분 표시
+            document.getElementById('statTime').textContent = fmtMin(totalTime);
             document.getElementById('statRate').textContent = avgRate + '%';
             document.getElementById('statActive').textContent = activeStudents.length;
         }
 
         async function approveCheck(row, idx) {
-            const item = document.getElementById(`check-${idx}`);
-            item.style.opacity = '0.5';
-            
+            const item = document.getElementById(`check-${idx}`); item.style.opacity = '0.5';
             const res = await api({ action: 'approveRecord', row });
-            if (res.success) {
-                toast('✅ 승인 완료', 'success');
-                item.remove();
-                loadData();
-            } else {
-                item.style.opacity = '1';
-                toast('오류', 'error');
-            }
+            if (res.success) { toast('✅ 승인 완료', 'success'); item.remove(); loadData(); }
+            else { item.style.opacity = '1'; toast('오류', 'error'); }
         }
-
         async function rejectCheck(row, idx) {
-            const item = document.getElementById(`check-${idx}`);
-            item.style.opacity = '0.5';
-            
+            const item = document.getElementById(`check-${idx}`); item.style.opacity = '0.5';
             const res = await api({ action: 'rejectRecord', row });
-            if (res.success) {
-                toast('❌ 실패 처리', 'success');
-                item.remove();
-                loadData();
-            } else {
-                item.style.opacity = '1';
-                toast('오류', 'error');
-            }
+            if (res.success) { toast('❌ 실패 처리', 'success'); item.remove(); loadData(); }
+            else { item.style.opacity = '1'; toast('오류', 'error'); }
         }
 
         function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            
             const tabMap = { 'students': 1, 'check': 2, 'stats': 3, 'report': 4 };
-            const tabIndex = tabMap[tab] || 1;
-            document.querySelector(`.tab:nth-child(${tabIndex})`).classList.add('active');
+            document.querySelector(`.tab:nth-child(${tabMap[tab] || 1})`).classList.add('active');
             document.getElementById(tab + 'Tab').classList.add('active');
-            
-            // 보고서 탭 진입 시 학생 목록 로드
-            if (tab === 'report') {
-                populateReportStudents();
-            }
+            // ★ 학생현황 탭일 때만 검색바 표시
+            const sb = document.getElementById('srchBar');
+            if (sb) sb.style.display = tab === 'students' ? 'flex' : 'none';
+            if (tab !== 'students') clearSearch();
+            if (tab === 'report') populateReportStudents();
         }
 
-        // ========== 학부모 보고서 기능 ==========
-        
-        const subjectColors = {
-            '수학': '#ef4444', '영어': '#3b82f6', '국어': '#10b981',
-            '과학': '#f59e0b', '사회': '#8b5cf6', '한국사': '#ec4899',
-            '기타': '#6b7280'
-        };
-        
+        const subjectColors = { '수학': '#ef4444', '영어': '#3b82f6', '국어': '#10b981', '탐구1': '#f59e0b', '탐구2': '#8b5cf6', '과학': '#f59e0b', '사회': '#8b5cf6', '기타': '#6b7280' };
+
         function populateReportStudents() {
             const select = document.getElementById('reportStudent');
             const currentValue = select.value;
-            
-            // 기존 옵션 제거 (첫번째 제외)
-            while (select.options.length > 1) {
-                select.remove(1);
-            }
-            
-            // 학생 목록 추가
-            const students = [...allStudents].sort((a, b) => {
-                if (a.floor !== b.floor) return a.floor.localeCompare(b.floor);
-                return a.name.localeCompare(b.name);
-            });
-            
-            students.forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = `${s.floor}|${s.name}`;
-                opt.textContent = `${s.name} (${s.floor})`;
-                select.appendChild(opt);
-            });
-            
-            // 기존 선택값 복원
+            while (select.options.length > 1) select.remove(1);
+            [...allStudents].sort((a, b) => { if (a.floor !== b.floor) return a.floor.localeCompare(b.floor); return a.name.localeCompare(b.name); })
+                .forEach(s => { const opt = document.createElement('option'); opt.value = `${s.floor}|${s.name}`; opt.textContent = `${s.name} (${s.floor})`; select.appendChild(opt); });
             if (currentValue) select.value = currentValue;
         }
-        
+
         async function loadStudentReport() {
-            const studentSelect = document.getElementById('reportStudent');
+            const sv = document.getElementById('reportStudent');
             const typeSelect = document.getElementById('reportType');
-            
-            if (!studentSelect.value) {
-                document.getElementById('weeklyReportCard').style.display = 'none';
-                document.getElementById('monthlyReportCard').style.display = 'none';
-                document.getElementById('reportPlaceholder').style.display = 'block';
-                return;
-            }
-            
-            const [floor, name] = studentSelect.value.split('|');
+            if (!sv.value) { document.getElementById('weeklyReportCard').style.display = 'none'; document.getElementById('monthlyReportCard').style.display = 'none'; document.getElementById('reportPlaceholder').style.display = 'block'; return; }
+            const [floor, name] = sv.value.split('|');
             const reportType = typeSelect.value;
-            
             document.getElementById('reportPlaceholder').style.display = 'none';
-            
-            if (reportType === 'week') {
-                await loadWeeklyReport(floor, name);
-                document.getElementById('weeklyReportCard').style.display = 'block';
-                document.getElementById('monthlyReportCard').style.display = 'none';
-            } else {
-                await loadMonthlyReport(floor, name);
-                document.getElementById('weeklyReportCard').style.display = 'none';
-                document.getElementById('monthlyReportCard').style.display = 'block';
-            }
+            if (reportType === 'week') { await loadWeeklyReport(floor, name); document.getElementById('weeklyReportCard').style.display = 'block'; document.getElementById('monthlyReportCard').style.display = 'none'; }
+            else { await loadMonthlyReport(floor, name); document.getElementById('weeklyReportCard').style.display = 'none'; document.getElementById('monthlyReportCard').style.display = 'block'; }
         }
-        
+
         async function loadWeeklyReport(floor, name) {
-            // 이번 주 날짜 범위 계산
-            const now = new Date();
-            const day = now.getDay();
-            
-            let monday = new Date(now);
-            monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
-            let sunday = new Date(monday);
-            sunday.setDate(monday.getDate() + 6);
-            
-            const weekStart = formatDate(monday);
-            const weekEnd = formatDate(sunday);
-            
-            // 지난주 날짜 범위 (비교용)
-            let prevMonday = new Date(monday);
-            prevMonday.setDate(monday.getDate() - 7);
-            let prevSunday = new Date(prevMonday);
-            prevSunday.setDate(prevMonday.getDate() + 6);
-            const prevWeekStart = formatDate(prevMonday);
-            const prevWeekEnd = formatDate(prevSunday);
-            
-            // API에서 데이터 가져오기
+            const now = new Date(); const day = now.getDay();
+            let monday = new Date(now); monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+            let sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+            const weekStart = formatDate(monday), weekEnd = formatDate(sunday);
+            let prevMonday = new Date(monday); prevMonday.setDate(monday.getDate() - 7);
+            let prevSunday = new Date(prevMonday); prevSunday.setDate(prevMonday.getDate() + 6);
+            const dayNames = ['일','월','화','수','목','금','토'];
             const [res, prevRes] = await Promise.all([
-                api({
-                    action: 'getStudentWeeklyReport',
-                    floor: floor,
-                    name: name,
-                    weekStart: weekStart,
-                    weekEnd: weekEnd
-                }),
-                api({
-                    action: 'getStudentWeeklyReport',
-                    floor: floor,
-                    name: name,
-                    weekStart: prevWeekStart,
-                    weekEnd: prevWeekEnd
-                })
+                api({ action: 'getStudentWeeklyReport', floor, name, weekStart, weekEnd }),
+                api({ action: 'getStudentWeeklyReport', floor, name, weekStart: formatDate(prevMonday), weekEnd: formatDate(prevSunday) })
             ]);
-            
-            // 학생 정보
             document.getElementById('reportStudentName').textContent = name;
             document.getElementById('reportFloor').textContent = floor;
-            document.getElementById('reportPeriod').textContent = 
-                `${monday.getFullYear()}.${monday.getMonth()+1}.${monday.getDate()}(${['일','월','화','수','목','금','토'][monday.getDay()]}) ~ ${sunday.getMonth()+1}.${sunday.getDate()}(${['일','월','화','수','목','금','토'][sunday.getDay()]})`;
-            
-            let rate = 0;
-            let prevRate = 0;
-            
+            document.getElementById('reportPeriod').textContent = `${monday.getFullYear()}.${monday.getMonth()+1}.${monday.getDate()}(${dayNames[monday.getDay()]}) ~ ${sunday.getMonth()+1}.${sunday.getDate()}(${dayNames[sunday.getDay()]})`;
+            let rate = 0, prevRate = 0;
             if (res.success && res.report) {
-                const r = res.report;
-                rate = r.rate || 0;
-                
+                const r = res.report; rate = r.rate || 0;
                 document.getElementById('rptCompleted').textContent = r.completed || 0;
                 document.getElementById('rptPlanned').textContent = r.planned || 0;
-                
-                const totalHours = ((r.totalTime || 0) / 60).toFixed(1);
-                document.getElementById('rptTime').textContent = totalHours > 0 ? totalHours + 'h' : '0h';
+                // ★ 시간:분 표시
+                document.getElementById('rptTime').textContent = fmtMin(r.totalTime || 0);
                 document.getElementById('rptRate').textContent = rate + '%';
                 document.getElementById('rptStreak').textContent = r.streak || 0;
-                
-                // 학습 요일 표시
-                const studyDays = r.studyDays || 0;
                 const studyDayNames = r.studyDayNames || [];
-                document.getElementById('rptStudyDays').textContent = 
-                    studyDayNames.length > 0 ? `${studyDayNames.join(', ')} (${studyDays}일)` : `${studyDays}일`;
-                
-                // 최고 집중일
+                document.getElementById('rptStudyDays').textContent = studyDayNames.length > 0 ? `${studyDayNames.join(', ')} (${r.studyDays || 0}일)` : `${r.studyDays || 0}일`;
                 document.getElementById('rptBestDay').textContent = r.bestDay || '-';
-                
-                // 층 랭킹
                 document.getElementById('rptRanking').textContent = r.ranking ? `${r.ranking}위` : '-';
-                
-                // 과목별 학습시간 바
                 renderSubjectBars('rptSubjectBars', r.subjectTime || {});
             } else {
-                // 현재 데이터에서 가져오기
                 const student = allStudents.find(s => s.floor === floor && s.name === name);
                 if (student) {
                     rate = student.rate || 0;
                     document.getElementById('rptCompleted').textContent = student.completed || 0;
                     document.getElementById('rptPlanned').textContent = student.planned || 0;
-                    document.getElementById('rptTime').textContent = ((student.totalTime || 0) / 60).toFixed(1) + 'h';
+                    document.getElementById('rptTime').textContent = fmtMin(student.totalTime || 0);
                     document.getElementById('rptRate').textContent = rate + '%';
                     document.getElementById('rptStreak').textContent = '0';
                     document.getElementById('rptStudyDays').textContent = '-';
@@ -1491,337 +690,157 @@
                     document.getElementById('rptSubjectBars').innerHTML = '<div style="color:#888;text-align:center;padding:20px;">과목별 데이터 없음</div>';
                 }
             }
-            
-            // 전주 대비 비교
-            if (prevRes.success && prevRes.report) {
-                prevRate = prevRes.report.rate || 0;
-            }
-            
+            if (prevRes.success && prevRes.report) prevRate = prevRes.report.rate || 0;
             const rateDiff = rate - prevRate;
             const compareEl = document.getElementById('rptRateCompare');
-            if (rateDiff > 0) {
-                compareEl.textContent = `전주 대비 +${rateDiff}% ↑`;
-                compareEl.className = 'stat-compare up';
-            } else if (rateDiff < 0) {
-                compareEl.textContent = `전주 대비 ${rateDiff}% ↓`;
-                compareEl.className = 'stat-compare down';
-            } else {
-                compareEl.textContent = '전주와 동일';
-                compareEl.className = 'stat-compare same';
-            }
-            
-            // 실천율에 따른 색상
+            if (rateDiff > 0) { compareEl.textContent = `전주 대비 +${rateDiff}% ↑`; compareEl.className = 'stat-compare up'; }
+            else if (rateDiff < 0) { compareEl.textContent = `전주 대비 ${rateDiff}% ↓`; compareEl.className = 'stat-compare down'; }
+            else { compareEl.textContent = '전주와 동일'; compareEl.className = 'stat-compare same'; }
             const rateBox = document.getElementById('rptRateBox');
             rateBox.classList.remove('rate-high', 'rate-mid', 'rate-low');
-            if (rate >= 80) {
-                rateBox.classList.add('rate-high');
-            } else if (rate >= 50) {
-                rateBox.classList.add('rate-mid');
-            } else {
-                rateBox.classList.add('rate-low');
-            }
-            
-            // 자동 메시지 제안
+            rateBox.classList.add(rate >= 80 ? 'rate-high' : rate >= 50 ? 'rate-mid' : 'rate-low');
             const commentEl = document.getElementById('rptComment');
             if (!commentEl.value || commentEl.dataset.auto === 'true') {
-                if (rate >= 80) {
-                    commentEl.value = '이번 주 정말 잘했어요! 꾸준히 노력하는 모습이 보기 좋습니다. 👏';
-                } else if (rate >= 50) {
-                    commentEl.value = '조금만 더 힘내면 목표 달성할 수 있어요! 화이팅! 💪';
-                } else {
-                    commentEl.value = '다음 주는 계획을 세우고 더 열심히 해봐요. 응원합니다! 📚';
-                }
+                commentEl.value = rate >= 80 ? '이번 주 정말 잘했어요! 꾸준히 노력하는 모습이 보기 좋습니다. 👏' : rate >= 50 ? '조금만 더 힘내면 목표 달성할 수 있어요! 화이팅! 💪' : '다음 주는 계획을 세우고 더 열심히 해봐요. 응원합니다! 📚';
                 commentEl.dataset.auto = 'true';
             }
-            
-            // 랭킹 계산
             calculateAndShowRanking(floor, name, 'rptRanking');
         }
-        
+
         async function loadMonthlyReport(floor, name) {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth() + 1;
-            
-            // 이번달 1일 ~ 말일
+            const now = new Date(); const year = now.getFullYear(); const month = now.getMonth() + 1;
             const monthStart = `${year}-${String(month).padStart(2,'0')}-01`;
             const lastDay = new Date(year, month, 0).getDate();
             const monthEnd = `${year}-${String(month).padStart(2,'0')}-${String(lastDay).padStart(2,'0')}`;
-            
-            // API에서 데이터 가져오기
-            const res = await api({
-                action: 'getStudentMonthlyReport',
-                floor: floor,
-                name: name,
-                monthStart: monthStart,
-                monthEnd: monthEnd
-            });
-            
-            // 학생 정보
+            const res = await api({ action: 'getStudentMonthlyReport', floor, name, monthStart, monthEnd });
             document.getElementById('monthStudentName').textContent = name;
             document.getElementById('monthFloor').textContent = floor;
             document.getElementById('monthPeriod').textContent = `${year}년 ${month}월`;
-            
             let rate = 0;
-            
             if (res.success && res.report) {
-                const r = res.report;
-                rate = r.rate || 0;
-                
+                const r = res.report; rate = r.rate || 0;
                 document.getElementById('monthCompleted').textContent = r.completed || 0;
                 document.getElementById('monthPlanned').textContent = r.planned || 0;
-                document.getElementById('monthTime').textContent = ((r.totalTime || 0) / 60).toFixed(1) + 'h';
+                // ★ 시간:분 표시
+                document.getElementById('monthTime').textContent = fmtMin(r.totalTime || 0);
                 document.getElementById('monthRate').textContent = rate + '%';
-                
-                // 출석률 (학습한 날 / 전체 평일)
-                const totalDays = r.totalDays || 0;
                 const weekdaysInMonth = getWeekdaysInMonth(year, month);
-                const attendance = weekdaysInMonth > 0 ? Math.round(totalDays / weekdaysInMonth * 100) : 0;
-                document.getElementById('monthAttendance').textContent = `${totalDays}일 / ${weekdaysInMonth}일 (${attendance}%)`;
-                
-                // 최고 집중주
+                const attendance = weekdaysInMonth > 0 ? Math.round((r.totalDays || 0) / weekdaysInMonth * 100) : 0;
+                document.getElementById('monthAttendance').textContent = `${r.totalDays || 0}일 / ${weekdaysInMonth}일 (${attendance}%)`;
                 const weeklyRates = r.weeklyRates || [];
                 if (weeklyRates.length > 0) {
                     const maxRate = Math.max(...weeklyRates);
-                    const bestWeekIdx = weeklyRates.indexOf(maxRate);
-                    document.getElementById('monthBestWeek').textContent = `${bestWeekIdx + 1}주차 (${maxRate}%)`;
-                } else {
-                    document.getElementById('monthBestWeek').textContent = '-';
-                }
-                
-                // 층 랭킹
+                    document.getElementById('monthBestWeek').textContent = `${weeklyRates.indexOf(maxRate) + 1}주차 (${maxRate}%)`;
+                } else document.getElementById('monthBestWeek').textContent = '-';
                 document.getElementById('monthRanking').textContent = r.ranking ? `${r.ranking}위` : '-';
-                
-                // 주차별 추이
                 renderWeeklyTrend(weeklyRates);
-                
-                // 성과
                 renderAchievements(r);
-                
-                // 과목별 학습시간
                 renderSubjectBars('monthSubjectBars', r.subjectTime || {});
             } else {
-                // 기본 데이터
                 const student = allStudents.find(s => s.floor === floor && s.name === name);
                 if (student) {
                     rate = student.rate || 0;
                     document.getElementById('monthCompleted').textContent = student.completed || 0;
                     document.getElementById('monthPlanned').textContent = student.planned || 0;
-                    document.getElementById('monthTime').textContent = ((student.totalTime || 0) / 60).toFixed(1) + 'h';
+                    document.getElementById('monthTime').textContent = fmtMin(student.totalTime || 0);
                     document.getElementById('monthRate').textContent = rate + '%';
                 }
-                document.getElementById('monthAttendance').textContent = '-';
-                document.getElementById('monthBestWeek').textContent = '-';
-                document.getElementById('monthRanking').textContent = '-';
+                ['monthAttendance','monthBestWeek','monthRanking'].forEach(id => document.getElementById(id).textContent = '-');
                 document.getElementById('monthWeeklyTrend').innerHTML = '<div style="color:#888;text-align:center;padding:20px;">주차별 데이터 없음</div>';
                 document.getElementById('monthAchievements').innerHTML = '';
                 document.getElementById('monthSubjectBars').innerHTML = '<div style="color:#888;text-align:center;padding:20px;">과목별 데이터 없음</div>';
             }
-            
-            // 실천율에 따른 색상
             const rateBox = document.getElementById('monthRateBox');
             rateBox.classList.remove('rate-high', 'rate-mid', 'rate-low');
-            if (rate >= 80) {
-                rateBox.classList.add('rate-high');
-            } else if (rate >= 50) {
-                rateBox.classList.add('rate-mid');
-            } else {
-                rateBox.classList.add('rate-low');
-            }
-            
-            // 자동 메시지 제안
+            rateBox.classList.add(rate >= 80 ? 'rate-high' : rate >= 50 ? 'rate-mid' : 'rate-low');
             const commentEl = document.getElementById('monthComment');
             if (!commentEl.value || commentEl.dataset.auto === 'true') {
-                if (rate >= 80) {
-                    commentEl.value = `${month}월 한 달 정말 수고했어요! 꾸준한 노력이 빛나는 한 달이었습니다. 👏`;
-                } else if (rate >= 50) {
-                    commentEl.value = `${month}월도 열심히 했어요! 다음 달은 더 높은 목표에 도전해봐요! 💪`;
-                } else {
-                    commentEl.value = `${month}월은 조금 아쉬웠지만, 다음 달은 새로운 마음으로 시작해봐요! 📚`;
-                }
+                commentEl.value = rate >= 80 ? `${month}월 한 달 정말 수고했어요! 꾸준한 노력이 빛나는 한 달이었습니다. 👏` : rate >= 50 ? `${month}월도 열심히 했어요! 다음 달은 더 높은 목표에 도전해봐요! 💪` : `${month}월은 조금 아쉬웠지만, 다음 달은 새로운 마음으로 시작해봐요! 📚`;
                 commentEl.dataset.auto = 'true';
             }
-            
-            // 랭킹 계산
             calculateAndShowRanking(floor, name, 'monthRanking');
         }
-        
-        // 해당 월의 평일 수 계산
+
         function getWeekdaysInMonth(year, month) {
-            let count = 0;
-            const lastDay = new Date(year, month, 0).getDate();
-            for (let d = 1; d <= lastDay; d++) {
-                const day = new Date(year, month - 1, d).getDay();
-                if (day !== 0 && day !== 6) count++; // 토, 일 제외
-            }
+            let count = 0; const lastDay = new Date(year, month, 0).getDate();
+            for (let d = 1; d <= lastDay; d++) { const day = new Date(year, month - 1, d).getDay(); if (day !== 0 && day !== 6) count++; }
             return count;
         }
-        
-        // 랭킹 계산 및 표시
+
         function calculateAndShowRanking(floor, name, elementId) {
             const floorStudents = allStudents.filter(s => s.floor === floor);
             const sorted = [...floorStudents].sort((a, b) => (b.rate || 0) - (a.rate || 0));
             const rank = sorted.findIndex(s => s.name === name) + 1;
-            const total = floorStudents.length;
-            
-            if (rank > 0) {
-                document.getElementById(elementId).textContent = `${rank}위 / ${total}명`;
-            }
+            if (rank > 0) document.getElementById(elementId).textContent = `${rank}위 / ${floorStudents.length}명`;
         }
-        
+
         function renderSubjectBars(containerId, subjectTime) {
             const container = document.getElementById(containerId);
             const subjects = Object.entries(subjectTime).sort((a, b) => b[1] - a[1]);
-            
-            if (subjects.length === 0) {
-                container.innerHTML = '<div style="color:#888;text-align:center;padding:20px;">데이터 없음</div>';
-                return;
-            }
-            
+            if (subjects.length === 0) { container.innerHTML = '<div style="color:#888;text-align:center;padding:20px;">데이터 없음</div>'; return; }
             const maxTime = Math.max(...subjects.map(s => s[1]));
-            
             container.innerHTML = subjects.map(([subj, time]) => {
                 const percent = maxTime > 0 ? (time / maxTime * 100) : 0;
                 const color = subjectColors[subj] || subjectColors['기타'];
-                const hours = (time / 60).toFixed(1);
-                
-                return `
-                    <div class="report-subject-bar">
-                        <span class="subj-name">${subj}</span>
-                        <div class="subj-track">
-                            <div class="subj-fill" style="width:${percent}%;background:${color};">${percent > 30 ? hours + 'h' : ''}</div>
-                        </div>
-                        <span class="subj-time">${hours}h</span>
-                    </div>
-                `;
+                // ★ 시간:분 표시
+                return `<div class="report-subject-bar">
+                    <span class="subj-name">${subj}</span>
+                    <div class="subj-track"><div class="subj-fill" style="width:${percent}%;background:${color};">${percent > 30 ? fmtMin(time) : ''}</div></div>
+                    <span class="subj-time">${fmtMin(time)}</span>
+                </div>`;
             }).join('');
         }
-        
+
         function renderWeeklyTrend(weeklyRates) {
             const container = document.getElementById('monthWeeklyTrend');
-            
-            if (!weeklyRates || weeklyRates.length === 0) {
-                container.innerHTML = '<div style="color:#888;text-align:center;padding:20px;">주차별 데이터 없음</div>';
-                return;
-            }
-            
+            if (!weeklyRates || weeklyRates.length === 0) { container.innerHTML = '<div style="color:#888;text-align:center;padding:20px;">주차별 데이터 없음</div>'; return; }
             container.innerHTML = weeklyRates.map((rate, i) => {
                 const prevRate = i > 0 ? weeklyRates[i-1] : rate;
                 const change = rate - prevRate;
                 const changeClass = change > 0 ? 'up' : change < 0 ? 'down' : '';
                 const changeText = change > 0 ? `+${change}%` : change < 0 ? `${change}%` : '-';
                 const color = rate >= 80 ? '#10b981' : rate >= 60 ? '#f59e0b' : '#ef4444';
-                
-                return `
-                    <div class="trend-week">
-                        <span class="week-label">${i+1}주차</span>
-                        <div class="week-bar">
-                            <div class="week-fill" style="width:${rate}%;background:${color};">${rate}%</div>
-                        </div>
-                        <span class="week-change ${changeClass}">${changeText}</span>
-                    </div>
-                `;
+                return `<div class="trend-week"><span class="week-label">${i+1}주차</span><div class="week-bar"><div class="week-fill" style="width:${rate}%;background:${color};">${rate}%</div></div><span class="week-change ${changeClass}">${changeText}</span></div>`;
             }).join('');
         }
-        
+
         function renderAchievements(report) {
             const container = document.getElementById('monthAchievements');
             const achievements = [];
-            
-            if (report.maxStreak) {
-                achievements.push({ icon: '🔥', text: '최장 연속 학습', value: report.maxStreak + '일' });
-            }
-            if (report.topSubject) {
-                achievements.push({ icon: '📚', text: '가장 많이 공부한 과목', value: report.topSubject });
-            }
-            if (report.rank) {
-                achievements.push({ icon: '🏆', text: `${report.floor} 랭킹`, value: report.rank + '위' });
-            }
-            if (report.totalDays) {
-                achievements.push({ icon: '📅', text: '학습한 날', value: report.totalDays + '일' });
-            }
-            
-            if (achievements.length === 0) {
-                container.innerHTML = '';
-                return;
-            }
-            
-            container.innerHTML = achievements.map(a => `
-                <div class="achievement-item">
-                    <span class="ach-icon">${a.icon}</span>
-                    <span class="ach-text">${a.text}</span>
-                    <span class="ach-value">${a.value}</span>
-                </div>
-            `).join('');
+            if (report.maxStreak) achievements.push({ icon: '🔥', text: '최장 연속 학습', value: report.maxStreak + '일' });
+            if (report.topSubject) achievements.push({ icon: '📚', text: '가장 많이 공부한 과목', value: report.topSubject });
+            if (report.rank) achievements.push({ icon: '🏆', text: `${report.floor} 랭킹`, value: report.rank + '위' });
+            if (report.totalDays) achievements.push({ icon: '📅', text: '학습한 날', value: report.totalDays + '일' });
+            container.innerHTML = achievements.map(a => `<div class="achievement-item"><span class="ach-icon">${a.icon}</span><span class="ach-text">${a.text}</span><span class="ach-value">${a.value}</span></div>`).join('');
         }
-        
+
         async function copyReportImage(cardId) {
             const card = document.getElementById(cardId);
             const content = card.querySelector('.report-content');
-            
-            // 복사 버튼 임시 숨김
             const copyBtn = card.querySelector('.copy-btn');
             const textarea = card.querySelector('textarea');
-            const originalBtnDisplay = copyBtn.style.display;
             copyBtn.style.display = 'none';
-            
-            // textarea를 div로 임시 변환 (캡처용)
             let tempDiv = null;
             if (textarea) {
                 tempDiv = document.createElement('div');
-                tempDiv.style.cssText = textarea.style.cssText;
-                tempDiv.style.padding = '12px';
-                tempDiv.style.background = '#f8fafc';
-                tempDiv.style.borderRadius = '8px';
-                tempDiv.style.border = '1px solid #ddd';
-                tempDiv.style.minHeight = '60px';
-                tempDiv.style.whiteSpace = 'pre-wrap';
-                tempDiv.style.fontSize = '0.9rem';
+                tempDiv.style.cssText = 'padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #ddd;min-height:60px;white-space:pre-wrap;font-size:0.9rem;';
                 tempDiv.textContent = textarea.value || '열심히 공부하고 있습니다! 화이팅! 💪';
                 textarea.style.display = 'none';
                 textarea.parentNode.insertBefore(tempDiv, textarea.nextSibling);
             }
-            
             try {
-                const canvas = await html2canvas(content, {
-                    backgroundColor: '#ffffff',
-                    scale: 2,
-                    useCORS: true
-                });
-                
+                const canvas = await html2canvas(content, { backgroundColor: '#ffffff', scale: 2, useCORS: true });
                 canvas.toBlob(async (blob) => {
-                    try {
-                        await navigator.clipboard.write([
-                            new ClipboardItem({ 'image/png': blob })
-                        ]);
-                        toast('📋 이미지 복사 완료! 카톡에 붙여넣기 하세요', 'success');
-                    } catch (err) {
-                        // 클립보드 실패 시 다운로드
-                        const url = canvas.toDataURL('image/png');
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `학습보고서_${document.getElementById('reportStudent').selectedOptions[0]?.text || '학생'}.png`;
-                        a.click();
-                        toast('📥 이미지 다운로드됨', 'success');
-                    }
+                    try { await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]); toast('📋 이미지 복사 완료! 카톡에 붙여넣기 하세요', 'success'); }
+                    catch { const url = canvas.toDataURL('image/png'); const a = document.createElement('a'); a.href = url; a.download = `학습보고서_${document.getElementById('reportStudent').selectedOptions[0]?.text || '학생'}.png`; a.click(); toast('📥 이미지 다운로드됨', 'success'); }
                 });
-            } catch (err) {
-                toast('캡처 실패: ' + err, 'error');
-            } finally {
-                // 복원
-                copyBtn.style.display = originalBtnDisplay;
-                if (textarea) {
-                    textarea.style.display = '';
-                    if (tempDiv) tempDiv.remove();
-                }
-            }
+            } catch (err) { toast('캡처 실패: ' + err, 'error'); }
+            finally { copyBtn.style.display = ''; if (textarea) { textarea.style.display = ''; if (tempDiv) tempDiv.remove(); } }
         }
 
         function toast(msg, type = '') {
-            const el = document.getElementById('toast');
-            el.textContent = msg;
-            el.className = 'toast' + (type ? ` ${type}` : '');
-            el.classList.add('show');
+            const el = document.getElementById('toast'); el.textContent = msg;
+            el.className = 'toast' + (type ? ` ${type}` : ''); el.classList.add('show');
             setTimeout(() => el.classList.remove('show'), 2000);
         }
     </script>
